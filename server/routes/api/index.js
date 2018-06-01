@@ -9,10 +9,6 @@ router.route('/agencies').get((req, res) => {
     {
       label: 'WMATA - Washington Metro - Washinton, DC',
       value: 'wmata',
-    },
-    {
-      label: 'MCDOT - Montgomery County Ride On - Bethesda, MD',
-      value: 'mcdot',
     }
   ];
 
