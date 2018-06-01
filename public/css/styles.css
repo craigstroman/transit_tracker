@@ -6648,3 +6648,6 @@ a.text-dark:hover, a.text-dark:focus {
 @-webkit-keyframes Select-animation-spin {
   to {
     -webkit-transform: rotate(1turn); } }
+
+html {
+  overflow-y: scroll; }
