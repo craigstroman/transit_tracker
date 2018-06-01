@@ -1,0 +1,7 @@
+{
+  "ignore": [
+    "client/",
+    "node_modules/",
+    "public/"
+  ]
+}
