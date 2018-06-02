@@ -3,7 +3,16 @@
   border-radius: 3px;
   margin: 0 auto;
   min-height: 100px;
-  width: 600px;
+  width: 350px;
+  @include media(tablet) {
+    width: 500px;
+  }
+  @include media(mediumDesktop) {
+    width: 600px;
+  }
+  @include media(largeDesktop) {
+    width: 600px;
+  }
   header {
     .predictions__title,
     .predictions__info {

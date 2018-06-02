@@ -1,31 +1,31 @@
 import React from 'react';
 import { Route, withRouter } from 'react-router-dom';
-import { Row, Col } from 'reactstrap';
 import Routes from '../../../components/bus/routes/Routes';
 import Direction from '../../../components/bus/direction/Direction';
 import Stops from '../../../components/bus/stops/Stops';
+import './Bus.scss';
 
 const Bus = props => (
-  <Row>
-    <Col className="col-md-4">
+  <div className="options__row">
+    <div className="options__row--col-med">
       <Route
         path="/agency/:agency/mode/bus/routes"
         component={Routes}
       />
-    </Col>
-    <Col className="col-md-4">
+    </div>
+    <div className="options__row--col-med">
       <Route
         path="/agency/:agency/mode/bus/routes/:route/direction"
         component={Direction}
       />
-    </Col>
-    <Col className="col-md-4">
+    </div>
+    <div className="options__row--col-med">
       <Route
         path="/agency/:agency/mode/bus/routes/:route/direction/:direction/stops"
         component={Stops}
       />
-    </Col>
-  </Row>
+    </div>
+  </div>
 );
 
 export default withRouter(Bus);

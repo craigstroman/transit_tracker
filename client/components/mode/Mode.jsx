@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import Select from 'react-select';
 import { fetchMode } from '../../actions/mode/mode-actions';
+import './Mode.scss';
 
 class Mode extends React.Component {
   constructor(props) {

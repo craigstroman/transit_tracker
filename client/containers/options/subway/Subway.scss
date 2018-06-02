@@ -1,0 +1,21 @@
+.options__row {
+  display: block;
+  width: 100%;
+  .options__row--col-med {
+    display: block;
+    width: 100%;
+    @include media(tablet) {
+      float: left;
+      max-width: 33%;
+    }
+    @include media(mediumDesktop) {
+      float: left;
+      max-width: 33%;
+    }
+    @include media(largeDesktop) {
+      float: left;
+      max-width: 33%;
+    }
+  }
+  @include clearfix();
+}

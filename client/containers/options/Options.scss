@@ -1,3 +1,31 @@
-.row {
-  margin-bottom: 20px;
+.options {
+  display: block;
+  width: 100%;
+  .options__row {
+    display: block;
+    margin-bottom: 20px;
+    width: 100%;
+    .options__row--col {
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+      width: 100%;
+      @include media(tablet) {
+        float: left;
+        margin-right: 5px;
+        max-width: 49%;
+      }
+      @include media(mediumDesktop) {
+        float: left;
+        margin-right: 5px;
+        max-width: 49%;
+      }
+      @include media(largeDesktop) {
+        float: left;
+        margin-right: 5px;
+        max-width: 49%;
+      }
+    }
+    @include clearfix();
+  }
 }

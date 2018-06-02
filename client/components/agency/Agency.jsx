@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import Select from 'react-select';
 import { fetchAgency } from '../../actions/agency/agency-actions';
+import './Agency.scss';
 
 class Agency extends React.Component {
   constructor(props) {

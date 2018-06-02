@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, withRouter } from 'react-router-dom';
-import { Container, Row, Col } from 'reactstrap';
 import Agency from '../../components/agency/Agency';
 import Mode from '../../components/mode/Mode';
 import Bus from './bus/Bus';
@@ -8,18 +7,18 @@ import Subway from './subway/Subway';
 import './Options.scss';
 
 const Options = props => (
-  <Container>
-    <Row>
-      <Col className="col-sm-6 col-md-6 col-lg-6">
+  <div className="options">
+    <div className="options__row">
+      <div className="options__row--col">
         <Route path="/" component={Agency} />
-      </Col>
-      <Col className="col-sm-6 col-md-6 col-lg-6">
+      </div>
+      <div className="options__row--col">
         <Route path="/agency/:agency" component={Mode} />
-      </Col>
-    </Row>
+      </div>
+    </div>
     <Bus />
     <Subway />
-  </Container>
+  </div>
 );
 
 export default withRouter(Options);

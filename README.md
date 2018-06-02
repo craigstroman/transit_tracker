@@ -23,6 +23,10 @@ https://glacial-savannah-56994.herokuapp.com/
 
 ## Version History
 
+###### Version 1.1.0
+- Added sass-resources-loader to share variables and mixins in SCSS.
+- Fixed the responsive break points for the option colums.
+
 ###### Version 1.0.0
 - Setup server and started to setup the local API.
 - Added WMATA to the local API.
