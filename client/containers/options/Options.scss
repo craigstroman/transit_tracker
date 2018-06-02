@@ -3,25 +3,40 @@
   width: 100%;
   .options__row {
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    @include media(tablet) {
+      margin-bottom: 20px;
+    }
+    @include media(mediumDesktop) {
+      margin-bottom: 20px;
+    }
+    @include media(largeDesktop) {
+      margin-bottom: 20px;
+    }
     width: 100%;
     .options__row--col {
       display: block;
-      margin: 0 auto;
+      margin-bottom: 10px;
       text-align: center;
       width: 100%;
+      &:last-child {
+        margin-bottom: 0;
+      }
       @include media(tablet) {
         float: left;
+        margin-bottom: 0;
         margin-right: 5px;
         max-width: 49%;
       }
       @include media(mediumDesktop) {
         float: left;
+        margin-bottom: 0;
         margin-right: 5px;
         max-width: 49%;
       }
       @include media(largeDesktop) {
         float: left;
+        margin-bottom: 0;
         margin-right: 5px;
         max-width: 49%;
       }
