@@ -5,7 +5,7 @@ Right now this app just has the WMATA - Washington, DC area transit system.  Mor
 
 
 ## Live Demo
-https://transit-tracker.stromannet.com/
+https://glacial-savannah-56994.herokuapp.com/
 
 ## Instructions for running locally:
 - git clone https://github.com/craigstroman/transit_tracker.git.
