@@ -33,7 +33,11 @@ module.exports = env => {
          {
            enforce: 'pre',
            test: /\.(js|jsx)$/,
-           exclude: [/node_modules/, path.resolve(__dirname, 'client/js/bundle.js')],
+           exclude: [
+            /node_modules/,
+            path.resolve(__dirname, 'public/js/bundle.js'),
+            path.resolve(__dirname, 'public/js/main.min.js')
+           ],
            loader: 'eslint-loader',
           options: {
             emitError: true,

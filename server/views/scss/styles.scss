@@ -1,6 +1,42 @@
 @import 'vendor/bootstrap/bootstrap';
 @import 'vendor/react-select/default';
+@import 'mixins';
 
 html {
   overflow-y: scroll;
+  height: 100%;
 }
+
+body {
+  height: 100%;
+  // Maps
+  .wrapper {
+    height: 100%;
+    .container {
+      font-family: arial, helvetica, sans-serif;
+      height: 100%;
+      width: 100%;
+      header {
+        .maps-title {
+          text-align: center;
+        }
+      }
+      section {
+        height: 100%;
+        width: 100%;
+        .content {
+          clear: both;
+          display: block;
+          height: 90%;
+          width: 100%;
+          #map {
+            min-height: 100%;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+

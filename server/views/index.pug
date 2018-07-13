@@ -1,5 +1,11 @@
 extends base.pug
 
+block pageSpecificCSS
+
 block content
   #app
+
+block pageSpecificScripts
+  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBUrAKk3dtqVJa8hgrVL7FsTafCvsZwF0s')
+  script(src=reactApp)
 

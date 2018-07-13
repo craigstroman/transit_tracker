@@ -12,7 +12,7 @@ const app = express();
 
 const nodeEnv = process.env.NODE_ENV;
 
-const javascript = (nodeEnv === 'development') ?  '/static/js/bundle.js' : '/static/js/main.min.js';
+const reactApp = (nodeEnv === 'development') ?  '/static/js/bundle.js' : '/static/js/main.min.js';
 
 // view engine setup
 app.set('views', path.join(__dirname, './views'));
@@ -20,7 +20,7 @@ app.set('view engine', 'pug');
 
 app.locals.title = 'Transit Tracker';
 app.locals.content = 'Find your tansit option.';
-app.locals.javascript = javascript;
+app.locals.reactApp = reactApp;
 app.locals.env = process.env;
 
 app.use(logger('dev'));

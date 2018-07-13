@@ -11,6 +11,7 @@ class BusPredictions extends React.Component {
 
     this.loaded = false;
     this.timer = null;
+    this.showMap = this.showMap.bind(this);
   }
   componentDidMount() {
     const { agency, direction, route, stop } = this.props.match.params;
@@ -20,21 +21,37 @@ class BusPredictions extends React.Component {
 
     this.timer = setInterval(() => {
       this.props.dispatch(fetchBusPredictions(agency, mode, route, direction, stop));
-    }, 60000);
+    }, 20000);
   }
   componentWillUnmount() {
     clearInterval(this.timer);
     this.loaded = false;
   }
+  showMap(params) {
+    const { agency, direction, route, stop } = params;
+    const mode = 'bus';
+
+    this.props.history.push(
+      `/agency/${agency}/mode/${mode}/routes/${route}/direction/${direction}/stops/${stop}/map`,
+      {
+        agency,
+        mode,
+        route,
+        direction,
+        stop,
+      },
+    );
+  }
   render() {
     const { error, loading, busPredictions } = this.props;
+    let params = null;
     let route = null;
     let direction = null;
     let stop = null;
 
     if (busPredictions) {
       this.loaded = true;
-
+      params = this.props.match.params;
       route = localStorage.route;
       direction = localStorage.direction;
       stop = localStorage.stop;
@@ -75,7 +92,6 @@ class BusPredictions extends React.Component {
       predictionsEl = <div className="predictions__no-predictions">Currently no predictions for the selected route.</div>;
     }
 
-
     return (
       <div className="predictions">
         <header>
@@ -83,6 +99,13 @@ class BusPredictions extends React.Component {
           <div className="predictions__info">
             Predictions for route {route} to {direction} at {stop}
           </div>
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => this.showMap(params)}
+          >
+            Show Map
+          </button>
           <hr />
         </header>
         <section>
@@ -138,6 +161,7 @@ const mapStateToProps = state => ({
 
 
 BusPredictions.defaultProps = {
+  history: undefined,
   match: undefined,
   params: undefined,
   loading: false,
@@ -147,6 +171,7 @@ BusPredictions.defaultProps = {
 };
 
 BusPredictions.propTypes = {
+  history: PropTypes.object,
   match: PropTypes.object,
   params: PropTypes.object,
   loading: PropTypes.bool.isRequired,

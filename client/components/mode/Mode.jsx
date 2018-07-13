@@ -22,10 +22,11 @@ class Mode extends React.Component {
 
     this.props.dispatch(fetchMode(agency));
   }
-  componentWillReceiveProps(nextProps) {
-    const agency = nextProps.match.params.agency;
-    if (this.props.match.params.agency !== agency) {
-      this.props.dispatch(fetchMode(agency));
+  componentDidUpdate() {
+    if (document.querySelector('.mode-container .Select-value') !== null) {
+      const modeSelected = document.querySelector('.mode-container .Select-value-label').innerHTML;
+
+      localStorage.setItem('mode', modeSelected);
     }
   }
   handleChange(selectedOption) {

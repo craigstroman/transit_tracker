@@ -31,7 +31,8 @@
     "react/react-in-jsx-scope": "error"
   },
   "globals": {
-    "React": true
+    "React": true,
+    'google': true
   },
   "parserOptions": {
     "ecmaFeatures": {

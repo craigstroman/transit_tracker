@@ -50,6 +50,8 @@ export function getDirections(req, res) {
   const route = req.params.route;
   const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}`;
 
+  console.log('url: ', url);
+
   axios.get(url)
     .then(resp => {
       if ((typeof resp.data.Direction0 === 'object' && typeof resp.data.Direction1 === 'object')
@@ -142,6 +144,8 @@ export function getPredictions(req, res) {
   const predictionsUrl = `https://api.wmata.com/NextBusService.svc/json/jPredictions?api_key=${apiKey}&StopID=${stop}`;
   const alertsUrl = `https://api.wmata.com/Incidents.svc/json/BusIncidents?api_key=${apiKey}&Route=${route}`;
 
+  console.log('predictionsUrl: ', predictionsUrl);
+
     axios.all([
       axios.get(predictionsUrl),
       axios.get(alertsUrl)
@@ -176,6 +180,66 @@ export function getPredictions(req, res) {
 
       res.send(results);
     }))
+    .catch(error => {
+      res.send(error);
+    });
+}
+
+/**
+ * Get's the coordinates of the route.
+ *
+ * @param      {Object}  req     The request
+ * @param      {Object}  res     The resource
+ */
+export function getRouteCoordinates(req, res) {
+  const route = req.params.route;
+  const direction = req.params.direction;
+  const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}`;
+
+  axios.get(url)
+    .then(resp => {
+      const result = resp.data;
+      let centerCoords = {};
+      let resArr = [];
+
+      if (result.Direction0.DirectionText === direction) {
+        resArr = result.Direction0.Shape;
+      } else if (result.Direction1.DirectionText === direction) {
+        resArr = result.Direction1.Shape;
+      }
+
+      resArr = resArr.map(el => {
+        let result = {};
+
+        result = {
+          lat: el.Lat,
+          lng: el.Lon
+        };
+
+        return result;
+      });
+
+      centerCoords = resArr[Math.floor((resArr.length - 1) / 2)];
+
+      res.json({
+        centerCoords,
+        busRouteCoords: resArr
+      });
+    })
+    .catch(error => {
+      res.send(error);
+    });
+}
+
+export function getBusPositions(req, res) {
+  const route = req.params.route;
+  const direction = req.params.direction;
+  const url = `https://api.wmata.com/Bus.svc/json/jBusPositions?api_key=${apiKey}&RouteID=${route}`
+
+  axios.get(url)
+    .then(resp => {
+      res.send(resp.data.BusPositions);
+    })
     .catch(error => {
       res.send(error);
     });

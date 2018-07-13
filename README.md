@@ -23,6 +23,11 @@ https://transit-tracker.stromannet.com/
 
 ## Version History
 
+###### Version 1.2.0
+- Added Google maps for busses so you can see where buses are on the route.
+- Increased the refresh rate for predicitions.
+- Added bus route and position controllers for WMATA.
+
 ###### Version 1.1.0
 - Added [sass-resources-loader](https://www.npmjs.com/package/sass-resources-loader) to share variables and mixins in SCSS.
 - Fixed the responsive break points for the option colums.

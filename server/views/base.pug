@@ -8,12 +8,10 @@ html(lang='en')
     title #{title}
     link(rel='stylesheet' href='/static/css/styles.css')
     block pageSpecificCSS
-
   body
     .wrapper
       block header
 
       block content
 
-  script(src=javascript)
   block pageSpecificScripts

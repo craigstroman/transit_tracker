@@ -6650,4 +6650,27 @@ a.text-dark:hover, a.text-dark:focus {
     -webkit-transform: rotate(1turn); } }
 
 html {
-  overflow-y: scroll; }
+  overflow-y: scroll;
+  height: 100%; }
+
+body {
+  height: 100%; }
+  body .wrapper {
+    height: 100%; }
+    body .wrapper .container {
+      font-family: arial, helvetica, sans-serif;
+      height: 100%;
+      width: 100%; }
+      body .wrapper .container header .maps-title {
+        text-align: center; }
+      body .wrapper .container section {
+        height: 100%;
+        width: 100%; }
+        body .wrapper .container section .content {
+          clear: both;
+          display: block;
+          height: 90%;
+          width: 100%; }
+          body .wrapper .container section .content #map {
+            min-height: 100%;
+            width: 100%; }
