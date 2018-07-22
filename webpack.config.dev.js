@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = env => {
   const nodeEnv = process.env.NODE_ENV;
   const filePath = path.join(__dirname, './public/js/')
-  const fileName = env.type === 'maps' ? 'maps.js' : 'bundle.js';
+  const fileName = 'bundle.js';
 
   const plugins = [
     new webpack.EnvironmentPlugin({
@@ -14,7 +14,7 @@ module.exports = env => {
 
   return {
     entry: {
-       app: env.type === 'maps' ? path.join(__dirname, 'client/map/index.js') : path.join(__dirname, 'client/containers/App.jsx')
+       app: path.join(__dirname, 'client/containers/App.jsx')
     },
 
     output: {
@@ -37,8 +37,6 @@ module.exports = env => {
             /node_modules/,
             path.resolve(__dirname, 'public/js/bundle.js'),
             path.resolve(__dirname, 'public/js/main.min.js'),
-            path.resolve(__dirname, 'public/js/maps.js'),
-            path.resolve(__dirname, 'public/js/maps.min.js'),
            ],
            loader: 'eslint-loader',
           options: {

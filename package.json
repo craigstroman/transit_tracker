@@ -1,6 +1,6 @@
 {
   "name": "transit-tracker",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/craigstroman/transit-tracker.git"
@@ -66,8 +66,8 @@
     "prop-types": "^15.6.1",
     "pug": "^2.0.0-rc.4",
     "querystring": "^0.2.0",
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "react-fontawesome": "^1.6.1",
     "react-google-maps": "^9.4.5",
     "react-redux": "^5.0.7",

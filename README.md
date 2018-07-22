@@ -23,6 +23,9 @@ https://transit-tracker.stromannet.com/
 
 ## Version History
 
+###### Version 1.3.0
+- Upgraded version of React and React-Dom being used.
+
 ###### Version 1.2.0
 - Added Google maps for busses so you can see where buses are on the route.
 - Increased the refresh rate for predicitions.
