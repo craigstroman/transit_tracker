@@ -23,6 +23,10 @@ https://transit-tracker.stromannet.com/
 
 ## Version History
 
+###### Version 1.4.0
+- Fixed issue with WMATA subway stations not loading in order of stations.
+- Fixed issue with WMATA subway predictions not showing all predictions for a selected direction.
+
 ###### Version 1.3.0
 - Upgraded version of React and React-Dom being used.
 

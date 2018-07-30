@@ -8,6 +8,15 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const apiKey = process.env.WMATA_KEY;
+const stations = {
+  "RD": ["A15", "B11"],
+  "OR": ["K08", "D13"],
+  "BL": ["J03", "G05"],
+  "SV": ["N06", "G05"],
+  "YL": ["E06", "C15"],
+  "GR": ["E10", "F11"]
+};
+let directions = [];
 
 export function getRoutes(req, res) {
   const url = `https://api.wmata.com/Rail.svc/json/jLines?api_key=${apiKey}`;
@@ -33,19 +42,22 @@ export function getRoutes(req, res) {
 
 export function getStations(req, res) {
   const route = req.params.route;
-  const url = `https://api.wmata.com/Rail.svc/json/jStations?api_key=${apiKey}&LineCode=${route}`;
+  const url = `https://api.wmata.com/Rail.svc/json/jPath?api_key=${apiKey}&LineCode=${route}&FromStationCode=${stations[route][0]}&ToStationCode=${stations[route][1]}`;
 
   axios.get(url)
     .then(resp => {
-      let result = resp.data.Stations;
+      let result = resp.data.Path;
       let resArr = [];
 
       resArr = result.map(obj => {
         return {
-          label: obj.Name,
-          value: obj.Code
+          label: obj.StationName,
+          value: obj.StationCode
         }
       });
+
+      directions[0] = resArr[0];
+      directions[1] = resArr[resArr.length - 1];
 
       res.send(resArr);
     })
@@ -57,27 +69,8 @@ export function getStations(req, res) {
 export function getDirections(req, res) {
   const direction = req.params.direction;
   const station = req.params.station;
-  const url = `https://api.wmata.com/StationPrediction.svc/json/GetPrediction/${station}?api_key=${apiKey}`;
 
-  axios.get(url)
-    .then(resp => {
-      let result = resp.data.Trains;
-      let resArr = [];
-
-      resArr = result.map(obj => {
-        return {
-          value: obj.DestinationCode,
-          label: obj.DestinationName
-        };
-      });
-
-      resArr = removeDuplicates(resArr, 'value');
-
-      res.send(resArr);
-    })
-    .catch(error => {
-      res.send(error);
-    });
+  res.send(directions);
 }
 
 export function getPredictions(req, res) {
@@ -100,7 +93,7 @@ export function getPredictions(req, res) {
       let resObj = {};
 
       predictionsResArr = predictionsArr.filter(obj => {
-        if (obj.DestinationCode === direction) {
+        if (obj.DestinationCode.charAt(0) === direction.charAt(0)) {
           let id =  Math.floor(100000 + Math.random() * 900000);
 
           obj.VehicleID = id;
@@ -112,8 +105,6 @@ export function getPredictions(req, res) {
           return obj;
         }
       });
-      console.log('alertsArr: ');
-      console.log(Array.isArray(alertsArr));
 
       alertsArr.forEach((obj) => {
         if (obj.LinesAffected.indexOf(route) > -1) {
