@@ -9,19 +9,19 @@ const Subway = props => (
   <div className="options__row">
     <div className="options__row--col-med">
       <Route
-        path="/agency/:agency/mode/subway/routes"
+        path="/agency/:agency/mode/1/routes"
         component={Routes}
       />
     </div>
     <div className="options__row--col-med">
       <Route
-        path="/agency/:agency/mode/subway/routes/:route/stations"
+        path="/agency/:agency/mode/1/routes/:route/stations"
         component={Stations}
       />
     </div>
     <div className="options__row--col-med">
       <Route
-        path="/agency/:agency/mode/subway/routes/:route/stations/:station/direction"
+        path="/agency/:agency/mode/1/routes/:route/stations/:station/direction"
         component={Direction}
       />
     </div>

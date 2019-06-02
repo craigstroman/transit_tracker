@@ -18,7 +18,7 @@ class Stops extends React.Component {
   }
   componentDidMount() {
     const { agency, route, direction } = this.props.match.params;
-    const mode = 'bus';
+    const mode = '3';
 
     this.props.dispatch(fetchStops(agency, mode, route, direction));
   }
@@ -34,7 +34,7 @@ class Stops extends React.Component {
 
     if (selectedOption) {
       const { agency, route, direction } = this.props.match.params;
-      const mode = 'bus';
+      const mode = '3';
       const stop = (selectedOption) ? selectedOption.value : null;
 
       if (agency && mode && route && direction && stop) {
@@ -51,7 +51,7 @@ class Stops extends React.Component {
       }
     } else {
       const { agency, route, direction } = this.props.match.params;
-      const mode = 'bus';
+      const mode = '3';
 
       if (agency && mode && route && direction) {
         this.props.history.push(

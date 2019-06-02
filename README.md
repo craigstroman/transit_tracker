@@ -21,7 +21,19 @@ https://transit-tracker.stromannet.com/
 1. `npm run prod:build` - Builds the production client.
 1. `npm run prod:server` - Starts the server in production.
 
+## Types of transit as defined by GTFS:
+0 - Light rail - Streetcar, light rail.
+1 - Heavy rail - Subway, Metro. Any underground rail system.
+2 - Rail - Commuter rail, etc.
+3 - Bus - Used for short and long distance bus routes.
+4 - Ferry - Used for short and long distance boat service.
+
+
 ## Version History
+
+###### Version 1.5.0
+- Various fixes to the client.
+- Upgrading Axios.
 
 ###### Version 1.4.0
 - Fixed issue with WMATA subway stations not loading in order of stations.

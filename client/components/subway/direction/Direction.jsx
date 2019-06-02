@@ -18,7 +18,7 @@ class Direction extends React.Component {
   }
   componentDidMount() {
     const { agency, route, station } = this.props.match.params;
-    const mode = 'subway';
+    const mode = '1';
 
     this.props.dispatch(fetchDirection(agency, mode, route, station));
   }
@@ -34,7 +34,7 @@ class Direction extends React.Component {
 
     if (selectedOption) {
       const { agency, route, station } = this.props.match.params;
-      const mode = 'subway';
+      const mode = '1';
       const direction = (selectedOption) ? selectedOption.value : null;
 
       if (agency && mode && route && station && direction) {
@@ -51,7 +51,7 @@ class Direction extends React.Component {
       }
     } else {
       const { agency, route, station } = this.props.match.params;
-      const mode = 'subway';
+      const mode = '1';
 
       if (agency && mode && route && station) {
         this.props.history.push(

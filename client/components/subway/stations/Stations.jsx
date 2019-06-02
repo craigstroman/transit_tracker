@@ -18,7 +18,7 @@ class Stations extends React.Component {
   }
   componentDidMount() {
     const { agency, route } = this.props.match.params;
-    const mode = 'subway';
+    const mode = '1';
 
     this.props.dispatch(fetchStations(agency, mode, route));
   }
@@ -34,7 +34,7 @@ class Stations extends React.Component {
 
     if (selectedOption) {
       const { agency, route } = this.props.match.params;
-      const mode = 'subway';
+      const mode = '1';
       const station = (selectedOption) ? selectedOption.value : null;
 
       if (agency && mode && route && station) {
@@ -50,7 +50,7 @@ class Stations extends React.Component {
       }
     } else {
       const { agency, route } = this.props.match.params;
-      const mode = 'subway';
+      const mode = '1';
 
       if (agency && mode && route) {
         this.props.history.push(

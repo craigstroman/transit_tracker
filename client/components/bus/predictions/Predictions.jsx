@@ -15,7 +15,7 @@ class BusPredictions extends React.Component {
   }
   componentDidMount() {
     const { agency, direction, route, stop } = this.props.match.params;
-    const mode = 'bus';
+    const mode = '3';
 
     this.props.dispatch(fetchBusPredictions(agency, mode, route, direction, stop));
 
@@ -29,7 +29,7 @@ class BusPredictions extends React.Component {
   }
   showMap(params) {
     const { agency, direction, route, stop } = params;
-    const mode = 'bus';
+    const mode = '3';
 
     this.props.history.push(
       `/agency/${agency}/mode/${mode}/routes/${route}/direction/${direction}/stops/${stop}/map`,

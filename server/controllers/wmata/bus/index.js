@@ -50,8 +50,6 @@ export function getDirections(req, res) {
   const route = req.params.route;
   const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}`;
 
-  console.log('url: ', url);
-
   axios.get(url)
     .then(resp => {
       if ((typeof resp.data.Direction0 === 'object' && typeof resp.data.Direction1 === 'object')
@@ -143,8 +141,6 @@ export function getPredictions(req, res) {
   const stop = req.params.stop;
   const predictionsUrl = `https://api.wmata.com/NextBusService.svc/json/jPredictions?api_key=${apiKey}&StopID=${stop}`;
   const alertsUrl = `https://api.wmata.com/Incidents.svc/json/BusIncidents?api_key=${apiKey}&Route=${route}`;
-
-  console.log('predictionsUrl: ', predictionsUrl);
 
     axios.all([
       axios.get(predictionsUrl),

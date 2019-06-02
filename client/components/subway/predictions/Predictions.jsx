@@ -14,7 +14,7 @@ class SubwayPredictions extends React.Component {
   }
   componentDidMount() {
     const { agency, direction, route, station } = this.props.match.params;
-    const mode = 'subway';
+    const mode = '1';
 
     this.props.dispatch(fetchSubwayPredictions(agency, mode, route, direction, station));
 
@@ -67,30 +67,32 @@ class SubwayPredictions extends React.Component {
           <hr />
         </header>
         <section>
-          <div className="predictions__selected-route">
-            {subwayPredictions.predictions.map((obj, i) => {
-              if ((obj.Minutes === 'ARR') && (i === 0)) {
-                return (
-                  <div className="predictions__selected-route--time" key={obj.VehicleID}>
-                    Arriving
-                  </div>
-                );
-              } else if ((obj.Minutes === 'BRD') && (i === 0)) {
-                return (
-                  <div className="predictions__selected-route--time" key={obj.VehicleID}>
-                    Boarding
-                  </div>
-                );
-              } else if (obj.Minutes > 1) {
-                return (
-                  <div className="predictions__selected-route--time" key={obj.VehicleID}>
-                    {obj.Minutes} Minutes
-                  </div>
-                );
-              }
-              return '';
-            })}
-          </div>
+          {subwayPredictions.predictions && subwayPredictions.predictions.length >= 1 &&
+            <div className="predictions__selected-route">
+              {subwayPredictions.predictions.map((obj, i) => {
+                if ((obj.Minutes === 'ARR') && (i === 0)) {
+                  return (
+                    <div className="predictions__selected-route--time" key={obj.VehicleID}>
+                      Arriving
+                    </div>
+                  );
+                } else if ((obj.Minutes === 'BRD') && (i === 0)) {
+                  return (
+                    <div className="predictions__selected-route--time" key={obj.VehicleID}>
+                      Boarding
+                    </div>
+                  );
+                } else if (obj.Minutes > 1) {
+                  return (
+                    <div className="predictions__selected-route--time" key={obj.VehicleID}>
+                      {obj.Minutes} Minutes
+                    </div>
+                  );
+                }
+                return '';
+              })}
+            </div>
+          }
           {subwayPredictions.alerts.length >= 1 &&
             <div className="predictions__alerts">
               <hr />

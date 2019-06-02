@@ -10,8 +10,8 @@ const agency = 'wmata';
 
 router.route(`/${agency}/mode`).get((req, res) => {
   const modes = [
-    {value: 'bus', label: 'Bus'},
-    {value: 'subway', label: 'Subway'},
+    {value: '3', label: 'Bus'},
+    {value: '1', label: 'Subway'},
   ];
 
   res.json(modes);

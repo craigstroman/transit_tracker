@@ -24,6 +24,8 @@ const nodeEnv = process.env.NODE_ENV;
 const apiUrl = (nodeEnv === 'production') ? '/api' : 'http://localhost:3000/api';
 
 export function fetchRoutes(agency, mode) {
+  console.log('fetch routes: ');
+  console.log('mode: ', mode);
   return (dispatch) => {
     dispatch(fetchRouteBegin());
     axios.get(`${apiUrl}/${agency}/mode/${mode}/routes`)

@@ -18,7 +18,7 @@ class Routes extends React.Component {
   }
   componentDidMount() {
     const { agency } = this.props.match.params;
-    const mode = 'subway';
+    const mode = '1';
 
     this.props.dispatch(fetchRoutes(agency, mode));
   }
@@ -34,7 +34,7 @@ class Routes extends React.Component {
 
     if (selectedOption) {
       const agency = this.props.match.params.agency;
-      const mode = 'subway';
+      const mode = '1';
       const route = (selectedOption) ? selectedOption.value : null;
 
       if (agency && mode && route) {
@@ -49,7 +49,7 @@ class Routes extends React.Component {
       }
     } else {
       const agency = this.props.match.params.agency;
-      const mode = 'subway';
+      const mode = '1';
 
       if (agency && mode) {
         this.props.history.push(

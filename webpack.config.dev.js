@@ -27,7 +27,6 @@ module.exports = env => {
         '.js','.jsx'
       ]
     },
-
     module: {
       loaders: [
          {

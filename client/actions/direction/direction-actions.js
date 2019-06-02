@@ -26,9 +26,9 @@ const apiUrl = (nodeEnv === 'production') ? '/api' : 'http://localhost:3000/api'
 export function fetchDirection(agency, mode, route, station = undefined) {
   let url = null;
 
-  if (mode === 'bus') {
+  if (mode === '3') {
     url = `${apiUrl}/${agency}/mode/${mode}/routes/${route}/direction`;
-  } else if (mode === 'subway') {
+  } else if (mode === '1') {
     url = `${apiUrl}/${agency}/mode/${mode}/routes/${route}/stations/${station}/direction`;
   }
 

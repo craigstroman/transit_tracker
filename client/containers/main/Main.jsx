@@ -31,12 +31,12 @@ const Main = props => (
           <Col className="col-md-12">
             <Route
               exact
-              path="/agency/:agency/mode/bus/routes/:route/direction/:direction/stops/:stop/predictions"
+              path="/agency/:agency/mode/3/routes/:route/direction/:direction/stops/:stop/predictions"
               component={BusPredictions}
             />
             <Route
               exact
-              path="/agency/:agency/mode/subway/routes/:route/stations/:station/direction/:direction/predictions"
+              path="/agency/:agency/mode/1/routes/:route/stations/:station/direction/:direction/predictions"
               component={SubwayPredictions}
             />
           </Col>
@@ -45,7 +45,7 @@ const Main = props => (
           <Col className="col-md-12">
             <Route
               exact
-              path="/agency/:agency/mode/bus/routes/:route/direction/:direction/stops/:stop/map"
+              path="/agency/:agency/mode/3/routes/:route/direction/:direction/stops/:stop/map"
               component={BusMap}
             />
           </Col>
