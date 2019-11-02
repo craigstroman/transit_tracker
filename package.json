@@ -59,7 +59,7 @@
     "express-session": "^1.15.6",
     "html-to-text": "^3.3.0",
     "lodash": "^4.17.5",
-    "mongoose": "^4.11.13",
+    "mongoose": "^5.7.7",
     "morgan": "^1.8.2",
     "npm": "^5.7.1",
     "prop-types": "^15.6.1",
