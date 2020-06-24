@@ -12,17 +12,21 @@ class BusMap extends React.Component {
 
     this.showPredictions = this.showPredictions.bind(this);
   }
+
   componentDidMount() {
-    const { agency, direction, route } = this.props.match.params;
+    const { dispatch, match } = this.props;
+    const { agency, direction, route } = match.params;
     const mode = 'bus';
 
-    this.props.dispatch(fetchBusRouteCoordinates(agency, mode, route, direction));
+    dispatch(fetchBusRouteCoordinates(agency, mode, route, direction));
   }
+
   showPredictions(params) {
-    const { agency, direction, route, stop } = params;
+    const { history } = this.props;
+    const { agency, direction, route, stop } = params; // eslint-disable-line object-curly-newline
     const mode = 'bus';
 
-    this.props.history.push(
+    history.push(
       `/agency/${agency}/mode/${mode}/routes/${route}/direction/${direction}/stops/${stop}/predictions`,
       {
         agency,
@@ -33,30 +37,26 @@ class BusMap extends React.Component {
       },
     );
   }
+
   render() {
-    const { error, loading, busRouteCoordinates } = this.props;
-    const params = this.props.match.params;
+    const { error, loading, busRouteCoordinates, match } = this.props; // eslint-disable-line object-curly-newline
+    const { params } = match;
 
     if (error) {
       return (
         <div>
           <div>There was an error. Please refresh or try again later.</div>
-          <div>{ error }</div>
+          <div>{error}</div>
         </div>
       );
     }
 
     if (loading) {
-      return (
-        <div>Loading...</div>
-      );
+      return <div>Loading...</div>;
     }
 
-    const BusRouteMap = withGoogleMap(props => (
-      <GoogleMap
-        defaultCenter={busRouteCoordinates.centerCoords}
-        defaultZoom={12}
-      >
+    const BusRouteMap = withGoogleMap((props) => (
+      <GoogleMap defaultCenter={busRouteCoordinates.centerCoords} defaultZoom={12}>
         <Polyline
           path={busRouteCoordinates.busRouteCoords}
           geodesic
@@ -66,11 +66,7 @@ class BusMap extends React.Component {
             strokeWeight: 4,
           }}
         />
-        <BusMarkers
-          agency={params.agency}
-          route={params.route}
-          direction={params.direction}
-        />
+        <BusMarkers agency={params.agency} route={params.route} direction={params.direction} />
       </GoogleMap>
     ));
 
@@ -79,7 +75,9 @@ class BusMap extends React.Component {
         <button
           type="button"
           className="btn btn-link"
-          onClick={() => { this.showPredictions(params); }}
+          onClick={() => {
+            this.showPredictions(params);
+          }}
         >
           Show Predictions
         </button>
@@ -92,16 +90,16 @@ class BusMap extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   busRouteCoordinates: state.busCoordinatesReducer.busRouteCoordinates,
   loading: state.busCoordinatesReducer.loading,
   error: state.busCoordinatesReducer.error,
 });
 
 BusMap.defaultProps = {
-  history: undefined,
-  match: undefined,
-  params: undefined,
+  history: {},
+  match: {},
+  params: {},
   loading: false,
   error: null,
   busRouteCoordinates: {},
@@ -112,7 +110,7 @@ BusMap.propTypes = {
   history: PropTypes.object,
   match: PropTypes.object,
   params: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   error: PropTypes.object,
   busRouteCoordinates: PropTypes.object,
   dispatch: PropTypes.func,

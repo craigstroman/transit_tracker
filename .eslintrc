@@ -5,7 +5,11 @@
       "jquery": true
   },
   "plugins": [
-    "react"
+      "airbnb",
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:prettier/recommended",
+      "prettier/react"
   ],
   "ecmaFeatures": {"jsx": true},
   "extends": "airbnb",

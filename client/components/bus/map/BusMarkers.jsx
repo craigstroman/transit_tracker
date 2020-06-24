@@ -11,41 +11,47 @@ class BusMarkers extends React.Component {
 
     this.timer = null;
   }
+
   componentDidMount() {
-    const { agency, route, direction } = this.props.match.params;
+    const { dispatch, match } = this.props;
+    const { agency, route, direction } = match.params;
     const mode = 'bus';
 
-    this.props.dispatch(fetchBusRoutePositions(agency, mode, route, direction));
+    dispatch(fetchBusRoutePositions(agency, mode, route, direction));
 
     this.timer = setInterval(() => {
-      this.props.dispatch(fetchBusRoutePositions(agency, mode, route, direction));
+      dispatch(fetchBusRoutePositions(agency, mode, route, direction));
     }, 20000);
   }
+
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.busRoutePositions !== this.props.busRoutePositions) {
+    const { busRoutePositions } = this.props;
+    if (nextProps.busRoutePositions !== busRoutePositions) {
       return true;
     }
     return false;
   }
+
   componentWillUnmount() {
     clearInterval(this.timer);
   }
+
   render() {
     const { error, loading, busRoutePositions } = this.props;
 
     if (error) {
       console.log('error: ', error);
-      return (null);
+      return null;
     }
 
     if (loading) {
       console.log('loading: ', loading);
-      return (null);
+      return null;
     }
 
     return (
       <div>
-        {busRoutePositions &&
+        {busRoutePositions && // eslint-disable-line operator-linebreak
           busRoutePositions.map((obj) => {
             const label = `${obj.RouteID} - ${obj.DirectionText} - ${obj.TripHeadsign}`;
             const labelPost = new google.maps.Point(53, 68);
@@ -67,14 +73,13 @@ class BusMarkers extends React.Component {
                 <div>{label}</div>
               </MarkerWithLabel>
             );
-          })
-        }
+          })}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   busRoutePositions: state.busPositionsReducer.busRoutePositions,
   loading: state.busPositionsReducer.loading,
   error: state.busPositionsReducer.error,

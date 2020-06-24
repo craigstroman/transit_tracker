@@ -13,35 +13,38 @@ class BusPredictions extends React.Component {
     this.timer = null;
     this.showMap = this.showMap.bind(this);
   }
+
   componentDidMount() {
-    const { agency, direction, route, stop } = this.props.match.params;
+    const { dispatch, match } = this.props;
+    const { agency, direction, route, stop } = match.params; // eslint-disable-line object-curly-newline
     const mode = '3';
 
-    this.props.dispatch(fetchBusPredictions(agency, mode, route, direction, stop));
+    dispatch(fetchBusPredictions(agency, mode, route, direction, stop));
 
     this.timer = setInterval(() => {
-      this.props.dispatch(fetchBusPredictions(agency, mode, route, direction, stop));
+      dispatch(fetchBusPredictions(agency, mode, route, direction, stop));
     }, 20000);
   }
+
   componentWillUnmount() {
     clearInterval(this.timer);
     this.loaded = false;
   }
+
   showMap(params) {
-    const { agency, direction, route, stop } = params;
+    const { history } = this.props;
+    const { agency, direction, route, stop } = params; // eslint-disable-line object-curly-newline
     const mode = '3';
 
-    this.props.history.push(
-      `/agency/${agency}/mode/${mode}/routes/${route}/direction/${direction}/stops/${stop}/map`,
-      {
-        agency,
-        mode,
-        route,
-        direction,
-        stop,
-      },
-    );
+    history.push(`/agency/${agency}/mode/${mode}/routes/${route}/direction/${direction}/stops/${stop}/map`, {
+      agency,
+      mode,
+      route,
+      direction,
+      stop,
+    });
   }
+
   render() {
     const { error, loading, busPredictions } = this.props;
     let params = null;
@@ -51,7 +54,8 @@ class BusPredictions extends React.Component {
 
     if (busPredictions) {
       this.loaded = true;
-      params = this.props.match.params;
+      const { match } = this.props;
+      params = match.params;
       route = localStorage.route;
       direction = localStorage.direction;
       stop = localStorage.stop;
@@ -62,34 +66,38 @@ class BusPredictions extends React.Component {
       return (
         <div>
           <div>There was an error. Please refresh or try again later.</div>
-          <div>{ error }</div>
+          <div>{error}</div>
         </div>
       );
     }
 
     if (!this.loaded && loading) {
-      return (
-        <div>Loading...</div>
-      );
+      return <div>Loading...</div>;
     }
 
     let predictionsEl = {};
 
     if (busPredictions.selectedRoute.length >= 1) {
       predictionsEl = busPredictions.selectedRoute.map((obj, i) => {
-        if (((obj.Minutes === 1) || (obj.Minutes === 0)) && i === 0) {
+        if ((obj.Minutes === 1 || obj.Minutes === 0) && i === 0) {
           return (
-            <div className="predictions__time" key={obj.VehicleID}>Arriving</div>
+            <div className="predictions__time" key={obj.VehicleID}>
+              Arriving
+            </div>
           );
         } else if (obj.Minutes > 1) {
           return (
-            <div className="predictions__time" key={obj.VehicleID}>{obj.Minutes} minutes</div>
+            <div className="predictions__time" key={obj.VehicleID}>
+              {obj.Minutes} minutes
+            </div>
           );
         }
         return '';
       });
     } else {
-      predictionsEl = <div className="predictions__no-predictions">Currently no predictions for the selected route.</div>;
+      predictionsEl = (
+        <div className="predictions__no-predictions">Currently no predictions for the selected route.</div>
+      );
     }
 
     return (
@@ -97,31 +105,32 @@ class BusPredictions extends React.Component {
         <header>
           <h1 className="predictions__title">Predictions</h1>
           <div className="predictions__info">
-            Predictions for route {route} to {direction} at {stop}
+            Predictions for route
+            {route}
+            to
+            {direction}
+            at
+            {stop}
           </div>
-          <button
-            type="button"
-            className="btn btn-link"
-            onClick={() => this.showMap(params)}
-          >
+          <button type="button" className="btn btn-link" onClick={() => this.showMap(params)}>
             Show Map
           </button>
           <hr />
         </header>
         <section>
-          <div className="predictions__selected-route">
-            {predictionsEl}
-          </div>
-          {busPredictions.otherRoutes.length >= 1 &&
+          <div className="predictions__selected-route">{predictionsEl}</div>
+          {busPredictions.otherRoutes.length >= 1 && (
             <div className="predictions__other-routes">
               <hr />
               <h4 className="text-center">Also at this stop</h4>
               <hr />
               {busPredictions.otherRoutes.map((obj, i) => {
-                if (((obj.Minutes === 1) || (obj.Minutes === 0)) && i === 0) {
+                if ((obj.Minutes === 1 || obj.Minutes === 0) && i === 0) {
                   return (
                     <div className="predictions__other-routes--time" key={obj.VehicleID}>
-                      <b>Arriving</b> Route {obj.RouteID}, {obj.DirectionText}
+                      <b>Arriving</b>
+                      Route
+                      {obj.RouteID},{obj.DirectionText}
                     </div>
                   );
                 } else if (obj.Minutes > 1) {
@@ -134,36 +143,35 @@ class BusPredictions extends React.Component {
                 return '';
               })}
             </div>
-          }
-          {busPredictions.alerts.length >= 1 &&
+          )}
+          {busPredictions.alerts.length >= 1 && (
             <div className="predictions__alerts">
               <hr />
               <h4 className="text-center">Alerts:</h4>
               <hr />
-              {
-                busPredictions.alerts.map(obj => <div className="predictions__alerts--item" key={obj.IncidentID}>
+              {busPredictions.alerts.map((obj) => (
+                <div className="predictions__alerts--item" key={obj.IncidentID}>
                   {obj.Description}
-                </div>)
-              }
+                </div>
+              ))}
             </div>
-          }
+          )}
         </section>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   busPredictions: state.busPredictionsReducer.busPredictions,
   loading: state.busPredictionsReducer.loading,
   error: state.busPredictionsReducer.error,
 });
 
-
 BusPredictions.defaultProps = {
-  history: undefined,
-  match: undefined,
-  params: undefined,
+  history: {},
+  match: {},
+  params: {},
   loading: false,
   error: null,
   busPredictions: {},
@@ -174,7 +182,7 @@ BusPredictions.propTypes = {
   history: PropTypes.object,
   match: PropTypes.object,
   params: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   error: PropTypes.object,
   busPredictions: PropTypes.object,
   dispatch: PropTypes.func,

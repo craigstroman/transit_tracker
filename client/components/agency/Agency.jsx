@@ -17,26 +17,29 @@ class Agency extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
   }
+
   componentDidMount() {
-    this.props.dispatch(fetchAgency());
+    const { dispatch } = this.props;
+
+    dispatch(fetchAgency());
   }
+
   handleChange(selectedOption) {
+    const { history } = this.props;
+
     this.setState({ selectedOption });
     if (selectedOption) {
-      const agency = selectedOption.value;
-      this.props.history.push(
-        `/agency/${agency}`,
-        agency,
-      );
+      const agency = selectedOption.value; // eslint-disable-line react/destructuring-assignment
+
+      history.push(`/agency/${agency}`, agency);
     } else {
-      this.props.history.push(
-        '/',
-      );
+      history.push('/');
     }
   }
+
   render() {
-    const { error, loading, agencies } = this.props;
-    const agency = (this.props.location.state) ? this.props.location.state.agency : undefined;
+    const { error, loading, location, agencies } = this.props; // eslint-disable-line object-curly-newline
+    const agency = location.state ? location.state.agency : undefined;
     let { selectedOption } = this.state;
 
     if (agency) {
@@ -47,40 +50,33 @@ class Agency extends React.Component {
       return (
         <div>
           <div>There was an error.</div>
-          <div>{ error }</div>
+          <div>{error}</div>
         </div>
       );
     }
 
     if (loading) {
-      return (
-        <div>Loading...</div>
-      );
+      return <div>Loading...</div>;
     }
 
     return (
       <div className="agency-container">
         <Label for="agency-select">Select an agency:</Label>
-        <Select
-          name="agency-select"
-          value={selectedOption}
-          onChange={this.handleChange}
-          options={agencies}
-        />
+        <Select name="agency-select" value={selectedOption} onChange={this.handleChange} options={agencies} />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   agencies: state.agencyReducer.agencies,
   loading: state.agencyReducer.loading,
   error: state.agencyReducer.error,
 });
 
 Agency.defaultProps = {
-  history: undefined,
-  location: undefined,
+  history: {},
+  location: {},
   loading: false,
   error: null,
   agencies: [],
@@ -88,9 +84,9 @@ Agency.defaultProps = {
 };
 
 Agency.propTypes = {
-  history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
+  history: PropTypes.object,
+  location: PropTypes.object,
+  loading: PropTypes.bool,
   error: PropTypes.object,
   agencies: PropTypes.array,
   dispatch: PropTypes.func,
