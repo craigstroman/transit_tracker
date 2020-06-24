@@ -12,7 +12,27 @@ const app = express();
 
 const nodeEnv = process.env.NODE_ENV;
 
-const reactApp = (nodeEnv === 'development') ?  '/static/js/bundle.js' : '/static/js/main.min.js';
+const reactApp = nodeEnv === 'development' ? '/static/js/bundle.js' : '/static/js/main.min.js';
+
+if (nodeEnv === 'development') {
+  const webpack = require('webpack');
+  const webpackConfig = require('../webpack.config.dev.js');
+  const webpackCompiler = webpack(webpackConfig);
+
+  app.use(
+    require('webpack-dev-middleware')(webpackCompiler, {
+      noInfo: true,
+      publicPath: webpackConfig.output.publicPath,
+    }),
+  );
+
+  app.use(
+    require('webpack-hot-middleware')(webpackCompiler, {
+      log: false,
+      path: '/__webpack_hmr',
+    }),
+  );
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, './views'));
@@ -27,7 +47,7 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/static', express.static('public'))
+app.use('/static', express.static('public'));
 addPath(__dirname);
 
 app.use('/api', api);
