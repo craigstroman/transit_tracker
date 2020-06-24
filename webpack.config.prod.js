@@ -79,6 +79,12 @@ module.exports = {
           {
             loader: 'sass-loader', // compiles Sass to CSS
           },
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              resources: require(path.join(process.cwd(), 'client/scss/utils.js')),
+            },
+          },
         ],
       },
       {
