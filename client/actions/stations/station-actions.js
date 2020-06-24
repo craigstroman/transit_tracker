@@ -10,27 +10,28 @@ export const fetchStationBegin = () => ({
   type: FETCH_STATION_BEGIN,
 });
 
-export const fetchStationSuccess = data => ({
+export const fetchStationSuccess = (data) => ({
   type: FETCH_STATION_SUCCESS,
   payload: { data },
 });
 
-export const fetchStationError = error => ({
+export const fetchStationError = (error) => ({
   type: FETCH_STATION_FAILURE,
   payload: { error },
 });
 
 const nodeEnv = process.env.NODE_ENV;
-const apiUrl = (nodeEnv === 'production') ? '/api' : 'http://localhost:3000/api';
+const apiUrl = nodeEnv === 'production' ? '/api' : 'http://localhost:3000/api';
 
 export function fetchStations(agency, mode, route) {
   return (dispatch) => {
     dispatch(fetchStationBegin());
-    axios.get(`${apiUrl}/${agency}/mode/${mode}/routes/${route}/stations`)
+    axios
+      .get(`${apiUrl}/${agency}/mode/${mode}/routes/${route}/stations`)
       .then((res) => {
         dispatch(fetchStationSuccess(res.data));
         return res.data;
       })
-      .catch(err => dispatch(fetchStationError(err)));
+      .catch((err) => dispatch(fetchStationError(err)));
   };
 }

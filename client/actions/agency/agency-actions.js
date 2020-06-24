@@ -10,25 +10,26 @@ export const fetchAgencyBegin = () => ({
   type: FETCH_AGENCY_BEGIN,
 });
 
-export const fetchAgencySuccess = data => ({
+export const fetchAgencySuccess = (data) => ({
   type: FETCH_AGENCY_SUCCESS,
   payload: { data },
 });
 
-export const fetchAgencyError = error => ({
+export const fetchAgencyError = (error) => ({
   type: FETCH_AGENCY_FAILURE,
   payload: { error },
 });
 
 const nodeEnv = process.env.NODE_ENV;
-const apiUrl = (nodeEnv === 'production') ? '/api' : 'http://localhost:3000/api';
+const apiUrl = nodeEnv === 'production' ? '/api' : 'http://localhost:3000/api';
 
 export function fetchAgency() {
   const url = `${apiUrl}/agencies`;
 
   return (dispatch) => {
     dispatch(fetchAgencyBegin());
-    axios.get(url)
+    axios
+      .get(url)
       .then((res) => {
         if (res.data.length) {
           dispatch(fetchAgencySuccess(res.data));
@@ -37,6 +38,6 @@ export function fetchAgency() {
         dispatch(fetchAgencyError('Agencies not available.'));
         return 0;
       })
-      .catch(err => dispatch(fetchAgencyError(err)));
+      .catch((err) => dispatch(fetchAgencyError(err)));
   };
 }

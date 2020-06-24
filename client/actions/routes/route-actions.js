@@ -10,29 +10,30 @@ export const fetchRouteBegin = () => ({
   type: FETCH_ROUTE_BEGIN,
 });
 
-export const fetchRouteSuccess = data => ({
+export const fetchRouteSuccess = (data) => ({
   type: FETCH_ROUTE_SUCCESS,
   payload: { data },
 });
 
-export const fetchRouteError = error => ({
+export const fetchRouteError = (error) => ({
   type: FETCH_ROUTE_FAILURE,
   payload: { error },
 });
 
 const nodeEnv = process.env.NODE_ENV;
-const apiUrl = (nodeEnv === 'production') ? '/api' : 'http://localhost:3000/api';
+const apiUrl = nodeEnv === 'production' ? '/api' : 'http://localhost:3000/api';
 
 export function fetchRoutes(agency, mode) {
   console.log('fetch routes: ');
   console.log('mode: ', mode);
   return (dispatch) => {
     dispatch(fetchRouteBegin());
-    axios.get(`${apiUrl}/${agency}/mode/${mode}/routes`)
+    axios
+      .get(`${apiUrl}/${agency}/mode/${mode}/routes`)
       .then((res) => {
         dispatch(fetchRouteSuccess(res.data));
         return res.data;
       })
-      .catch(err => dispatch(fetchRouteError(err)));
+      .catch((err) => dispatch(fetchRouteError(err)));
   };
 }

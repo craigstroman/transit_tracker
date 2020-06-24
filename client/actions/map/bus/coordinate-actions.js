@@ -10,29 +10,30 @@ export const fetchBusRouteCoordinatesBegin = () => ({
   type: FETCH_BUS_ROUTE_COORDINATES_BEGIN,
 });
 
-export const fetchBusRouteCoordinatesSuccess = data => ({
+export const fetchBusRouteCoordinatesSuccess = (data) => ({
   type: FETCH_BUS_ROUTE_COORDINATES_SUCCESS,
   payload: { data },
 });
 
-export const fetchBusRouteCoordinatesError = error => ({
+export const fetchBusRouteCoordinatesError = (error) => ({
   type: FETCH_BUS_ROUTE_COORDINATES_FAILURE,
   payload: { error },
 });
 
 const nodeEnv = process.env.NODE_ENV;
-const apiUrl = (nodeEnv === 'production') ? '/api' : 'http://localhost:3000/api';
+const apiUrl = nodeEnv === 'production' ? '/api' : 'http://localhost:3000/api';
 
 export function fetchBusRouteCoordinates(agency, mode, route, direction) {
   const url = `${apiUrl}/${agency}/mode/${mode}/routes/${route}/direction/${direction}/coords`;
 
   return (dispatch) => {
     dispatch(fetchBusRouteCoordinatesBegin());
-    axios.get(url)
+    axios
+      .get(url)
       .then((res) => {
         dispatch(fetchBusRouteCoordinatesSuccess(res.data));
         return res.data;
       })
-      .catch(err => dispatch(fetchBusRouteCoordinatesError(err)));
+      .catch((err) => dispatch(fetchBusRouteCoordinatesError(err)));
   };
 }

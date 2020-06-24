@@ -10,18 +10,18 @@ export const fetchDirectionBegin = () => ({
   type: FETCH_DIRECTION_BEGIN,
 });
 
-export const fetchDirectionSuccess = data => ({
+export const fetchDirectionSuccess = (data) => ({
   type: FETCH_DIRECTION_SUCCESS,
   payload: { data },
 });
 
-export const fetchDirectionError = error => ({
+export const fetchDirectionError = (error) => ({
   type: FETCH_DIRECTION_FAILURE,
   payload: { error },
 });
 
 const nodeEnv = process.env.NODE_ENV;
-const apiUrl = (nodeEnv === 'production') ? '/api' : 'http://localhost:3000/api';
+const apiUrl = nodeEnv === 'production' ? '/api' : 'http://localhost:3000/api';
 
 export function fetchDirection(agency, mode, route, station = undefined) {
   let url = null;
@@ -34,7 +34,8 @@ export function fetchDirection(agency, mode, route, station = undefined) {
 
   return (dispatch) => {
     dispatch(fetchDirectionBegin());
-    axios.get(url)
+    axios
+      .get(url)
       .then((res) => {
         if (res.data.length) {
           dispatch(fetchDirectionSuccess(res.data));
@@ -43,6 +44,6 @@ export function fetchDirection(agency, mode, route, station = undefined) {
         dispatch(fetchDirectionError('Route not in service. Please choose another route.'));
         return 0;
       })
-      .catch(err => dispatch(fetchDirectionError(err)));
+      .catch((err) => dispatch(fetchDirectionError(err)));
   };
 }
