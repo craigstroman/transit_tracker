@@ -16,12 +16,15 @@ class Stops extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
   }
+
   componentDidMount() {
-    const { agency, route, direction } = this.props.match.params;
+    const { dispatch, match } = this.props;
+    const { agency, route, direction } = match.params;
     const mode = '3';
 
-    this.props.dispatch(fetchStops(agency, mode, route, direction));
+    dispatch(fetchStops(agency, mode, route, direction));
   }
+
   componentDidUpdate() {
     if (document.querySelector('.stop-container .Select-value') !== null) {
       const stopSelected = document.querySelector('.stop-container .Select-value-label').innerHTML;
@@ -29,13 +32,15 @@ class Stops extends React.Component {
       localStorage.setItem('stop', stopSelected);
     }
   }
+
   handleChange(selectedOption) {
     this.setState({ selectedOption });
+    const { match } = this.props;
 
     if (selectedOption) {
-      const { agency, route, direction } = this.props.match.params;
+      const { agency, route, direction } = match.params;
       const mode = '3';
-      const stop = (selectedOption) ? selectedOption.value : null;
+      const stop = selectedOption ? selectedOption.value : null;
 
       if (agency && mode && route && direction && stop) {
         this.props.history.push(
@@ -50,7 +55,7 @@ class Stops extends React.Component {
         );
       }
     } else {
-      const { agency, route, direction } = this.props.match.params;
+      const { agency, route, direction } = match.params;
       const mode = '3';
 
       if (agency && mode && route && direction) {
@@ -66,9 +71,11 @@ class Stops extends React.Component {
       }
     }
   }
+
   render() {
-    const { error, loading, stops } = this.props;
-    const stop = this.props.location.state.stop;
+    const { error, loading, location, stops } = this.props;
+    const { state } = location;
+    const { stop } = state;
     let { selectedOption } = this.state;
 
     if (stop) {
@@ -79,43 +86,35 @@ class Stops extends React.Component {
       return (
         <div>
           <div>There was an error.</div>
-          <div>{ error }</div>
+          <div>{error}</div>
         </div>
       );
     }
 
     if (loading) {
-      return (
-        <div>Loading...</div>
-      );
+      return <div>Loading...</div>;
     }
 
     return (
       <div className="stop-container">
         <Label for="stop-select">Select a stop:</Label>
-        <Select
-          name="stop-select"
-          value={selectedOption}
-          onChange={this.handleChange}
-          options={stops}
-        />
+        <Select name="stop-select" value={selectedOption} onChange={this.handleChange} options={stops} />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   stops: state.stopsReducer.stops,
   loading: state.stopsReducer.loading,
   error: state.stopsReducer.error,
 });
 
-
 Stops.defaultProps = {
-  match: undefined,
-  params: undefined,
-  location: undefined,
-  history: undefined,
+  match: {},
+  params: {},
+  location: {},
+  history: {},
   loading: false,
   error: null,
   stops: [],
@@ -127,7 +126,7 @@ Stops.propTypes = {
   params: PropTypes.object,
   location: PropTypes.object,
   history: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   error: PropTypes.object,
   stops: PropTypes.array,
   dispatch: PropTypes.func,

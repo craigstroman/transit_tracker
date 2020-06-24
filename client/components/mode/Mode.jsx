@@ -17,11 +17,14 @@ class Mode extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
   }
-  componentDidMount() {
-    const agency = this.props.match.params.agency;
 
-    this.props.dispatch(fetchMode(agency));
+  componentDidMount() {
+    const { dispatch, match } = this.props;
+    const agency = match.params.agency;
+
+    dispatch(fetchMode(agency));
   }
+
   componentDidUpdate() {
     if (document.querySelector('.mode-container .Select-value') !== null) {
       const modeSelected = document.querySelector('.mode-container .Select-value-label').innerHTML;
@@ -29,36 +32,33 @@ class Mode extends React.Component {
       localStorage.setItem('mode', modeSelected);
     }
   }
+
   handleChange(selectedOption) {
     this.setState({ selectedOption });
+    const { history, match } = this.props;
 
     if (selectedOption) {
-      const agency = this.props.match.params.agency;
-      const mode = (selectedOption) ? selectedOption.value : null;
+      const { agency } = match.params;
+      const mode = selectedOption ? selectedOption.value : null;
 
       if (agency && mode) {
-        this.props.history.push(
-          `/agency/${agency}/mode/${mode}/routes`,
-          {
-            agency,
-            mode: selectedOption.value,
-          },
-        );
+        history.push(`/agency/${agency}/mode/${mode}/routes`, {
+          agency,
+          mode: selectedOption.value,
+        });
       }
     } else {
       const agency = this.props.match.params.agency;
 
-      this.props.history.push(
-        `/agency/${agency}/mode/`,
-        {
-          agency,
-        },
-      );
+      history.push(`/agency/${agency}/mode/`, {
+        agency,
+      });
     }
   }
+
   render() {
     const { error, loading, modes } = this.props;
-    const mode = (this.props.location.state) ? this.props.location.state.mode : undefined;
+    const mode = this.props.location.state ? this.props.location.state.mode : undefined;
     let { selectedOption } = this.state;
 
     if (mode) {
@@ -69,15 +69,13 @@ class Mode extends React.Component {
       return (
         <div>
           <div>There was an error.</div>
-          <div>{ error }</div>
+          <div>{error}</div>
         </div>
       );
     }
 
     if (loading) {
-      return (
-        <div>Loading...</div>
-      );
+      return <div>Loading...</div>;
     }
 
     return (
@@ -95,18 +93,17 @@ class Mode extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   modes: state.modeReducer.modes,
   loading: state.modeReducer.loading,
   error: state.modeReducer.error,
 });
 
-
 Mode.defaultProps = {
-  match: undefined,
-  params: undefined,
-  location: undefined,
-  history: undefined,
+  match: {},
+  params: {},
+  location: {},
+  history: {},
   loading: false,
   error: null,
   modes: [],
@@ -118,7 +115,7 @@ Mode.propTypes = {
   params: PropTypes.object,
   location: PropTypes.object,
   history: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   error: PropTypes.object,
   modes: PropTypes.array,
   dispatch: PropTypes.func,
