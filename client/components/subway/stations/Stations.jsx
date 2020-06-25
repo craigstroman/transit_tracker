@@ -16,12 +16,15 @@ class Stations extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
   }
+
   componentDidMount() {
-    const { agency, route } = this.props.match.params;
+    const { dispatch, match } = this.props;
+    const { agency, route } = match.params;
     const mode = '1';
 
-    this.props.dispatch(fetchStations(agency, mode, route));
+    dispatch(fetchStations(agency, mode, route));
   }
+
   componentDidUpdate() {
     if (document.querySelector('.station-container .Select-value') !== null) {
       const stationSelected = document.querySelector('.station-container .Select-value-label').innerHTML;
@@ -29,13 +32,15 @@ class Stations extends React.Component {
       localStorage.setItem('station', stationSelected);
     }
   }
+
   handleChange(selectedOption) {
     this.setState({ selectedOption });
+    const { history, match } = this.props;
 
     if (selectedOption) {
-      const { agency, route } = this.props.match.params;
+      const { agency, route } = match.params;
       const mode = '1';
-      const station = (selectedOption) ? selectedOption.value : null;
+      const station = selectedOption ? selectedOption.value : null;
 
       if (agency && mode && route && station) {
         this.props.history.push(
@@ -49,21 +54,19 @@ class Stations extends React.Component {
         );
       }
     } else {
-      const { agency, route } = this.props.match.params;
+      const { agency, route } = match.params;
       const mode = '1';
 
       if (agency && mode && route) {
-        this.props.history.push(
-          `/agency/${agency}/mode/${mode}/routes/${route}/stations`,
-          {
-            agency,
-            mode,
-            route,
-          },
-        );
+        this.props.history.push(`/agency/${agency}/mode/${mode}/routes/${route}/stations`, {
+          agency,
+          mode,
+          route,
+        });
       }
     }
   }
+
   render() {
     const { error, loading, stations } = this.props;
     const station = this.props.location.state.station;
@@ -77,15 +80,13 @@ class Stations extends React.Component {
       return (
         <div>
           <div>There was an error.</div>
-          <div>{ error }</div>
+          <div>{error}</div>
         </div>
       );
     }
 
     if (loading) {
-      return (
-        <div>Loading...</div>
-      );
+      return <div>Loading...</div>;
     }
 
     return (
@@ -102,12 +103,11 @@ class Stations extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   stations: state.stationsReducer.stations,
   loading: state.stationsReducer.loading,
   error: state.stationsReducer.error,
 });
-
 
 Stations.defaultProps = {
   match: undefined,

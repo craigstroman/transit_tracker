@@ -16,12 +16,15 @@ class Routes extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
   }
+
   componentDidMount() {
-    const { agency } = this.props.match.params;
+    const { dispatch, match } = this.props;
+    const { agency } = match.params;
     const mode = '1';
 
-    this.props.dispatch(fetchRoutes(agency, mode));
+    dispatch(fetchRoutes(agency, mode));
   }
+
   componentDidUpdate() {
     if (document.querySelector('.route-container .Select-value') !== null) {
       const routeSelected = document.querySelector('.route-container .Select-value-label').innerHTML;
@@ -29,39 +32,36 @@ class Routes extends React.Component {
       localStorage.setItem('route', routeSelected);
     }
   }
+
   handleChange(selectedOption) {
     this.setState({ selectedOption });
+    const { history, match } = this.props;
 
     if (selectedOption) {
-      const agency = this.props.match.params.agency;
+      const { agency } = match.params;
       const mode = '1';
-      const route = (selectedOption) ? selectedOption.value : null;
+      const route = selectedOption ? selectedOption.value : null;
 
       if (agency && mode && route) {
-        this.props.history.push(
-          `/agency/${agency}/mode/${mode}/routes/${route}/stations`,
-          {
-            agency,
-            mode,
-            route,
-          },
-        );
+        history.push(`/agency/${agency}/mode/${mode}/routes/${route}/stations`, {
+          agency,
+          mode,
+          route,
+        });
       }
     } else {
-      const agency = this.props.match.params.agency;
+      const { agency } = match.params;
       const mode = '1';
 
       if (agency && mode) {
-        this.props.history.push(
-          `/agency/${agency}/mode/${mode}/routes`,
-          {
-            agency,
-            mode,
-          },
-        );
+        history.push(`/agency/${agency}/mode/${mode}/routes`, {
+          agency,
+          mode,
+        });
       }
     }
   }
+
   render() {
     const { error, loading, routes } = this.props;
     const route = this.props.location.state.route;
@@ -75,43 +75,35 @@ class Routes extends React.Component {
       return (
         <div>
           <div>There was an error.</div>
-          <div>{ error }</div>
+          <div>{error}</div>
         </div>
       );
     }
 
     if (loading) {
-      return (
-        <div>Loading...</div>
-      );
+      return <div>Loading...</div>;
     }
 
     return (
       <div className="route-container">
         <Label for="route-select">Select a route:</Label>
-        <Select
-          name="route-select"
-          value={selectedOption}
-          onChange={this.handleChange}
-          options={routes}
-        />
+        <Select name="route-select" value={selectedOption} onChange={this.handleChange} options={routes} />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   routes: state.routesReducer.routes,
   loading: state.routesReducer.loading,
   error: state.routesReducer.error,
 });
 
-
 Routes.defaultProps = {
-  match: undefined,
-  params: undefined,
-  location: undefined,
-  history: undefined,
+  match: {},
+  params: {},
+  location: {},
+  history: {},
   loading: false,
   error: null,
   routes: [],
@@ -123,7 +115,7 @@ Routes.propTypes = {
   params: PropTypes.object,
   location: PropTypes.object,
   history: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   error: PropTypes.object,
   routes: PropTypes.array,
   dispatch: PropTypes.func,

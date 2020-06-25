@@ -12,21 +12,25 @@ class SubwayPredictions extends React.Component {
     this.loaded = false;
     this.timer = null;
   }
+
   componentDidMount() {
-    const { agency, direction, route, station } = this.props.match.params;
+    const { dispatch, match } = this.props;
+    const { agency, direction, route, station } = match.params;
     const mode = '1';
 
-    this.props.dispatch(fetchSubwayPredictions(agency, mode, route, direction, station));
+    dispatch(fetchSubwayPredictions(agency, mode, route, direction, station));
 
     this.timer = setInterval(() => {
-      this.props.dispatch(fetchSubwayPredictions(agency, mode, route, direction, station));
+      dispatch(fetchSubwayPredictions(agency, mode, route, direction, station));
     }, 60000);
   }
+
   componentWillUnmount() {
     clearInterval(this.timer);
     this.loaded = false;
     localStorage.clear();
   }
+
   render() {
     const { error, loading, subwayPredictions } = this.props;
     let route = null;
@@ -46,15 +50,13 @@ class SubwayPredictions extends React.Component {
       return (
         <div>
           <div>There was an error. Please refresh or try again later.</div>
-          <div>{ error }</div>
+          <div>{error}</div>
         </div>
       );
     }
 
     if (!this.loaded && loading) {
-      return (
-        <div>Loading...</div>
-      );
+      return <div>Loading...</div>;
     }
 
     return (
@@ -67,16 +69,16 @@ class SubwayPredictions extends React.Component {
           <hr />
         </header>
         <section>
-          {subwayPredictions.predictions && subwayPredictions.predictions.length >= 1 &&
+          {subwayPredictions.predictions && subwayPredictions.predictions.length >= 1 && (
             <div className="predictions__selected-route">
               {subwayPredictions.predictions.map((obj, i) => {
-                if ((obj.Minutes === 'ARR') && (i === 0)) {
+                if (obj.Minutes === 'ARR' && i === 0) {
                   return (
                     <div className="predictions__selected-route--time" key={obj.VehicleID}>
                       Arriving
                     </div>
                   );
-                } else if ((obj.Minutes === 'BRD') && (i === 0)) {
+                } else if (obj.Minutes === 'BRD' && i === 0) {
                   return (
                     <div className="predictions__selected-route--time" key={obj.VehicleID}>
                       Boarding
@@ -92,35 +94,34 @@ class SubwayPredictions extends React.Component {
                 return '';
               })}
             </div>
-          }
-          {subwayPredictions.alerts.length >= 1 &&
+          )}
+          {subwayPredictions.alerts.length >= 1 && (
             <div className="predictions__alerts">
               <hr />
               <h4 className="text-center">Alerts:</h4>
               <hr />
-              {
-                subwayPredictions.alerts.map(obj => <div className="predictions__alerts--item" key={obj.IncidentID}>
+              {subwayPredictions.alerts.map((obj) => (
+                <div className="predictions__alerts--item" key={obj.IncidentID}>
                   {obj.Description}
-                </div>)
-              }
+                </div>
+              ))}
             </div>
-          }
+          )}
         </section>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   subwayPredictions: state.subwayPredictionsReducer.predictions,
   loading: state.subwayPredictionsReducer.loading,
   error: state.subwayPredictionsReducer.error,
 });
 
-
 SubwayPredictions.defaultProps = {
-  match: undefined,
-  params: undefined,
+  match: {},
+  params: {},
   loading: false,
   error: null,
   subwayPredictions: {},
@@ -130,7 +131,7 @@ SubwayPredictions.defaultProps = {
 SubwayPredictions.propTypes = {
   match: PropTypes.object,
   params: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   error: PropTypes.object,
   subwayPredictions: PropTypes.object,
   dispatch: PropTypes.func,
