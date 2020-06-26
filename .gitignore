@@ -4,5 +4,6 @@
 .env
 .log
 .error
+todo.todo
 package-lock.json
 .DS_Store
