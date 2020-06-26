@@ -17,11 +17,13 @@ https://transit-tracker.craigstroman.com/
 
 ## Available commands:
 
+1. `npm run start` - Starts the production version of the server.
 1. `npm run live:client` - Starts the development environment for the client.
 1. `npm run live:server` - Starts the development environment for the server.
 1. `npm run scss` - Builds the CSS for the server views and watches for changes.
-1. `npm run prod:build` - Builds the production client.
-1. `npm run prod:server` - Starts the server in production.
+1. `npm run copy-files:server` - Copies files needed for production server build.
+1. `npm run prod:client` - Builds the production client.
+1. `npm run prod:server` - Builds the production version of the server.
 
 ## Types of transit as defined by GTFS:
 
