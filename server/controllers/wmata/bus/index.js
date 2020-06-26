@@ -1,12 +1,8 @@
 import axios from 'axios';
-import env from 'node-env-file';
 import { titleCase } from '../../../utils/general/index';
 import { fixRouteNames } from '../../../utils/wmata/bus';
 
-// Load local environment variables.
-if (process.env.NODE_ENV === 'development') {
-  env('./.env');
-}
+require('dotenv').config();
 
 const apiKey = process.env.WMATA_KEY;
 
@@ -18,24 +14,25 @@ const apiKey = process.env.WMATA_KEY;
 export function getRoutes(req, res) {
   const url = `https://api.wmata.com/Bus.svc/json/jRoutes?api_key=${apiKey}`;
 
-  axios.get(url)
-    .then(resp => {
+  axios
+    .get(url)
+    .then((resp) => {
       const result = resp.data.Routes;
       let resArr = [];
 
-      resArr =  result.map(obj => {
+      resArr = result.map((obj) => {
         const name = fixRouteNames(obj.Name);
         const resultObj = {
           value: obj.RouteID,
-          label: name
-        }
+          label: name,
+        };
 
         return resultObj;
       });
 
       res.send(resArr);
     })
-    .catch(error => {
+    .catch((error) => {
       res.send(error);
     });
 }
@@ -50,28 +47,32 @@ export function getDirections(req, res) {
   const route = req.params.route;
   const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}`;
 
-  axios.get(url)
-    .then(resp => {
-      if ((typeof resp.data.Direction0 === 'object' && typeof resp.data.Direction1 === 'object')
-        && (resp.data.Direction0.Stops.length && resp.data.Direction1.Stops.length)) {
+  axios
+    .get(url)
+    .then((resp) => {
+      if (
+        typeof resp.data.Direction0 === 'object' &&
+        typeof resp.data.Direction1 === 'object' &&
+        resp.data.Direction0.Stops.length &&
+        resp.data.Direction1.Stops.length
+      ) {
         let result = [
           {
-            'value': resp.data.Direction0.DirectionText,
-            'label': titleCase(`${resp.data.Direction0.DirectionText} - ${resp.data.Direction0.TripHeadsign}`)
+            value: resp.data.Direction0.DirectionText,
+            label: titleCase(`${resp.data.Direction0.DirectionText} - ${resp.data.Direction0.TripHeadsign}`),
           },
           {
-            'value': resp.data.Direction1.DirectionText,
-            'label': titleCase(`${resp.data.Direction1.DirectionText} - ${resp.data.Direction1.TripHeadsign}`)
-          }
+            value: resp.data.Direction1.DirectionText,
+            label: titleCase(`${resp.data.Direction1.DirectionText} - ${resp.data.Direction1.TripHeadsign}`),
+          },
         ];
 
         res.send(result);
-      }
-      else {
+      } else {
         res.status(204).end();
       }
     })
-    .catch(error => {
+    .catch((error) => {
       res.send(error);
     });
 }
@@ -88,42 +89,43 @@ export function getStops(req, res) {
   const direction = req.params.direction;
   const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}&DirectionText=${direction}`;
 
-  axios.get(url)
-    .then(resp => {
+  axios
+    .get(url)
+    .then((resp) => {
       let results = resp.data;
       if (direction === results.Direction0.DirectionText) {
-          if ( resp.data.Direction0.Stops.length ) {
-            let result = {};
+        if (resp.data.Direction0.Stops.length) {
+          let result = {};
 
-            result = resp.data.Direction0.Stops;
+          result = resp.data.Direction0.Stops;
 
-            result = result.map(obj => {
-              return {
-                label: titleCase(obj.Name),
-                value: obj.StopID,
-              }
-            });
+          result = result.map((obj) => {
+            return {
+              label: titleCase(obj.Name),
+              value: obj.StopID,
+            };
+          });
 
-            res.send(result);
-          }
-        } else if (direction === results.Direction1.DirectionText) {
-          if (results.Direction1.Stops.length) {
-            let result = {};
-
-            result = resp.data.Direction1.Stops;
-
-            result = result.map(obj => {
-              return {
-                label: titleCase(obj.Name),
-                value: obj.StopID,
-              }
-            });
-
-            res.send(result);
-          }
+          res.send(result);
         }
+      } else if (direction === results.Direction1.DirectionText) {
+        if (results.Direction1.Stops.length) {
+          let result = {};
+
+          result = resp.data.Direction1.Stops;
+
+          result = result.map((obj) => {
+            return {
+              label: titleCase(obj.Name),
+              value: obj.StopID,
+            };
+          });
+
+          res.send(result);
+        }
+      }
     })
-    .catch(error => {
+    .catch((error) => {
       res.send(error);
     });
 }
@@ -142,41 +144,41 @@ export function getPredictions(req, res) {
   const predictionsUrl = `https://api.wmata.com/NextBusService.svc/json/jPredictions?api_key=${apiKey}&StopID=${stop}`;
   const alertsUrl = `https://api.wmata.com/Incidents.svc/json/BusIncidents?api_key=${apiKey}&Route=${route}`;
 
-    axios.all([
-      axios.get(predictionsUrl),
-      axios.get(alertsUrl)
-    ])
-    .then(axios.spread((predictions, alerts) => {
-      let result = predictions.data.Predictions;
-      let results = [];
-      let selectedRoute = [];
-      let otherRoutes = [];
+  axios
+    .all([axios.get(predictionsUrl), axios.get(alertsUrl)])
+    .then(
+      axios.spread((predictions, alerts) => {
+        let result = predictions.data.Predictions;
+        let results = [];
+        let selectedRoute = [];
+        let otherRoutes = [];
 
-      selectedRoute = result.filter(obj => {
-        if (obj.RouteID === route) {
-          return obj;
-        } else {
-          return false;
-        }
-      });
+        selectedRoute = result.filter((obj) => {
+          if (obj.RouteID === route) {
+            return obj;
+          } else {
+            return false;
+          }
+        });
 
-      otherRoutes = result.filter(obj => {
-        if (obj.RouteID !== route) {
-          return obj;
-        } else {
-          return false;
-        }
-      });
+        otherRoutes = result.filter((obj) => {
+          if (obj.RouteID !== route) {
+            return obj;
+          } else {
+            return false;
+          }
+        });
 
-      results = {
-        selectedRoute,
-        otherRoutes,
-        alerts: alerts.data.BusIncidents
-      };
+        results = {
+          selectedRoute,
+          otherRoutes,
+          alerts: alerts.data.BusIncidents,
+        };
 
-      res.send(results);
-    }))
-    .catch(error => {
+        res.send(results);
+      }),
+    )
+    .catch((error) => {
       res.send(error);
     });
 }
@@ -192,8 +194,9 @@ export function getRouteCoordinates(req, res) {
   const direction = req.params.direction;
   const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}`;
 
-  axios.get(url)
-    .then(resp => {
+  axios
+    .get(url)
+    .then((resp) => {
       const result = resp.data;
       let centerCoords = {};
       let resArr = [];
@@ -204,12 +207,12 @@ export function getRouteCoordinates(req, res) {
         resArr = result.Direction1.Shape;
       }
 
-      resArr = resArr.map(el => {
+      resArr = resArr.map((el) => {
         let result = {};
 
         result = {
           lat: el.Lat,
-          lng: el.Lon
+          lng: el.Lon,
         };
 
         return result;
@@ -219,10 +222,10 @@ export function getRouteCoordinates(req, res) {
 
       res.json({
         centerCoords,
-        busRouteCoords: resArr
+        busRouteCoords: resArr,
       });
     })
-    .catch(error => {
+    .catch((error) => {
       res.send(error);
     });
 }
@@ -230,13 +233,14 @@ export function getRouteCoordinates(req, res) {
 export function getBusPositions(req, res) {
   const route = req.params.route;
   const direction = req.params.direction;
-  const url = `https://api.wmata.com/Bus.svc/json/jBusPositions?api_key=${apiKey}&RouteID=${route}`
+  const url = `https://api.wmata.com/Bus.svc/json/jBusPositions?api_key=${apiKey}&RouteID=${route}`;
 
-  axios.get(url)
-    .then(resp => {
+  axios
+    .get(url)
+    .then((resp) => {
       res.send(resp.data.BusPositions);
     })
-    .catch(error => {
+    .catch((error) => {
       res.send(error);
     });
 }
