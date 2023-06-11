@@ -1,13 +1,17 @@
 const path = require('path');
 const webpack = require('webpack');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
-const nodeEnv = process.env.NODE_ENV;
 const filePath = path.join(__dirname, './public/js/');
 const fileName = 'bundle.js';
 
-const PATHS = {
-  src: path.join(__dirname, './client'),
-  dist: path.join(__dirname, './public'),
+const ESLintOptions = {
+  overrideConfigFile: path.resolve(__dirname, '.eslintrc.js'),
+  context: path.resolve(__dirname, '/client'),
+  extensions: ['js', 'jsx', 'ts', 'tsx'],
+  exclude: ['/node_modules/'],
+  emitError: true,
+  emitWarning: true,
 };
 
 module.exports = {
@@ -36,13 +40,13 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', 'ts', 'tsx'],
   },
 
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -53,24 +57,21 @@ module.exports = {
         },
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'eslint-loader',
-          options: './.eslintrc',
-        },
+        use: ['ts-loader'],
       },
       {
         test: /\.scss$/,
         use: [
           {
-            loader: 'style-loader', // creates style nodes from JS strings
+            loader: 'style-loader',
           },
           {
-            loader: 'css-loader', // translates CSS into CommonJS
+            loader: 'css-loader',
           },
           {
-            loader: 'sass-loader', // compiles Sass to CSS
+            loader: 'sass-loader',
           },
           {
             loader: 'sass-resources-loader',
@@ -87,6 +88,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new ESLintPlugin(ESLintOptions),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.LoaderOptionsPlugin({
       debug: true,
