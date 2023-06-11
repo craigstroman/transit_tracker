@@ -1,8 +1,9 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { useSelector, useDispatch, TypedUseSelectorHook } from 'react-redux';
+import agencyReducer from '../components/agency/agencySlice';
 
 export const reducer = {
-  // TODO: Put reducers here
+  agencies: agencyReducer,
 };
 
 export const store = configureStore({
