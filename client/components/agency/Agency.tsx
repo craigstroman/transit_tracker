@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Select from 'react-select';
-import { fetchAgency } from '../../actions/agency/agency-actions';
+import { useNavigate } from 'react-router-dom';
+import Select, { ValueType } from 'react-select';
+import { useAppSelector } from '../../store/store';
+import { IAgencies } from './agencyTypes';
+import { selectAgencyState } from './agencySlice';
 import './Agency.scss';
 
 export const Agency: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState<string>('');
+  const agencyState = useAppSelector(selectAgencyState);
+  const [selectedOption, setSelectedOption] = useState<ValueType<IAgencies, false>>();
+
   const handleChange = (e: any) => {
     const { target } = e;
     const { value } = target;
@@ -29,7 +31,7 @@ export const Agency: React.FC = () => {
         name="agency-select"
         value={selectedOption}
         onChange={(e) => handleChange(e)}
-        options={agencies}
+        options={agencyState.value}
       />
     </div>
   );
