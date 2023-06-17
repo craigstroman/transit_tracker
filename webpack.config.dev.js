@@ -6,7 +6,7 @@ const filePath = path.join(__dirname, './public/js/');
 const fileName = 'bundle.js';
 
 const ESLintOptions = {
-  overrideConfigFile: path.resolve(__dirname, '.eslintrc.js'),
+  overrideConfigFile: path.resolve(__dirname, 'client/.eslintrc.js'),
   context: path.resolve(__dirname, '/client'),
   extensions: ['js', 'jsx', 'ts', 'tsx'],
   exclude: ['/node_modules/'],
@@ -21,7 +21,7 @@ module.exports = {
 
   entry: {
     app: [
-      path.join(__dirname, 'client/containers/App.jsx'),
+      path.join(__dirname, 'client/containers/App.tsx'),
       'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
     ],
   },
@@ -40,19 +40,18 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.jsx', 'ts', 'tsx'],
+    extensions: ['.ts', '.tsx', '.js', 'jsx'],
   },
 
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: ['@babel/plugin-proposal-object-rest-spread'],
+            configFile: './client/.eslintrc.js',
           },
         },
       },
@@ -65,25 +64,23 @@ module.exports = {
         test: /\.scss$/,
         use: [
           {
-            loader: 'style-loader',
+            loader: 'style-loader', // creates style nodes from JS strings
           },
           {
-            loader: 'css-loader',
+            loader: 'css-loader', // translates CSS into CommonJS
           },
           {
-            loader: 'sass-loader',
-          },
-          {
-            loader: 'sass-resources-loader',
-            options: {
-              resources: require(path.join(process.cwd(), 'client/scss/utils.js')),
-            },
+            loader: 'sass-loader', // compiles Sass to CSS
           },
         ],
       },
       {
-        test: /\.(svg|woff|woff2|ttf|eot|otf)([\?]?.*)$/,
-        loader: 'file-loader?name=node_modules/@fortawesome/fontawesome-free/webfonts[name].[ext]',
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'css-loader', // translates CSS into CommonJS
+          },
+        ],
       },
     ],
   },
