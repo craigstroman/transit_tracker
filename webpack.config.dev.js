@@ -26,6 +26,9 @@ module.exports = {
     ],
   },
 
+  // TODO: Fix hot update not working with Webpack on the client side when I run npm run live:server
+  // TODO: Remove live:client script because I don't think I need it anymore and rename live:server script to match GitHub Note Taker
+
   output: {
     publicPath: '/static/js/',
     path: filePath,
@@ -40,7 +43,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', 'jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
 
   module: {
@@ -64,13 +67,13 @@ module.exports = {
         test: /\.scss$/,
         use: [
           {
-            loader: 'style-loader', // creates style nodes from JS strings
+            loader: 'style-loader',
           },
           {
-            loader: 'css-loader', // translates CSS into CommonJS
+            loader: 'css-loader',
           },
           {
-            loader: 'sass-loader', // compiles Sass to CSS
+            loader: 'sass-loader',
           },
         ],
       },
@@ -78,7 +81,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           {
-            loader: 'css-loader', // translates CSS into CommonJS
+            loader: 'css-loader',
           },
         ],
       },

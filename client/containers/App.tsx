@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
@@ -9,8 +10,10 @@ const root = createRoot(element as HTMLDivElement);
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Main />
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <Main />
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>,
 );
