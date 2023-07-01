@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { IAgencies } from './agencyTypes';
@@ -9,6 +9,7 @@ import './Agency.scss';
 export const Agency: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { agency } = useParams();
   const agencyState = useAppSelector(selectAgencyState);
   const [selectedOption, setSelectedOption] = useState<IAgencies>();
 
@@ -24,6 +25,15 @@ export const Agency: React.FC = () => {
     }
 
     getAgencies();
+
+    if (agency) {
+      if (!selectedOption) {
+        setSelectedOption({
+          label: agency,
+          value: agency,
+        });
+      }
+    }
   }, []);
 
   useEffect(() => {
