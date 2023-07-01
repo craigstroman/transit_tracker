@@ -6,9 +6,6 @@ import { getAgencies } from './agency.API';
 export const getAgenciesAsync = createAsyncThunk('agencies/get', async () => {
   const response = await getAgencies();
 
-  console.log('getAgenciesAsync: ');
-  console.log('response: ', response);
-
   return response.data;
 });
 
