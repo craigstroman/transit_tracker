@@ -6,6 +6,9 @@ import { getAgencies } from './agency.API';
 export const getAgenciesAsync = createAsyncThunk('agencies/get', async () => {
   const response = await getAgencies();
 
+  console.log('getAgenciesAsync: ');
+  console.log('response: ', response);
+
   return response.data;
 });
 
@@ -29,7 +32,7 @@ export const agencySlice = createSlice({
       .addCase(getAgenciesAsync.fulfilled, (state, action) => {
         const newState = state;
         newState.status = 'success';
-        newState.value = action.payload;
+        newState.value = [...action.payload];
         return newState;
       })
       .addCase(getAgenciesAsync.rejected, (state) => {

@@ -1,0 +1,5 @@
+.row_small {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(700px, 1fr));
+  grid-gap: 2.5rem;
+}
