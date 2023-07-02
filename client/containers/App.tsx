@@ -1,11 +1,13 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes as ReactRoutes } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
 import { Main } from './main/Main';
 import { Agency } from '../components/agency/Agency';
+import { Routes } from '../components/routes/Routes';
 import { Mode } from '../components/mode/Mode';
+import { Directions } from '../components/direction/Directions';
 import { Predictions } from './predictions/Predictions';
 import { BusPredictions } from '../components/predictions/Bus/Bus';
 import { SubwayPredictions } from '../components/predictions/Subway/Subway';
@@ -20,20 +22,19 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <Routes>
+        <ReactRoutes>
           <Route path="/" element={<Main />}>
             <Route path="/" element={<Agency />} />
             <Route path="/agency/:agency" element={<Mode />} />
-
             <Route element={<Predictions />}>
-              <Route path="/agency/:agency/mode/:mode/routes" element={<div>Routes</div>} />
-              <Route path="/agency/:agency/mode/:mode/routes/:route" element={<div>Stop</div>} />
+              <Route path="/agency/:agency/mode/:mode/routes" element={<Routes />} />
+              <Route path="/agency/:agency/mode/:mode/routes/:route" element={<Directions />} />
               <Route
-                path="/agency/:agency/mode/:mode/routes/:route/stops/:stop"
-                element={<div>Direction</div>}
+                path="/agency/:agency/mode/:mode/routes/:route/direction/:direction"
+                element={<div>Stops</div>}
               />
               <Route
-                path="/agency/:agency/mode/:mode/routes/:route/stops/:stop/direction/:direction"
+                path="/agency/:agency/mode/:mode/routes/:route/direction/:direction/stops/:stop"
                 element={<div>Predictions</div>}
               />
             </Route>
@@ -44,7 +45,7 @@ root.render(
               />
             </Route>
           </Route>
-        </Routes>
+        </ReactRoutes>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

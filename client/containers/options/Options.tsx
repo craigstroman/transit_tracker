@@ -1,16 +1,28 @@
 import React from 'react';
 import { Agency } from '../../components/agency/Agency';
 import { Mode } from '../../components/mode/Mode';
+import { Routes } from '../../components/routes/Routes';
+import { Directions } from '../../components/direction/Directions';
 
 export const Options: React.FC = () => {
   return (
-    <div className="row_large">
-      <div>
-        <Agency />
+    <React.Fragment>
+      <div className="row_large">
+        <div>
+          <Agency />
+        </div>
+        <div>
+          <Mode />
+        </div>
       </div>
-      <div>
-        <Mode />
+      <div className="row_small">
+        <div>
+          <Routes />
+        </div>
+        <div>
+          <Directions />
+        </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
