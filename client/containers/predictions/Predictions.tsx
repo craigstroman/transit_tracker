@@ -1,12 +1,11 @@
 import React from 'react';
-import { Routes } from '../../components/routes/Routes';
+import { useParams } from 'react-router-dom';
 
 export const Predictions: React.FC = () => {
+  const { agency, mode, route, direction, stop } = useParams();
   return (
-    <div className="row_small">
-      <div>
-        <Routes />
-      </div>
+    <div style={agency && mode && route && direction && stop ? { display: 'block' } : { display: 'none' }}>
+      Predictions
     </div>
   );
 };
