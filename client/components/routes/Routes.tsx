@@ -12,6 +12,7 @@ export const Routes: React.FC = () => {
   const { agency, mode, route } = useParams();
   const routeState = useAppSelector(selectRoutesState);
   const [selectedOption, setSelectedOption] = useState<IRoutes>();
+  let selectedRoute = null;
 
   const handleChange = (e: any) => {
     const { value, label } = e;
@@ -27,16 +28,15 @@ export const Routes: React.FC = () => {
     }
 
     getRoutes();
+  }, [agency, mode]);
 
-    if (agency && mode && route) {
-      if (!selectedOption) {
-        setSelectedOption({
-          label: route,
-          value: route,
-        });
-      }
+  useEffect(() => {
+    if (routeState.value.length > 1 && agency && mode && route) {
+      console.log('inside here: ');
+      selectedRoute = routeState.value.find((el) => el.value === route);
+      setSelectedOption(selectedRoute);
     }
-  }, []);
+  }, [routeState.value]);
 
   useEffect(() => {
     if (selectedOption) {
