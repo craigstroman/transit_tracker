@@ -10,15 +10,18 @@ import './Mode.scss';
 export const Mode: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { agency } = useParams();
+  const { agency, mode } = useParams();
   const modeState = useAppSelector(selectModeState);
-  const [selectedOption, setSelectedOption] = useState();
+  const [selectedOption, setSelectedOption] = useState<IMode>();
+  let selectedMode = null;
 
   const handleChange = (e: any) => {
-    const { target } = e;
-    const { value } = target;
+    const { label, value } = e;
 
-    setSelectedOption(value);
+    setSelectedOption({
+      label,
+      value,
+    });
   };
 
   useEffect(() => {
@@ -32,8 +35,15 @@ export const Mode: React.FC = () => {
   }, [agency]);
 
   useEffect(() => {
+    if (modeState.value.length > 1 && agency && mode) {
+      selectedMode = modeState.value.find((el) => el.value === mode);
+      setSelectedOption(selectedMode);
+    }
+  }, [modeState.value]);
+
+  useEffect(() => {
     if (selectedOption) {
-      navigate(`/agency/${agency}/mode/${selectedOption}/routes`);
+      navigate(`/agency/${agency}/mode/${selectedOption.value}/routes`);
     }
   }, [selectedOption]);
 
