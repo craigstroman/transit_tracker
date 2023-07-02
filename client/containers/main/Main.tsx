@@ -1,8 +1,9 @@
 import React from 'react';
 import { Options } from '../options/Options';
+import { Predictions } from '../predictions/Predictions';
 import './Main.scss';
 
-const Main: React.FC = (props) => {
+export const Main: React.FC = () => {
   return (
     <React.Fragment>
       <header>
@@ -14,8 +15,9 @@ const Main: React.FC = (props) => {
       <div>
         <Options />
       </div>
+      <div>
+        <Predictions />
+      </div>
     </React.Fragment>
   );
 };
-
-export default Main;
