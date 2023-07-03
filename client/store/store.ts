@@ -4,12 +4,14 @@ import agencyReducer from '../components/agency/agencySlice';
 import modesReducer from '../components/mode/modeSlice';
 import routesReducer from '../components/routes/routesSlice';
 import directionReducer from '../components/direction/directionsSlice';
+import stopsReducer from '../components/stops/stopsSlice';
 
 export const reducer = {
   agencies: agencyReducer,
   modes: modesReducer,
   routes: routesReducer,
   direction: directionReducer,
+  stops: stopsReducer,
 };
 
 export const store = configureStore({
