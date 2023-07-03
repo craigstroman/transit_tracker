@@ -10,10 +10,7 @@ import { Mode } from '../components/mode/Mode';
 import { Directions } from '../components/direction/Directions';
 import { Stops } from '../components/stops/Stops';
 import { Predictions } from './predictions/Predictions';
-import { BusPredictions } from '../components/predictions/Bus/Bus';
-import { SubwayPredictions } from '../components/predictions/Subway/Subway';
-import { BusMap } from '../components/map/busMap/BusMap';
-import { SubwayMap } from '../components/map/subwayMap/SubwayMap';
+import { Map } from '../components/map/Map';
 import './App.scss';
 
 const element = document.getElementById('app');
@@ -27,24 +24,17 @@ root.render(
           <Route path="/" element={<Main />}>
             <Route path="/" element={<Agency />} />
             <Route path="/agency/:agency" element={<Mode />} />
-            <Route element={<Predictions />}>
-              <Route path="/agency/:agency/mode/:mode/routes" element={<Routes />} />
-              <Route path="/agency/:agency/mode/:mode/routes/:route" element={<Directions />} />
-              <Route
-                path="/agency/:agency/mode/:mode/routes/:route/direction/:direction"
-                element={<Stops />}
-              />
-              <Route
-                path="/agency/:agency/mode/:mode/routes/:route/direction/:direction/stops/:stop"
-                element={<div>Predictions</div>}
-              />
-            </Route>
-            <Route element={<div>Map</div>}>
-              <Route
-                path="/agency/:agency/mode/3/routes/:route/direction/:direction/stops/:stop/map"
-                element={<BusMap />}
-              />
-            </Route>
+            <Route path="/agency/:agency/mode/:mode/routes" element={<Routes />} />
+            <Route path="/agency/:agency/mode/:mode/routes/:route" element={<Directions />} />
+            <Route path="/agency/:agency/mode/:mode/routes/:route/direction/:direction" element={<Stops />} />
+            <Route
+              path="/agency/:agency/mode/:mode/routes/:route/direction/:direction/stops/:stop/predictions"
+              element={<Predictions />}
+            />
+            <Route
+              path="/agency/:agency/mode/:mode/routes/:route/direction/:direction/stops/:stop/map"
+              element={<Map />}
+            />
           </Route>
         </ReactRoutes>
       </BrowserRouter>
