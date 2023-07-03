@@ -3,6 +3,7 @@ import { Agency } from '../../components/agency/Agency';
 import { Mode } from '../../components/mode/Mode';
 import { Routes } from '../../components/routes/Routes';
 import { Directions } from '../../components/direction/Directions';
+import { Stops } from '../../components/stops/Stops';
 
 export const Options: React.FC = () => {
   return (
@@ -21,6 +22,9 @@ export const Options: React.FC = () => {
         </div>
         <div>
           <Directions />
+        </div>
+        <div>
+          <Stops />
         </div>
       </div>
     </React.Fragment>

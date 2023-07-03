@@ -8,6 +8,7 @@ import { Agency } from '../components/agency/Agency';
 import { Routes } from '../components/routes/Routes';
 import { Mode } from '../components/mode/Mode';
 import { Directions } from '../components/direction/Directions';
+import { Stops } from '../components/stops/Stops';
 import { Predictions } from './predictions/Predictions';
 import { BusPredictions } from '../components/predictions/Bus/Bus';
 import { SubwayPredictions } from '../components/predictions/Subway/Subway';
@@ -31,7 +32,7 @@ root.render(
               <Route path="/agency/:agency/mode/:mode/routes/:route" element={<Directions />} />
               <Route
                 path="/agency/:agency/mode/:mode/routes/:route/direction/:direction"
-                element={<div>Stops</div>}
+                element={<Stops />}
               />
               <Route
                 path="/agency/:agency/mode/:mode/routes/:route/direction/:direction/stops/:stop"
