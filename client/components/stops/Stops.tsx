@@ -34,7 +34,9 @@ export const Stops: React.FC = () => {
 
   useEffect(() => {
     if (selectedOption) {
-      navigate(`/agency/${agency}/mode/${mode}/routes/${route}/direction/${selectedOption.value}`);
+      navigate(
+        `/agency/${agency}/mode/${mode}/routes/${route}/direction/${direction}/stops/${selectedOption.value}/predictions`,
+      );
     }
   }, [selectedOption]);
 
