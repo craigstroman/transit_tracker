@@ -1,0 +1,13 @@
+.predictions-container {
+  width: 600px;
+  border: 2px solid #e7e7e7;
+  border-radius: 3px;
+  min-height: 100px;
+  margin: 0 auto;
+  padding: 5px;
+  header {
+    .predictions-title {
+      text-align: center;
+    }
+  }
+}
