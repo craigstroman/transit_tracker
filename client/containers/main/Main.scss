@@ -1,7 +1,12 @@
-.title {
-  display: grid;
-  grid-column: span 12;
-  width: 100%;
-  justify-content: center;
-  overflow-x: hidden;
+.content {
+  .title {
+    display: grid;
+    grid-column: span 12;
+    width: 100%;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+  .predictions-row {
+    margin-top: 2.5rem;
+  }
 }
