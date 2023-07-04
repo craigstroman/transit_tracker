@@ -33,7 +33,10 @@ export const Predictions: React.FC = () => {
         <h1 className="predictions-title">Predictions</h1>
       </header>
       <div className="predictions-info">
-        Predictions for route {route} to {predictionsState.value.selectedRoute[0].DirectionText || direction}{' '}
+        Predictions for route {route} to
+        {predictionsState.value.selectedRoute.length >= 1
+          ? ` ${predictionsState.value.selectedRoute[0].DirectionText} `
+          : ` ${direction} `}
         at stop {stop}
         <hr />
       </div>
@@ -55,7 +58,9 @@ export const Predictions: React.FC = () => {
           }
         })}
       {predictionsState.value.selectedRoute && predictionsState.value.selectedRoute.length === 0 && (
-        <div>Currently no predictions for the selected route.</div>
+        <div>
+          <b>Currently no predictions for the selected route.</b>
+        </div>
       )}
       {predictionsState.value.otherRoutes && predictionsState.value.otherRoutes.length >= 1 && (
         <div>
