@@ -1,23 +1,25 @@
 import React from 'react';
 import { Options } from '../options/Options';
-import { Predictions } from '../predictions/Predictions';
+import { Predictions } from '../../components/predictions/Predictions';
 import './Main.scss';
 
 export const Main: React.FC = () => {
   return (
-    <React.Fragment>
+    <div className="content">
       <header>
         <div className="title">
           <h1>Washington, D.C. Transit Tracker</h1>
           <hr />
         </div>
       </header>
-      <div>
-        <Options />
-      </div>
-      <div>
-        <Predictions />
-      </div>
-    </React.Fragment>
+      <main>
+        <div className="options-row">
+          <Options />
+        </div>
+        <div className="predictions-row">
+          <Predictions />
+        </div>
+      </main>
+    </div>
   );
 };
