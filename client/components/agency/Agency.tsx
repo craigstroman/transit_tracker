@@ -12,6 +12,10 @@ export const Agency: React.FC = () => {
   const { agency } = useParams();
   const agencyState = useAppSelector(selectAgencyState);
   const [selectedOption, setSelectedOption] = useState<IAgencies>();
+  let selectedAgency: IAgencies = {
+    label: '',
+    value: '',
+  };
 
   const handleChange = (e: any) => {
     const { value, label } = e;
@@ -35,6 +39,19 @@ export const Agency: React.FC = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (agency && agencyState.value.length >= 1) {
+      const chosenAgency = agencyState.value.find((el) => el.value === agency);
+
+      if (chosenAgency) {
+        selectedAgency = chosenAgency;
+      }
+    }
+    if (selectedAgency.label.length > 1) {
+      setSelectedOption(selectedAgency);
+    }
+  }, [agencyState.value, agency]);
 
   useEffect(() => {
     if (selectedOption) {
