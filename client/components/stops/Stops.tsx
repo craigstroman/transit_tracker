@@ -9,7 +9,7 @@ import './Stops.scss';
 export const Stops: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { agency, mode, route, direction } = useParams();
+  const { agency, mode, route } = useParams();
   const stopsState = useAppSelector(selectStopsState);
   const [selectedOption, setSelectedOption] = useState<IStop>();
 
@@ -23,27 +23,25 @@ export const Stops: React.FC = () => {
   };
 
   useEffect(() => {
-    if (agency && mode && route && direction) {
+    if (agency && mode && route) {
       const getStops = async () => {
-        await dispatch(getStopsAsync({ agency, mode, route, direction }));
+        await dispatch(getStopsAsync({ agency, mode, route }));
       };
 
       getStops();
     }
-  }, [agency, mode, route, direction]);
+  }, [agency, mode, route]);
 
   useEffect(() => {
     if (selectedOption) {
-      navigate(
-        `/agency/${agency}/mode/${mode}/routes/${route}/direction/${direction}/stops/${selectedOption.value}/predictions`,
-      );
+      navigate(`/agency/${agency}/mode/${mode}/routes/${route}/stops/${selectedOption.value}/predictions`);
     }
   }, [selectedOption]);
 
   return (
     <div
       className="stops-container"
-      style={agency && mode && route && direction ? { display: 'block' } : { display: 'none' }}
+      style={agency && mode && route ? { display: 'block' } : { display: 'none' }}
     >
       <label htmlFor="direction-select">Select a stop:</label>
       <Select

@@ -7,7 +7,6 @@ export interface IGetStops {
   agency: string;
   mode: string;
   route: string;
-  direction: string;
 }
 
 export interface StopState {

@@ -25,8 +25,7 @@ root.render(
             <Route path="/" element={<Agency />} />
             <Route path="/agency/:agency" element={<Mode />} />
             <Route path="/agency/:agency/mode/:mode/routes" element={<Routes />} />
-            <Route path="/agency/:agency/mode/:mode/routes/:route" element={<Directions />} />
-            <Route path="/agency/:agency/mode/:mode/routes/:route/direction/:direction" element={<Stops />} />
+            <Route path="/agency/:agency/mode/:mode/routes/:route" element={<Stops />} />
             <Route
               path="/agency/:agency/mode/:mode/routes/:route/direction/:direction/stops/:stop/predictions"
               element={<Predictions />}

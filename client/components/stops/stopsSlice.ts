@@ -4,7 +4,7 @@ import { StopState, initialState, IGetStops } from './stopsTypes';
 import { getStops } from './stops.API';
 
 export const getStopsAsync = createAsyncThunk('stops/get', async (stops: IGetStops) => {
-  const response = await getStops(stops.agency, stops.mode, stops.route, stops.direction);
+  const response = await getStops(stops.agency, stops.mode, stops.route);
 
   return response.data;
 });
