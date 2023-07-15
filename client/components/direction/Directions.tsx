@@ -9,9 +9,11 @@ import './Direction.scss';
 export const Directions: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { agency, mode, route } = useParams();
+  const { agency, mode, route, direction } = useParams();
   const directionState = useAppSelector(selectDirectionState);
   const [selectedOption, setSelectedOption] = useState<IDirection>();
+  const [chosenDirection, setChosenDirection] = useState<string>('');
+  let selectedDirection = null;
 
   const handleChange = (e: any) => {
     const { label, value } = e;
@@ -31,6 +33,19 @@ export const Directions: React.FC = () => {
       getDirections();
     }
   }, [agency, mode, route]);
+
+  useEffect(() => {
+    if (direction) {
+      setChosenDirection(direction);
+    }
+
+    if (directionState.value.length > 1 && agency && mode && chosenDirection) {
+      selectedDirection = directionState.value.find((el) => el.value === chosenDirection);
+      if (selectedDirection) {
+        setSelectedOption(selectedDirection);
+      }
+    }
+  }, [directionState.value, agency, mode, route]);
 
   useEffect(() => {
     if (selectedOption) {

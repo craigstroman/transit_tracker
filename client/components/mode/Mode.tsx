@@ -35,7 +35,7 @@ export const Mode: React.FC = () => {
   }, [agency]);
 
   useEffect(() => {
-    if (modeState.value.length > 1 && agency && mode) {
+    if (modeState.value.length >= 1 && agency && mode) {
       selectedMode = modeState.value.find((el) => el.value === mode);
       setSelectedOption(selectedMode);
     }
