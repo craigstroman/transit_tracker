@@ -17,12 +17,9 @@ export const Options: React.FC = () => {
           <Mode />
         </div>
       </div>
-      <div className="row_small">
+      <div className="row_large">
         <div>
           <Routes />
-        </div>
-        <div>
-          <Directions />
         </div>
         <div>
           <Stops />
