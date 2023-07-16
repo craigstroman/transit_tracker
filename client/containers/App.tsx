@@ -9,7 +9,7 @@ import { Routes } from '../components/routes/Routes';
 import { Mode } from '../components/mode/Mode';
 import { Directions } from '../components/direction/Directions';
 import { Stops } from '../components/stops/Stops';
-import { Predictions } from './predictions/Predictions';
+import { PredictionsContainer } from './predictions/Predictions';
 import { Map } from '../components/map/Map';
 import './App.scss';
 
@@ -27,8 +27,8 @@ root.render(
             <Route path="/agency/:agency/mode/:mode/routes" element={<Routes />} />
             <Route path="/agency/:agency/mode/:mode/routes/:route" element={<Stops />} />
             <Route
-              path="/agency/:agency/mode/:mode/routes/:route/direction/:direction/stops/:stop/predictions"
-              element={<Predictions />}
+              path="/agency/:agency/mode/:mode/routes/:route/stops/:stop/predictions"
+              element={<PredictionsContainer />}
             />
             <Route
               path="/agency/:agency/mode/:mode/routes/:route/direction/:direction/stops/:stop/map"
