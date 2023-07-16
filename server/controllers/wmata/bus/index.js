@@ -11,70 +11,37 @@ const apiKey = process.env.WMATA_KEY;
  *
  * @return {Object} An object that contains the bus routes or a error object.
  */
-export function getRoutes(req, res) {
+export async function getRoutes(req, res) {
   const url = `https://api.wmata.com/Bus.svc/json/jRoutes?api_key=${apiKey}`;
 
-  axios
-    .get(url)
-    .then((resp) => {
-      const result = resp.data.Routes;
-      let resArr = [];
+  try {
+    const { data } = await axios.get(url);
 
-      resArr = result.map((obj) => {
-        const name = fixRouteNames(obj.Name);
+    if (data) {
+      const { Routes } = data;
+
+      let result = [];
+
+      result = Routes.map((el) => {
+        const name = fixRouteNames(el.Name);
+
         const resultObj = {
-          value: obj.RouteID,
+          value: el.RouteID,
           label: name,
         };
 
         return resultObj;
       });
 
-      res.send(resArr);
-    })
-    .catch((error) => {
-      res.send(error);
-    });
-}
-
-/**
- * Get's the selected bus routes directions.
- *
- * @param  {String} route The route id.
- * @return {Object}       An object that contains the bus route directions or a error object.
- */
-export function getDirections(req, res) {
-  const route = req.params.route;
-  const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}`;
-
-  axios
-    .get(url)
-    .then((resp) => {
-      if (
-        typeof resp.data.Direction0 === 'object' &&
-        typeof resp.data.Direction1 === 'object' &&
-        resp.data.Direction0.Stops.length &&
-        resp.data.Direction1.Stops.length
-      ) {
-        let result = [
-          {
-            value: resp.data.Direction0.DirectionText,
-            label: titleCase(`${resp.data.Direction0.DirectionText} - ${resp.data.Direction0.TripHeadsign}`),
-          },
-          {
-            value: resp.data.Direction1.DirectionText,
-            label: titleCase(`${resp.data.Direction1.DirectionText} - ${resp.data.Direction1.TripHeadsign}`),
-          },
-        ];
-
+      if (result.length >= 1) {
         res.send(result);
       } else {
-        res.status(204).end();
+        res.send('');
       }
-    })
-    .catch((error) => {
-      res.send(error);
-    });
+    }
+  } catch (error) {
+    res.send(error);
+  }
 }
 
 /**
@@ -130,56 +97,63 @@ export async function getStops(req, res) {
 }
 
 /**
- * Get's the selected route bus stops.
+ * Get's the selected bus stop predictions.
  *
  * @param  {String} route The route id.
  * @param  {String} direction The direction for the route.
  * @param  {String} stop The stop id.
  * @return {Object}       An object that contains the bus route predictions for a stop or a error object.
  */
-export function getPredictions(req, res) {
-  const route = req.params.route;
-  const stop = req.params.stop;
+export async function getPredictions(req, res) {
+  const { params } = req;
+  const { route, stop } = params;
   const predictionsUrl = `https://api.wmata.com/NextBusService.svc/json/jPredictions?api_key=${apiKey}&StopID=${stop}`;
   const alertsUrl = `https://api.wmata.com/Incidents.svc/json/BusIncidents?api_key=${apiKey}&Route=${route}`;
 
-  axios
-    .all([axios.get(predictionsUrl), axios.get(alertsUrl)])
-    .then(
-      axios.spread((predictions, alerts) => {
-        let result = predictions.data.Predictions;
-        let results = [];
-        let selectedRoute = [];
-        let otherRoutes = [];
+  try {
+    const predictions = await axios.get(predictionsUrl);
+    const alerts = await axios.get(alertsUrl);
 
-        selectedRoute = result.filter((obj) => {
-          if (obj.RouteID === route) {
-            return obj;
-          } else {
-            return false;
-          }
-        });
+    if (predictions.data.Predictions) {
+      let selectedRoute = [];
+      let otherRoutes = [];
+      let results = {};
 
-        otherRoutes = result.filter((obj) => {
-          if (obj.RouteID !== route) {
-            return obj;
-          } else {
-            return false;
-          }
-        });
+      selectedRoute = predictions.data.Predictions.filter((el) => {
+        if (el.RouteID === route) {
+          return el;
+        } else {
+          return false;
+        }
+      });
 
-        results = {
-          selectedRoute,
-          otherRoutes,
-          alerts: alerts.data.BusIncidents,
-        };
+      otherRoutes = predictions.data.Predictions.filter((el) => {
+        if (el.RouteID !== route) {
+          return el;
+        } else {
+          return false;
+        }
+      });
 
+      results = {
+        selectedRoute,
+        otherRoutes,
+        alerts: '',
+      };
+
+      if (alerts.data.BusIncidents && alerts.data.BusIncidents.length >= 1) {
+        results.alerts = alerts.data.BusIncidents;
+      }
+
+      if (results) {
         res.send(results);
-      }),
-    )
-    .catch((error) => {
-      res.send(error);
-    });
+      } else {
+        res.send('');
+      }
+    }
+  } catch (error) {
+    res.send(error);
+  }
 }
 
 /**
@@ -188,58 +162,47 @@ export function getPredictions(req, res) {
  * @param      {Object}  req     The request
  * @param      {Object}  res     The resource
  */
-export function getRouteCoordinates(req, res) {
-  const route = req.params.route;
-  const direction = req.params.direction;
+export async function getRouteCoordinates(req, res) {
+  const { params } = req;
+  const { route } = params;
   const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}`;
+  res.send(url);
 
-  axios
-    .get(url)
-    .then((resp) => {
-      const result = resp.data;
-      let centerCoords = {};
-      let resArr = [];
+  try {
+    const coords = await axios.get(url);
+    console.log('coords:');
+    console.log(coords);
 
-      if (result.Direction0.DirectionText === direction) {
-        resArr = result.Direction0.Shape;
-      } else if (result.Direction1.DirectionText === direction) {
-        resArr = result.Direction1.Shape;
-      }
+    // TODO: Figure out why for selected routes this returns message No schedule data available for this date.
 
-      resArr = resArr.map((el) => {
-        let result = {};
-
-        result = {
-          lat: el.Lat,
-          lng: el.Lon,
-        };
-
-        return result;
-      });
-
-      centerCoords = resArr[Math.floor((resArr.length - 1) / 2)];
-
-      res.json({
-        centerCoords,
-        busRouteCoords: resArr,
-      });
-    })
-    .catch((error) => {
-      res.send(error);
-    });
+    res.send(coords);
+  } catch (error) {}
 }
 
-export function getBusPositions(req, res) {
-  const route = req.params.route;
-  const direction = req.params.direction;
+/**
+ * Get's the bus positions for a route.
+ *
+ * @param      {Object}  req     The request
+ * @param      {Object}  res     The resource
+ */
+export async function getBusPositions(req, res) {
+  const { params } = req;
+  const { route } = params;
   const url = `https://api.wmata.com/Bus.svc/json/jBusPositions?api_key=${apiKey}&RouteID=${route}`;
 
-  axios
-    .get(url)
-    .then((resp) => {
-      res.send(resp.data.BusPositions);
-    })
-    .catch((error) => {
-      res.send(error);
-    });
+  try {
+    const { data } = await axios.get(url);
+
+    if (data) {
+      const { BusPositions } = data;
+
+      if (BusPositions && BusPositions.length >= 1) {
+        res.send(BusPositions);
+      } else {
+        res.send('');
+      }
+    }
+  } catch (error) {
+    res.send(error);
+  }
 }
