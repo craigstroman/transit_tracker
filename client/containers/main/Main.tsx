@@ -1,6 +1,6 @@
 import React from 'react';
 import { Options } from '../options/Options';
-import { Predictions } from '../../components/predictions/Predictions';
+import { PredictionsContainer } from '../predictions/Predictions';
 import './Main.scss';
 
 export const Main: React.FC = () => {
@@ -17,7 +17,7 @@ export const Main: React.FC = () => {
           <Options />
         </div>
         <div className="predictions-row">
-          <Predictions />
+          <PredictionsContainer />
         </div>
       </main>
     </div>
