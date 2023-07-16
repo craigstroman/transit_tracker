@@ -84,50 +84,48 @@ export function getDirections(req, res) {
  * @param  {String} direction The direction for the route.
  * @return {Object}       An object that contains the bus route stops or a error object.
  */
-export function getStops(req, res) {
-  const route = req.params.route;
-  const direction = req.params.direction;
-  const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}&DirectionText=${direction}`;
+export async function getStops(req, res) {
+  const { params } = req;
+  const { route } = params;
+  const url = `https://api.wmata.com/Bus.svc/json/jStops?api_key=${apiKey}&RouteID=${route}`;
 
-  axios
-    .get(url)
-    .then((resp) => {
-      let results = resp.data;
-      if (direction === results.Direction0.DirectionText) {
-        if (resp.data.Direction0.Stops.length) {
-          let result = {};
+  try {
+    const { data } = await axios.get(url);
 
-          result = resp.data.Direction0.Stops;
+    if (data) {
+      const { Stops } = data;
+      let foundStops = [];
+      let result = [];
 
-          result = result.map((obj) => {
-            return {
-              label: titleCase(obj.Name),
-              value: obj.StopID,
-            };
-          });
+      Stops.forEach((element) => {
+        const hasRoute = element.Routes.find((el) => {
+          if (el === route) {
+            return el;
+          }
+        });
 
-          res.send(result);
+        if (hasRoute) {
+          foundStops.push(element);
         }
-      } else if (direction === results.Direction1.DirectionText) {
-        if (results.Direction1.Stops.length) {
-          let result = {};
+      });
 
-          result = resp.data.Direction1.Stops;
-
-          result = result.map((obj) => {
-            return {
-              label: titleCase(obj.Name),
-              value: obj.StopID,
-            };
+      if (foundStops && foundStops.length >= 1) {
+        foundStops.forEach((element) => {
+          result.push({
+            label: element.Name,
+            value: element.StopID,
           });
-
-          res.send(result);
-        }
+        });
       }
-    })
-    .catch((error) => {
-      res.send(error);
-    });
+      console.log('result: ');
+      console.log(result);
+      res.send(result);
+    } else {
+      res.send('');
+    }
+  } catch (error) {
+    res.send(error);
+  }
 }
 
 /**
