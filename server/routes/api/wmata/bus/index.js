@@ -13,13 +13,9 @@ const agency = '/wmata';
 
 busRouter.route(`${agency}/mode/bus/routes`).get(getRoutes);
 
-busRouter.route(`${agency}/mode/bus/routes/:route/direction`).get(getDirections);
+busRouter.route(`${agency}/mode/bus/routes/:route/stops`).get(getStops);
 
-busRouter.route(`${agency}/mode/bus/routes/:route/direction/:direction/stops`).get(getStops);
-
-busRouter
-  .route(`${agency}/mode/bus/routes/:route/direction/:direction/stops/:stop/predictions`)
-  .get(getPredictions);
+busRouter.route(`${agency}/mode/bus/routes/:route/stops/:stop/predictions`).get(getPredictions);
 
 busRouter.route(`${agency}/mode/bus/routes/:route/direction/:direction/coords`).get(getRouteCoordinates);
 
