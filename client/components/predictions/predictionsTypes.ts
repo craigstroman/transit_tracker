@@ -16,7 +16,6 @@ export interface IGetPredictions {
   agency: string;
   mode: string;
   route: string;
-  direction: string;
   stop: string;
 }
 

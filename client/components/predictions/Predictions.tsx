@@ -6,14 +6,14 @@ import './Predictions.scss';
 
 export const Predictions: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { agency, mode, route, direction, stop } = useParams();
+  const { agency, mode, route, stop } = useParams();
   const predictionsState = useAppSelector(selectPredictionsState);
   const [repeater, setRepeater] = useState(0);
 
   useEffect(() => {
-    if (agency && mode && route && direction && stop) {
+    if (agency && mode && route && stop) {
       const getPredictions = async () => {
-        await dispatch(getPredictionsAsync({ agency, mode, route, direction, stop }));
+        await dispatch(getPredictionsAsync({ agency, mode, route, stop }));
       };
 
       getPredictions();
@@ -22,22 +22,15 @@ export const Predictions: React.FC = () => {
         setRepeater((prevState) => prevState + 1);
       }, 20000);
     }
-  }, [agency, mode, route, direction, stop, repeater]);
+  }, [agency, mode, route, stop, repeater]);
 
   return (
-    <div
-      className="predictions-container"
-      style={agency && mode && route && direction && stop ? { display: 'block' } : { display: 'none' }}
-    >
+    <div className="predictions-container">
       <header>
         <h1 className="predictions-title">Predictions</h1>
       </header>
       <div className="predictions-info">
-        Predictions for route {route} to
-        {predictionsState.value.selectedRoute.length >= 1
-          ? ` ${predictionsState.value.selectedRoute[0].DirectionText} `
-          : ` ${direction} `}
-        at stop {stop}
+        Predictions for route {route}
         <hr />
       </div>
       {predictionsState.value.selectedRoute &&

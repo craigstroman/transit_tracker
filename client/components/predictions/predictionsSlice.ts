@@ -16,7 +16,6 @@ export const getPredictionsAsync = createAsyncThunk(
       predictions.agency,
       predictions.mode,
       predictions.route,
-      predictions.direction,
       predictions.stop,
     );
 

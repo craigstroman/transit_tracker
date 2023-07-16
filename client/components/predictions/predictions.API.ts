@@ -8,11 +8,10 @@ export async function getPredictions(
   agency: string,
   mode: string,
   route: string,
-  direction: string,
   stop: string,
 ): Promise<{ data: IPredictionsResponse }> {
   const result = await axios.get(
-    `${apiUrl}/${agency}/mode/${mode}/routes/${route}/direction/${direction}/stops/${stop}/predictions`,
+    `${apiUrl}/${agency}/mode/${mode}/routes/${route}/stops/${stop}/predictions`,
   );
 
   return { data: result.data };
