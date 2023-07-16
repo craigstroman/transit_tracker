@@ -111,14 +111,15 @@ export async function getStops(req, res) {
 
       if (foundStops && foundStops.length >= 1) {
         foundStops.forEach((element) => {
-          result.push({
-            label: element.Name,
-            value: element.StopID,
-          });
+          if (!result.some((el) => el.label === element.Name)) {
+            result.push({
+              label: element.Name,
+              value: element.StopID,
+            });
+          }
         });
       }
-      console.log('result: ');
-      console.log(result);
+
       res.send(result);
     } else {
       res.send('');
