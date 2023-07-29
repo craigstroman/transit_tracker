@@ -1,21 +1,23 @@
 import { Router } from 'express';
-import wmata from './wmata/index';
-import mcdot from './mcdot/index';
+import busRouter from './bus/index';
 
 const router = new Router();
 
-router.route('/agencies').get((req, res) => {
+router.route('/mode').get((req, res) => {
   const result = [
     {
-      label: 'WMATA - Washington Metro - Washinton, DC',
-      value: 'wmata',
-    }
+      label: 'Bus',
+      value: 'bus',
+    },
+    {
+      label: 'Subway',
+      value: 'subway',
+    },
   ];
 
   res.send(result);
 });
 
-router.use(wmata);
-router.use(mcdot);
+router.use(busRouter);
 
 export default router;
