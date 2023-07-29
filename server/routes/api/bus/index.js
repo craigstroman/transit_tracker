@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import busRouter from './bus/index';
-import subwayRouter from './subway/index';
+import wmata from './wmata/index';
 
 const router = new Router();
 
@@ -15,11 +14,6 @@ router.route('/mode/:mode/agency').get((req, res) => {
   res.send(result);
 });
 
-/**
- * WMATA routes
- */
-router.use(busRouter);
-
-router.use(subwayRouter);
+router.use(wmata);
 
 export default router;

@@ -11,7 +11,7 @@ import {
 const busRouter = new Router();
 const agency = '/wmata';
 
-busRouter.route(`${agency}/mode/bus/routes`).get(getRoutes);
+busRouter.route(`/mode/:mode/agency/${agency}/routes`).get(getRoutes);
 
 busRouter.route(`${agency}/mode/bus/routes/:route/stops`).get(getStops);
 
