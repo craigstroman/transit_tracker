@@ -12,6 +12,11 @@ export const Stops: React.FC = () => {
   const { agency, mode, route, stop } = useParams();
   const stopsState = useAppSelector(selectStopsState);
   const [selectedOption, setSelectedOption] = useState<IStop>();
+  let stopId: string | null = null;
+  let selectedStop: IStop = {
+    label: '',
+    value: '',
+  };
 
   const handleChange = (e: any) => {
     const { label, value } = e;
@@ -33,15 +38,25 @@ export const Stops: React.FC = () => {
   }, [agency, mode, route]);
 
   useEffect(() => {
-    if (stop === undefined && agency && mode && route) {
-      console.log('stop: ', stop);
-      // TODO: Only run if stop was selected previously
-      // setSelectedOption({
-      //   label: '',
-      //   value: '',
-      // });
+    if (stop !== undefined) {
+      stopId = stop;
     }
-  }, [stop, agency, mode, route]);
+  }, [stop]);
+
+  useEffect(() => {
+    // TODO: Figure out how to get stop to load on page refresh when it's selected
+    if (stop === undefined && mode && agency && route && stop && stopsState.value.length >= 1) {
+      const chosenStop = stopsState.value.find((el) => el.value === stop);
+
+      if (chosenStop) {
+        selectedStop = chosenStop;
+      }
+
+      if (selectedStop.label.length >= 1) {
+        setSelectedOption(selectedStop);
+      }
+    }
+  }, [stop, agency, mode, route, stopsState.value]);
 
   useEffect(() => {
     if (selectedOption) {

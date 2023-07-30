@@ -9,7 +9,7 @@ import './Agency.scss';
 export const Agency: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { mode } = useParams();
+  const { agency, mode } = useParams();
   const agencyState = useAppSelector(selectAgencyState);
   const [selectedOption, setSelectedOption] = useState<IAgencies>();
   let selectedAgency: IAgencies = {
@@ -33,18 +33,18 @@ export const Agency: React.FC = () => {
     getAgencies();
   }, [mode]);
 
-  // useEffect(() => {
-  //   if (agency && agencyState.value.length >= 1) {
-  //     const chosenAgency = agencyState.value.find((el) => el.value === agency);
+  useEffect(() => {
+    if (agency && mode && agencyState.value.length >= 1) {
+      const chosenAgency = agencyState.value.find((el) => el.value === agency);
 
-  //     if (chosenAgency) {
-  //       selectedAgency = chosenAgency;
-  //     }
-  //   }
-  //   if (selectedAgency.label.length > 1) {
-  //     setSelectedOption(selectedAgency);
-  //   }
-  // }, [agencyState.value, ]);
+      if (chosenAgency) {
+        selectedAgency = chosenAgency;
+      }
+    }
+    if (selectedAgency.label.length > 1) {
+      setSelectedOption(selectedAgency);
+    }
+  }, [agencyState.value, agency, mode]);
 
   useEffect(() => {
     if (selectedOption) {
