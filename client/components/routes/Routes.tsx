@@ -45,7 +45,7 @@ export const Routes: React.FC = () => {
 
   useEffect(() => {
     if (selectedOption) {
-      navigate(`/agency/${agency}/mode/${mode}/routes/${selectedOption.value}`);
+      navigate(`/mode/${mode}/agency/${agency}/routes/${selectedOption.value}`);
     }
   }, [selectedOption]);
 

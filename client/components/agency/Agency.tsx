@@ -9,7 +9,7 @@ import './Agency.scss';
 export const Agency: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { agency } = useParams();
+  const { mode } = useParams();
   const agencyState = useAppSelector(selectAgencyState);
   const [selectedOption, setSelectedOption] = useState<IAgencies>();
   let selectedAgency: IAgencies = {
@@ -24,48 +24,43 @@ export const Agency: React.FC = () => {
   };
 
   useEffect(() => {
-    async function getAgencies() {
-      await dispatch(getAgenciesAsync());
-    }
+    const getAgencies = async () => {
+      if (mode) {
+        await dispatch(getAgenciesAsync(mode));
+      }
+    };
 
     getAgencies();
+  }, [mode]);
 
-    if (agency) {
-      if (!selectedOption) {
-        setSelectedOption({
-          label: agency,
-          value: agency,
-        });
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (agency && agencyState.value.length >= 1) {
+  //     const chosenAgency = agencyState.value.find((el) => el.value === agency);
 
-  useEffect(() => {
-    if (agency && agencyState.value.length >= 1) {
-      const chosenAgency = agencyState.value.find((el) => el.value === agency);
-
-      if (chosenAgency) {
-        selectedAgency = chosenAgency;
-      }
-    }
-    if (selectedAgency.label.length > 1) {
-      setSelectedOption(selectedAgency);
-    }
-  }, [agencyState.value, agency]);
+  //     if (chosenAgency) {
+  //       selectedAgency = chosenAgency;
+  //     }
+  //   }
+  //   if (selectedAgency.label.length > 1) {
+  //     setSelectedOption(selectedAgency);
+  //   }
+  // }, [agencyState.value, ]);
 
   useEffect(() => {
     if (selectedOption) {
-      navigate(`/agency/${selectedOption.value}`);
+      navigate(`mode/${mode}/agency/${selectedOption.value}/routes`);
     }
   }, [selectedOption]);
 
   return (
-    <div className="agency-container">
+    <div className="agency-container" style={mode ? { display: 'inline-block' } : { display: 'none' }}>
       <label htmlFor="agency-select">Select an agency:</label>
       <Select
+        name="agency-select"
+        id="agency-select"
+        className="agency-select"
         options={agencyState.value}
         value={selectedOption}
-        defaultValue={selectedOption}
         onChange={handleChange}
       />
     </div>

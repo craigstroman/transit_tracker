@@ -3,8 +3,8 @@ import { RootState } from '../../store/store';
 import { AgencyState, initialState } from './agencyTypes';
 import { getAgencies } from './agency.API';
 
-export const getAgenciesAsync = createAsyncThunk('agencies/get', async () => {
-  const response = await getAgencies();
+export const getAgenciesAsync = createAsyncThunk('agencies/get', async (mode: string) => {
+  const response = await getAgencies(mode);
 
   return response.data;
 });

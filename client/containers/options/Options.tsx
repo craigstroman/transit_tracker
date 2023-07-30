@@ -9,10 +9,10 @@ export const Options: React.FC = () => {
     <React.Fragment>
       <div className="row_large">
         <div>
-          <Agency />
+          <Mode />
         </div>
         <div>
-          <Mode />
+          <Agency />
         </div>
       </div>
       <div className="row_large">

@@ -10,7 +10,7 @@ import './Mode.scss';
 export const Mode: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { agency, mode } = useParams();
+  const { mode } = useParams();
   const modeState = useAppSelector(selectModeState);
   const [selectedOption, setSelectedOption] = useState<IMode>();
   let selectedMode = null;
@@ -25,30 +25,28 @@ export const Mode: React.FC = () => {
   };
 
   useEffect(() => {
-    if (agency) {
-      const getModes = async () => {
-        await dispatch(getModesAsync(agency));
-      };
+    const getModes = async () => {
+      await dispatch(getModesAsync());
+    };
 
-      getModes();
-    }
-  }, [agency]);
+    getModes();
+  }, []);
 
   useEffect(() => {
-    if (modeState.value.length >= 1 && agency && mode) {
+    if (modeState.value.length >= 1 && mode) {
       selectedMode = modeState.value.find((el) => el.value === mode);
       setSelectedOption(selectedMode);
     }
-  }, [modeState.value, agency, mode]);
+  }, [modeState.value, mode]);
 
   useEffect(() => {
     if (selectedOption) {
-      navigate(`/agency/${agency}/mode/${selectedOption.value}/routes`);
+      navigate(`/mode/${selectedOption.value}/agency`);
     }
   }, [selectedOption]);
 
   return (
-    <div className="mode-container" style={agency ? { display: 'inline-block' } : { display: 'none' }}>
+    <div className="mode-container">
       <label htmlFor="mode-select">Select a mode:</label>
       <Select
         name="mode-select"

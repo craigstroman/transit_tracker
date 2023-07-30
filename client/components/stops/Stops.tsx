@@ -9,7 +9,7 @@ import './Stops.scss';
 export const Stops: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { agency, mode, route } = useParams();
+  const { agency, mode, route, stop } = useParams();
   const stopsState = useAppSelector(selectStopsState);
   const [selectedOption, setSelectedOption] = useState<IStop>();
 
@@ -33,8 +33,19 @@ export const Stops: React.FC = () => {
   }, [agency, mode, route]);
 
   useEffect(() => {
+    if (stop === undefined && agency && mode && route) {
+      console.log('stop: ', stop);
+      // TODO: Only run if stop was selected previously
+      // setSelectedOption({
+      //   label: '',
+      //   value: '',
+      // });
+    }
+  }, [stop, agency, mode, route]);
+
+  useEffect(() => {
     if (selectedOption) {
-      navigate(`/agency/${agency}/mode/${mode}/routes/${route}/stops/${selectedOption.value}/predictions`);
+      navigate(`/mode/${mode}/agency/${agency}/routes/${route}/stops/${selectedOption.value}/predictions`);
     }
   }, [selectedOption]);
 

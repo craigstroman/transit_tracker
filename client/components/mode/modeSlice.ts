@@ -3,8 +3,8 @@ import { RootState } from '../../store/store';
 import { ModeState, initialState } from './modeTypes';
 import { getModes } from './mode.API';
 
-export const getModesAsync = createAsyncThunk('modes/get', async (agency: string) => {
-  const response = await getModes(agency);
+export const getModesAsync = createAsyncThunk('modes/get', async () => {
+  const response = await getModes();
 
   return response.data;
 });

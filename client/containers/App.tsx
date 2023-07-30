@@ -22,16 +22,16 @@ root.render(
       <BrowserRouter>
         <ReactRoutes>
           <Route path="/" element={<Main />}>
-            <Route path="/" element={<Agency />} />
-            <Route path="/agency/:agency" element={<Mode />} />
-            <Route path="/agency/:agency/mode/:mode/routes" element={<Routes />} />
-            <Route path="/agency/:agency/mode/:mode/routes/:route" element={<Stops />} />
+            <Route path="/" element={<Mode />} />
+            <Route path="/mode/:mode/agency" element={<Agency />} />
+            <Route path="/mode/:mode/agency/:agency/routes" element={<Routes />} />
+            <Route path="/mode/:mode/agency/:agency/routes/:route" element={<Stops />} />
             <Route
-              path="/agency/:agency/mode/:mode/routes/:route/stops/:stop/predictions"
+              path="/mode/:mode/agency/:agency/routes/:route/stops/:stop/predictions"
               element={<PredictionsContainer />}
             />
             <Route
-              path="/agency/:agency/mode/:mode/routes/:route/direction/:direction/stops/:stop/map"
+              path="/mode/:mode/agency/:agency/routes/:route/direction/:direction/stops/:stop/map"
               element={<Map />}
             />
           </Route>
