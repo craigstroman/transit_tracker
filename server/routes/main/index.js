@@ -5,7 +5,7 @@ const router = new Router();
 
 router.route('/').get(mainController.indexPage);
 router.route('/mode').get(mainController.indexPage);
-//router.route('/mode/:mode*').get(mainController.indexPage);
+router.route('/mode/:mode*').get(mainController.indexPage);
 
 /**
  * Bus routes.
