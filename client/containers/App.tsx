@@ -7,10 +7,9 @@ import { Main } from './main/Main';
 import { Agency } from '../components/agency/Agency';
 import { Routes } from '../components/routes/Routes';
 import { Mode } from '../components/mode/Mode';
-import { Directions } from '../components/direction/Directions';
 import { Stops } from '../components/stops/Stops';
 import { PredictionsContainer } from './predictions/Predictions';
-import { Map } from '../components/map/Map';
+import { MapContainer } from './map/Map';
 import './App.scss';
 
 const element = document.getElementById('app');
@@ -31,8 +30,8 @@ root.render(
               element={<PredictionsContainer />}
             />
             <Route
-              path="/mode/:mode/agency/:agency/routes/:route/direction/:direction/stops/:stop/map"
-              element={<Map />}
+              path="/mode/:mode/agency/:agency/routes/:route/stops/:stop/predictions/map"
+              element={<MapContainer />}
             />
           </Route>
         </ReactRoutes>
