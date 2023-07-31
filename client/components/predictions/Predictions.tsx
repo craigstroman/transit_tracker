@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { selectPredictionsState, getPredictionsAsync } from './predictionsSlice';
 import './Predictions.scss';
 
 export const Predictions: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { agency, mode, route, stop } = useParams();
   const predictionsState = useAppSelector(selectPredictionsState);
   const [repeater, setRepeater] = useState(0);
+
+  const showMap = () => {
+    navigate(`/mode/${mode}/agency/${agency}/routes/${route}/stops/${stop}/predictions/map`);
+  };
 
   useEffect(() => {
     if (agency && mode && route && stop) {
@@ -28,6 +33,11 @@ export const Predictions: React.FC = () => {
     <div className="predictions-container">
       <header>
         <h1 className="predictions-title">Predictions</h1>
+        <hr />
+        <button type="button" className="show-map-button" onClick={() => showMap()}>
+          Show Map
+        </button>
+        <hr />
       </header>
       <div className="predictions-info">
         Predictions for route {route}

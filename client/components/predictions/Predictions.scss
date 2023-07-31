@@ -6,8 +6,24 @@
   margin: 0 auto;
   padding: 5px;
   header {
+    text-align: center;
     .predictions-title {
       text-align: center;
+    }
+    .show-map-button {
+      color: #0d6efd;
+      background-color: transparent;
+      border-color: transparent;
+      margin: 0 auto;
+      text-decoration: none;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+      &:active,
+      &:focus {
+        border-color: transparent;
+      }
     }
   }
 }
