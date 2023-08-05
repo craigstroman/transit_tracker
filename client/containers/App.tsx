@@ -8,6 +8,7 @@ import { Agency } from '../components/agency/Agency';
 import { Routes } from '../components/routes/Routes';
 import { Mode } from '../components/mode/Mode';
 import { Stops } from '../components/stops/Stops';
+import { Directions } from '../components/direction/Directions';
 import { PredictionsContainer } from './predictions/Predictions';
 import { MapContainer } from './map/Map';
 import './App.scss';
@@ -24,7 +25,8 @@ root.render(
             <Route path="/" element={<Mode />} />
             <Route path="/mode/:mode/agency" element={<Agency />} />
             <Route path="/mode/:mode/agency/:agency/routes" element={<Routes />} />
-            <Route path="/mode/:mode/agency/:agency/routes/:route" element={<Stops />} />
+            <Route path="/mode/:mode/agency/:agency/routes/:route" element={<Directions />} />
+            <Route path="/mode/:mode/agency/:agency/routes/:route/direction/:direction" element={<Stops />} />
             <Route
               path="/mode/:mode/agency/:agency/routes/:route/stops/:stop/predictions"
               element={<PredictionsContainer />}

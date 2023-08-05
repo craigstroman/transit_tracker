@@ -9,7 +9,7 @@ export async function getDirection(
   mode: string,
   route: string,
 ): Promise<{ data: IDirection[] }> {
-  const result = await axios.get(`${apiUrl}/${agency}/mode/${mode}/routes/${route}/direction`);
+  const result = await axios.get(`${apiUrl}/mode/${mode}/agency/${agency}/routes/${route}`);
 
   return { data: result.data };
 }

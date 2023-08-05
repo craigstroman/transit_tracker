@@ -9,7 +9,7 @@ import './Stops.scss';
 export const Stops: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { agency, mode, route, stop } = useParams();
+  const { agency, mode, route, direction, stop } = useParams();
   const stopsState = useAppSelector(selectStopsState);
   const [selectedOption, setSelectedOption] = useState<IStop>();
   let stopId: string | null = null;
@@ -67,7 +67,7 @@ export const Stops: React.FC = () => {
   return (
     <div
       className="stops-container"
-      style={agency && mode && route ? { display: 'block' } : { display: 'none' }}
+      style={agency && mode && route && direction ? { display: 'block' } : { display: 'none' }}
     >
       <label htmlFor="direction-select">Select a stop:</label>
       <Select

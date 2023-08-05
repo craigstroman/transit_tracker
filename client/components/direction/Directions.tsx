@@ -26,6 +26,7 @@ export const Directions: React.FC = () => {
 
   useEffect(() => {
     if (agency && mode && route) {
+      console.log('getDirections: ');
       const getDirections = async () => {
         await dispatch(getDirectionsAsync({ agency, mode, route }));
       };
@@ -49,7 +50,7 @@ export const Directions: React.FC = () => {
 
   useEffect(() => {
     if (selectedOption) {
-      navigate(`/agency/${agency}/mode/${mode}/routes/${route}/direction/${selectedOption.value}`);
+      navigate(`/mode/${mode}/agency/${agency}/routes/${route}/direction/${selectedOption.value}`);
     }
   }, [selectedOption]);
 
