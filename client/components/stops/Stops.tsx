@@ -28,14 +28,14 @@ export const Stops: React.FC = () => {
   };
 
   useEffect(() => {
-    if (agency && mode && route) {
+    if (agency && mode && route && direction) {
       const getStops = async () => {
-        await dispatch(getStopsAsync({ agency, mode, route }));
+        await dispatch(getStopsAsync({ agency, mode, route, direction }));
       };
 
       getStops();
     }
-  }, [agency, mode, route]);
+  }, [agency, mode, route, direction]);
 
   useEffect(() => {
     if (stop !== undefined) {
