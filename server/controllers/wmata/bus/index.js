@@ -208,3 +208,38 @@ export async function getBusPositions(req, res) {
     res.send(error);
   }
 }
+
+/**
+ * Get's the directions for a route.
+ *
+ * @param      {Object}  req     The request
+ * @param      {Object}  res     The resource
+ */
+
+export async function getDirections(req, res) {
+  const { params } = req;
+  const { route } = params;
+  const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}`;
+
+  try {
+    const { data } = await axios.get(url);
+    const { Direction0, Direction1 } = data;
+    let result = [];
+
+    result = [
+      {
+        value: Direction0.DirectionText,
+        label: titleCase(`${Direction0.DirectionText} - ${Direction0.TripHeadsign}`),
+      },
+      {
+        value: Direction1.DirectionText,
+        label: titleCase(`${Direction1.DirectionText} - ${Direction1.TripHeadsign}`),
+      },
+    ];
+
+    res.send(result);
+  } catch (error) {
+    console.log('error: ', error);
+    res.send(error);
+  }
+}

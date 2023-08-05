@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   getRoutes,
+  getDirections,
   getStops,
   getPredictions,
   getRouteCoordinates,
@@ -10,6 +11,8 @@ import {
 const busRouter = new Router();
 
 busRouter.route(`/mode/bus/agency/:agency/routes`).get(getRoutes);
+
+busRouter.route(`/mode/bus/agency/:agency/routes/:route`).get(getDirections);
 
 busRouter.route(`/mode/bus/agency/:agency/routes/:route/stops`).get(getStops);
 
