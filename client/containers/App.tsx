@@ -28,11 +28,11 @@ root.render(
             <Route path="/mode/:mode/agency/:agency/routes/:route" element={<Directions />} />
             <Route path="/mode/:mode/agency/:agency/routes/:route/direction/:direction" element={<Stops />} />
             <Route
-              path="/mode/:mode/agency/:agency/routes/:route/stops/:stop/predictions"
+              path="/mode/:mode/agency/:agency/routes/:route/direction/:direction/stops/:stop/predictions"
               element={<PredictionsContainer />}
             />
             <Route
-              path="/mode/:mode/agency/:agency/routes/:route/stops/:stop/predictions/map"
+              path="/mode/:mode/agency/:agency/routes/:route/direction/:direction/stops/:stop/predictions/map"
               element={<MapContainer />}
             />
           </Route>
