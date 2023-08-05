@@ -15,7 +15,7 @@ busRouter.route(`/mode/:mode/agency/${agency}/routes`).get(getRoutes);
 
 busRouter.route(`/mode/:mode/agency/${agency}/routes/:route`).get(getDirections);
 
-busRouter.route(`${agency}/mode/bus/routes/:route/stops`).get(getStops);
+busRouter.route(`${agency}/mode/bus/routes/:route/direction/:direction/stops`).get(getStops);
 
 busRouter.route(`${agency}/mode/bus/routes/:route/stops/:stop/predictions`).get(getPredictions);
 
