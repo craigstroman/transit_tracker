@@ -54,37 +54,29 @@ export async function getRoutes(req, res) {
  */
 export async function getStops(req, res) {
   const { params } = req;
-  const { route } = params;
-  const url = `https://api.wmata.com/Bus.svc/json/jStops?api_key=${apiKey}&RouteID=${route}`;
+  const { route, direction } = params;
+  const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}`;
 
   try {
     const { data } = await axios.get(url);
 
     if (data) {
-      const { Stops } = data;
-      let foundStops = [];
+      const { Direction0, Direction1 } = data;
       let result = [];
 
-      Stops.forEach((element) => {
-        const hasRoute = element.Routes.find((el) => {
-          if (el === route) {
-            return el;
-          }
+      if (direction === Direction0.DirectionText) {
+        Direction0.Stops.forEach((el) => {
+          result.push({
+            label: el.Name,
+            value: el.StopID,
+          });
         });
-
-        if (hasRoute) {
-          foundStops.push(element);
-        }
-      });
-
-      if (foundStops && foundStops.length >= 1) {
-        foundStops.forEach((element) => {
-          if (!result.some((el) => el.label === element.Name)) {
-            result.push({
-              label: element.Name,
-              value: element.StopID,
-            });
-          }
+      } else if (direction === Direction1.DirectionText) {
+        Direction1.Stops.forEach((el) => {
+          result.push({
+            label: el.Name,
+            value: el.StopID,
+          });
         });
       }
 
