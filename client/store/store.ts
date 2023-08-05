@@ -6,6 +6,7 @@ import routesReducer from '../components/routes/routesSlice';
 import directionReducer from '../components/direction/directionsSlice';
 import stopsReducer from '../components/stops/stopsSlice';
 import predictionsReducer from '../components/predictions/predictionsSlice';
+import mapReducer from '../components/map/mapSlice';
 
 export const reducer = {
   agencies: agencyReducer,
@@ -14,6 +15,7 @@ export const reducer = {
   direction: directionReducer,
   stops: stopsReducer,
   predictions: predictionsReducer,
+  coords: mapReducer,
 };
 
 export const store = configureStore({
