@@ -19,7 +19,7 @@ busRouter.route(`${agency}/mode/bus/routes/:route/direction/:direction/stops`).g
 
 busRouter.route(`${agency}/mode/bus/routes/:route/stops/:stop/predictions`).get(getPredictions);
 
-busRouter.route(`${agency}/mode/bus/routes/:route/coords`).get(getRouteCoordinates);
+busRouter.route(`${agency}/mode/bus/routes/:route/direction/:direction/coords`).get(getRouteCoordinates);
 
 busRouter.route(`${agency}/mode/bus/routes/:route/positions`).get(getBusPositions);
 

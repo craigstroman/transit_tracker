@@ -157,15 +157,24 @@ export async function getPredictions(req, res) {
  */
 export async function getRouteCoordinates(req, res) {
   const { params } = req;
-  const { route } = params;
+  const { route, direction } = params;
   const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}`;
   try {
     const coords = await axios.get(url);
     const { data } = coords;
-    const { Direction0, Direction1 } = data;
-    const result = Direction0.Shape.concat(Direction1.Shape);
 
-    res.send(result);
+    if (data) {
+      const { Direction0, Direction1 } = data;
+      let result = [];
+
+      if (direction === Direction0.DirectionText) {
+        result = Direction0.Shape;
+      } else if (direction === Direction1.DirectionText) {
+        result = Direction1.Shape;
+      }
+
+      res.send(result);
+    }
   } catch (error) {
     console.log('error: ');
     console.log(error);
