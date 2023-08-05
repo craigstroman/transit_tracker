@@ -167,17 +167,18 @@ export async function getRouteCoordinates(req, res) {
   const { params } = req;
   const { route } = params;
   const url = `https://api.wmata.com/Bus.svc/json/jRouteDetails?api_key=${apiKey}&RouteID=${route}`;
-  res.send(url);
-
   try {
     const coords = await axios.get(url);
-    console.log('coords:');
-    console.log(coords);
+    const { data } = coords;
+    const { Direction0, Direction1 } = data;
+    const result = Direction0.Shape.concat(Direction1.Shape);
 
-    // TODO: Figure out why for selected routes this returns message No schedule data available for this date.
-
-    res.send(coords);
-  } catch (error) {}
+    res.send(result);
+  } catch (error) {
+    console.log('error: ');
+    console.log(error);
+    res.send(error);
+  }
 }
 
 /**
