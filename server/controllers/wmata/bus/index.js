@@ -162,19 +162,25 @@ export async function getRouteCoordinates(req, res) {
   try {
     const coords = await axios.get(url);
     const { data } = coords;
+    const { Direction0, Direction1 } = data;
+    let result = {};
 
-    if (data) {
-      const { Direction0, Direction1 } = data;
-      let result = [];
-
-      if (direction === Direction0.DirectionText) {
-        result = Direction0.Shape;
-      } else if (direction === Direction1.DirectionText) {
-        result = Direction1.Shape;
-      }
-
-      res.send(result);
+    if (direction === Direction0.DirectionText) {
+      result.shape = Direction0.Shape;
+    } else if (direction === Direction1.DirectionText) {
+      result.shape = Direction1.Shape;
     }
+
+    result.shape = result.shape.map((el) => {
+      return {
+        lat: el.Lat,
+        lon: el.Lon,
+      };
+    });
+
+    result.centerCoords = result.shape[Math.floor((result.shape.length - 1) / 2)];
+
+    res.send(result);
   } catch (error) {
     console.log('error: ');
     console.log(error);
