@@ -1,26 +1,39 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../store/store';
-import { ICoords } from './mapTypes';
-import { getCoordsAsync, selectCoordsState } from './mapSlice';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import { Loader } from '@googlemaps/js-api-loader';
+import { useParams } from 'react-router-dom';
+import { CoordsState } from './mapTypes';
+import './Map.scss';
 
-export const Map: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const coordsState = useAppSelector(selectCoordsState);
-  const { agency, mode, route } = useParams();
+interface IProps {
+  coordsState: CoordsState;
+}
 
-  console.log('coordsState: ', coordsState);
+export const Map: React.FC<IProps> = ({ coordsState }) => {
+  const { agency, mode, route, stop, direction, predictions, map } = useParams();
+
+  const loader = new Loader({
+    apiKey: 'AIzaSyBBKNTYBf4MgGzWdede9in77hxtRtHG45c',
+    version: 'weekly',
+    libraries: ['places'],
+  });
+
+  const mapOptions = {
+    center: {
+      lat: coordsState.value.centerCoords.lat,
+      lng: coordsState.value.centerCoords.lon,
+    },
+    zoom: 4,
+  };
+
+  console.log('loader: ', loader);
 
   useEffect(() => {
-    if (agency && mode && route) {
-      const getCoords = async () => {
-        await dispatch(getCoordsAsync({ agency, mode, route }));
-      };
-
-      getCoords();
+    if (map) {
+      loader.importLibrary('maps').then(({ Map }) => {
+        new Map(document.getElementById('map') as HTMLElement, mapOptions);
+      });
     }
-  }, [agency, mode, route]);
+  }, [map]);
 
-  return <div>Maps</div>;
+  return <div id="map" />;
 };

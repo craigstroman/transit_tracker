@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
-import { withGoogleMap, GoogleMap, Polyline } from 'react-google-maps';
 import { CoordsState, initialState, IGetCoords } from './mapTypes';
 import { getCoords } from './map.API';
 
 export const getCoordsAsync = createAsyncThunk('coords/get', async (coords: IGetCoords) => {
-  const response = await getCoords(coords.mode, coords.agency, coords.route);
+  const response = await getCoords(coords.mode, coords.agency, coords.route, coords.direction);
 
   return response.data;
 });
@@ -30,7 +29,8 @@ export const mapSlice = createSlice({
       .addCase(getCoordsAsync.fulfilled, (state, action) => {
         const newState = state;
         newState.status = 'success';
-        newState.value = action.payload;
+        newState.value.shape = action.payload.shape;
+        newState.value.centerCoords = action.payload.centerCoords;
         return newState;
       })
       .addCase(getCoordsAsync.rejected, (state) => {
