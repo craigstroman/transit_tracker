@@ -61,7 +61,7 @@ export const Stops: React.FC = () => {
   useEffect(() => {
     if (selectedOption) {
       navigate(
-        `/mode/${mode}/agency/${agency}/routes/${route}/direction/${direction}/stops/${selectedOption.value}/predictions`,
+        `/mode/${mode}/agency/${agency}/routes/${route}/direction/${direction}/stops/${selectedOption.value}/predictions/showPredictions`,
       );
     }
   }, [selectedOption]);

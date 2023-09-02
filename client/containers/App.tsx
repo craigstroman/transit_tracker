@@ -17,7 +17,7 @@ const element = document.getElementById('app');
 const root = createRoot(element as HTMLDivElement);
 
 root.render(
-  <React.StrictMode>
+  <>
     <Provider store={store}>
       <BrowserRouter>
         <ReactRoutes>
@@ -28,16 +28,16 @@ root.render(
             <Route path="/mode/:mode/agency/:agency/routes/:route" element={<Directions />} />
             <Route path="/mode/:mode/agency/:agency/routes/:route/direction/:direction" element={<Stops />} />
             <Route
-              path="/mode/:mode/agency/:agency/routes/:route/direction/:direction/stops/:stop/predictions"
+              path="/mode/:mode/agency/:agency/routes/:route/direction/:direction/stops/:stop/predictions/:predictions"
               element={<PredictionsContainer />}
             />
             <Route
-              path="/mode/:mode/agency/:agency/routes/:route/direction/:direction/stops/:stop/predictions/map"
+              path="/mode/:mode/agency/:agency/routes/:route/direction/:direction/stops/:stop/predictions/:predictions/map/:map"
               element={<MapContainer />}
             />
           </Route>
         </ReactRoutes>
       </BrowserRouter>
     </Provider>
-  </React.StrictMode>,
+  </>,
 );

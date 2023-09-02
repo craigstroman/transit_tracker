@@ -98,5 +98,8 @@ module.exports = {
     new webpack.SourceMapDevToolPlugin({
       filename: '[file].map',
     }),
+    new webpack.DefinePlugin({
+      process: { env: {} },
+    }),
   ],
 };

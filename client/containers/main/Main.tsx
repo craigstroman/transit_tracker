@@ -1,13 +1,12 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Options } from '../options/Options';
 import { PredictionsContainer } from '../predictions/Predictions';
 import { MapContainer } from '../map/Map';
 import './Main.scss';
 
 export const Main: React.FC = () => {
-  const location = useLocation();
-  const showMap = location.pathname.indexOf('/map') > -1 ? true : false;
+  const { agency, mode, route, stop, direction, predictions, map } = useParams();
 
   return (
     <div className="content">
@@ -21,10 +20,16 @@ export const Main: React.FC = () => {
         <div className="options-row">
           <Options />
         </div>
-        <div className="predictions-row">
-          <PredictionsContainer />
-        </div>
-        <div className="map-row">{showMap && <MapContainer />}</div>
+        {agency && mode && route && direction && stop && predictions && (
+          <div className="predictions-row">
+            <PredictionsContainer />
+          </div>
+        )}
+        {agency && mode && route && direction && stop && predictions && map && (
+          <div className="map-row">
+            <MapContainer />
+          </div>
+        )}
       </main>
     </div>
   );

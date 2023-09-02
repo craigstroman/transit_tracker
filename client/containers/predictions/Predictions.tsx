@@ -4,9 +4,14 @@ import { Predictions } from '../../components/predictions/Predictions';
 
 export const PredictionsContainer: React.FC = () => {
   const { agency, mode, route, stop } = useParams();
-  return (
-    <div style={agency && mode && route && stop ? { display: 'block' } : { display: 'none' }}>
-      <Predictions />
-    </div>
-  );
+
+  if (agency !== undefined && mode !== undefined && route !== undefined && stop !== undefined) {
+    return (
+      <div>
+        <Predictions />
+      </div>
+    );
+  } else {
+    return <div>&nbsp;</div>;
+  }
 };

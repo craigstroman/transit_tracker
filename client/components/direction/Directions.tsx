@@ -26,7 +26,6 @@ export const Directions: React.FC = () => {
 
   useEffect(() => {
     if (agency && mode && route) {
-      console.log('getDirections: ');
       const getDirections = async () => {
         await dispatch(getDirectionsAsync({ agency, mode, route }));
       };
