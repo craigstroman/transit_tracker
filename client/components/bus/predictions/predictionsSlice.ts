@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../store/store';
+import { RootState } from '../../../store/store';
 import {
   IPredictions,
   IPredictionsResponse,
@@ -56,6 +56,6 @@ export const predictionsSlice = createSlice({
 
 export const { resetState } = predictionsSlice.actions;
 
-export const selectPredictionsState = (state: RootState): PredictionsState => state.predictions;
+export const selectPredictionsState = (state: RootState): PredictionsState => state.predictionsBus;
 
 export default predictionsSlice.reducer;

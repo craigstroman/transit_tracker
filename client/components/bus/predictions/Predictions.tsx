@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../store/store';
+import { useAppSelector, useAppDispatch } from '../../../store/store';
 import { selectPredictionsState, getPredictionsAsync } from './predictionsSlice';
 import './Predictions.scss';
 
-export const Predictions: React.FC = () => {
+export const BusPredictions: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { agency, mode, route, stop, direction, predictions } = useParams();

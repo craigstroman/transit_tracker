@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
-import { useAppSelector, useAppDispatch } from '../../store/store';
+import { useAppSelector, useAppDispatch } from '../../../store/store';
 import { IDirection } from './directionsTypes';
 import { selectDirectionState, getDirectionsAsync } from './directionsSlice';
 import './Direction.scss';
 
-export const Directions: React.FC = () => {
+export const BusDirections: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { agency, mode, route, direction } = useParams();

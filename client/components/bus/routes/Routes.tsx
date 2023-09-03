@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
-import { useAppSelector, useAppDispatch } from '../../store/store';
+import { useAppSelector, useAppDispatch } from '../../../store/store';
 import { IRoutes } from './routesTypes';
 import { selectRoutesState, getRoutesAsync } from './routesSlice';
 import './Routes.scss';
 
-export const Routes: React.FC = () => {
+export const BusRoutes: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { agency, mode, route } = useParams();

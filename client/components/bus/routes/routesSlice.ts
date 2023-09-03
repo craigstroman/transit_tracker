@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../store/store';
+import { RootState } from '../../../store/store';
 import { RoutesState, initialState, IGetRoutes } from './routesTypes';
 import { getRoutes } from './routes.API';
 
@@ -42,6 +42,6 @@ export const routesSlice = createSlice({
 
 export const { resetState } = routesSlice.actions;
 
-export const selectRoutesState = (state: RootState): RoutesState => state.routes;
+export const selectRoutesState = (state: RootState): RoutesState => state.routesBus;
 
 export default routesSlice.reducer;

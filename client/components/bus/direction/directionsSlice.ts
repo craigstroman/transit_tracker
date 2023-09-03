@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../store/store';
+import { RootState } from '../../../store/store';
 import { DirectionState, initialState, IGetDirection } from './directionsTypes';
 import { getDirection } from './directions.API';
 
@@ -42,6 +42,6 @@ export const directionSlice = createSlice({
 
 export const { resetState } = directionSlice.actions;
 
-export const selectDirectionState = (state: RootState): DirectionState => state.direction;
+export const selectDirectionState = (state: RootState): DirectionState => state.directionBus;
 
 export default directionSlice.reducer;

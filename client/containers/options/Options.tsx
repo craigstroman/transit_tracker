@@ -2,9 +2,9 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Agency } from '../../components/agency/Agency';
 import { Mode } from '../../components/mode/Mode';
-import { Routes } from '../../components/routes/Routes';
-import { Directions } from '../../components/direction/Directions';
-import { Stops } from '../../components/stops/Stops';
+import { BusRoutes } from '../../components/bus/routes/Routes';
+import { BusDirections } from '../../components/bus/direction/Directions';
+import { BusStops } from '../../components/bus/stops/Stops';
 
 export const Options: React.FC = () => {
   const { agency, mode, route, direction } = useParams();
@@ -21,19 +21,19 @@ export const Options: React.FC = () => {
         )}
       </div>
       <div className="row_small">
-        {mode && agency && (
+        {mode === 'bus' && agency && (
           <div>
-            <Routes />
+            <BusRoutes />
           </div>
         )}
-        {mode && agency && route && (
+        {mode === 'bus' && agency && route && (
           <div>
-            <Directions />
+            <BusDirections />
           </div>
         )}
-        {mode && agency && route && direction && (
+        {mode === 'bus' && agency && route && direction && (
           <div>
-            <Stops />
+            <BusStops />
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../store/store';
+import { RootState } from '../../../store/store';
 import { StopState, initialState, IGetStops } from './stopsTypes';
 import { getStops } from './stops.API';
 
@@ -42,6 +42,6 @@ export const stopsSlice = createSlice({
 
 export const { resetState } = stopsSlice.actions;
 
-export const selectStopsState = (state: RootState): StopState => state.stops;
+export const selectStopsState = (state: RootState): StopState => state.stopsBus;
 
 export default stopsSlice.reducer;

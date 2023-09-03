@@ -1,14 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Predictions } from '../../components/predictions/Predictions';
+import { BusPredictions } from '../../components/bus/predictions/Predictions';
 
 export const PredictionsContainer: React.FC = () => {
   const { agency, mode, route, stop } = useParams();
 
-  if (agency !== undefined && mode !== undefined && route !== undefined && stop !== undefined) {
+  if (agency !== undefined && mode === 'bus' && route !== undefined && stop !== undefined) {
     return (
       <div>
-        <Predictions />
+        <BusPredictions />
       </div>
     );
   } else {
