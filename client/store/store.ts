@@ -2,20 +2,20 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { useSelector, useDispatch, TypedUseSelectorHook } from 'react-redux';
 import agencyReducer from '../components/agency/agencySlice';
 import modesReducer from '../components/mode/modeSlice';
-import routesReducer from '../components/routes/routesSlice';
-import directionReducer from '../components/direction/directionsSlice';
-import stopsReducer from '../components/stops/stopsSlice';
-import predictionsReducer from '../components/predictions/predictionsSlice';
-import mapReducer from '../components/map/mapSlice';
+import routesBusReducer from '../components/bus/routes/routesSlice';
+import directionBusReducer from '../components/bus/direction/directionsSlice';
+import stopsBusReducer from '../components/bus/stops/stopsSlice';
+import predictionsBusReducer from '../components/bus/predictions/predictionsSlice';
+import mapBusReducer from '../components/bus/map/mapSlice';
 
 export const reducer = {
   agencies: agencyReducer,
   modes: modesReducer,
-  routes: routesReducer,
-  direction: directionReducer,
-  stops: stopsReducer,
-  predictions: predictionsReducer,
-  coords: mapReducer,
+  routesBus: routesBusReducer,
+  directionBus: directionBusReducer,
+  stopsBus: stopsBusReducer,
+  predictionsBus: predictionsBusReducer,
+  coordsBus: mapBusReducer,
 };
 
 export const store = configureStore({
