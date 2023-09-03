@@ -76,7 +76,7 @@
     "webpack-hot-middleware": "^2.25.3"
   },
   "dependencies": {
-    "@googlemaps/js-api-loader": "^1.16.2",
+    "@react-google-maps/api": "^2.19.2",
     "@reduxjs/toolkit": "^1.6.1",
     "app-module-path": "^2.2.0",
     "assert": "^1.4.1",
