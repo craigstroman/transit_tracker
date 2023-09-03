@@ -12,7 +12,6 @@ const apiKey = process.env.WMATA_KEY;
  * @return {Object} An object that contains the bus routes or a error object.
  */
 export async function getRoutes(req, res) {
-  console.log('getRoutes: ');
   const url = `https://api.wmata.com/Bus.svc/json/jRoutes?api_key=${apiKey}`;
 
   try {
@@ -177,8 +176,6 @@ export async function getRouteCoordinates(req, res) {
         lon: el.Lon,
       };
     });
-
-    result.centerCoords = result.shape[Math.floor((result.shape.length - 1) / 2)];
 
     res.send(result);
   } catch (error) {
