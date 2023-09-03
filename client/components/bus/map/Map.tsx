@@ -12,9 +12,6 @@ export const BusMap: React.FC<IProps> = ({ coordsState }) => {
   const { agency, mode, route, stop, direction, predictions, map } = useParams();
   const zoom = 10;
 
-  console.log('process.env: ', process.env);
-  console.log('process.env.GOOGLE_MAPS_KEY: ', process.env.GOOGLE_MAPS_KEY);
-
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: `${process.env.GOOGLE_MAPS_KEY}`,
   });
