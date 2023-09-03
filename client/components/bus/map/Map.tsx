@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import { Loader } from '@googlemaps/js-api-loader';
+import { GoogleMap, useLoadScript, useJsApiLoader } from '@react-google-maps/api';
 import { useParams } from 'react-router-dom';
 import { CoordsState } from './mapTypes';
 import './Map.scss';
@@ -8,32 +8,48 @@ interface IProps {
   coordsState: CoordsState;
 }
 
-export const Map: React.FC<IProps> = ({ coordsState }) => {
+export const BusMap: React.FC<IProps> = ({ coordsState }) => {
   const { agency, mode, route, stop, direction, predictions, map } = useParams();
+  const zoom = 10;
 
-  const loader = new Loader({
-    apiKey: 'AIzaSyBBKNTYBf4MgGzWdede9in77hxtRtHG45c',
-    version: 'weekly',
-    libraries: ['places'],
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: 'AIzaSyBBKNTYBf4MgGzWdede9in77hxtRtHG45c',
   });
 
-  const mapOptions = {
-    center: {
-      lat: coordsState.value.centerCoords.lat,
-      lng: coordsState.value.centerCoords.lon,
+  const onMapLoad = useCallback(
+    (map: any) => {
+      if (
+        coordsState.status === 'success' &&
+        agency &&
+        mode &&
+        route &&
+        stop &&
+        direction &&
+        predictions &&
+        map
+      ) {
+        const bounds = new google.maps.LatLngBounds();
+
+        coordsState.value.shape.forEach(({ lat, lon }) => {
+          bounds.extend({
+            lat,
+            lng: lon,
+          });
+        });
+
+        map.fitBounds(bounds);
+      }
     },
-    zoom: 4,
-  };
+    [coordsState, agency, mode, route, stop, direction, predictions, map],
+  );
 
-  console.log('loader: ', loader);
-
-  useEffect(() => {
-    if (map) {
-      loader.importLibrary('maps').then(({ Map }) => {
-        new Map(document.getElementById('map') as HTMLElement, mapOptions);
-      });
-    }
-  }, [map]);
-
-  return <div id="map" />;
+  if (isLoaded) {
+    return (
+      <div className="map">
+        <GoogleMap mapContainerClassName="map-container" zoom={zoom} onLoad={onMapLoad}></GoogleMap>
+      </div>
+    );
+  } else {
+    return <h1>Loading...</h1>;
+  }
 };

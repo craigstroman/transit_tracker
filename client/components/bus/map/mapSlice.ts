@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../store/store';
+import { RootState } from '../../../store/store';
 import { CoordsState, initialState, IGetCoords } from './mapTypes';
 import { getCoords } from './map.API';
 
@@ -30,7 +30,6 @@ export const mapSlice = createSlice({
         const newState = state;
         newState.status = 'success';
         newState.value.shape = action.payload.shape;
-        newState.value.centerCoords = action.payload.centerCoords;
         return newState;
       })
       .addCase(getCoordsAsync.rejected, (state) => {
@@ -43,6 +42,6 @@ export const mapSlice = createSlice({
 
 export const { resetState } = mapSlice.actions;
 
-export const selectCoordsState = (state: RootState): CoordsState => state.coords;
+export const selectCoordsState = (state: RootState): CoordsState => state.coordsBus;
 
 export default mapSlice.reducer;

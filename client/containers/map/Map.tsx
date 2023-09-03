@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { Map } from '../../components/map/Map';
+import { BusMap } from '../../components/bus/map/Map';
 import { useAppSelector, useAppDispatch } from '../../store/store';
-import { getCoordsAsync, selectCoordsState } from '../../components/map/mapSlice';
+import { getCoordsAsync, selectCoordsState } from '../../components/bus/map/mapSlice';
 
 export const MapContainer: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ export const MapContainer: React.FC = () => {
 
   if (
     agency !== undefined &&
-    mode !== undefined &&
+    mode === 'bus' &&
     route !== undefined &&
     direction !== undefined &&
     stop !== undefined &&
@@ -31,7 +31,7 @@ export const MapContainer: React.FC = () => {
   ) {
     return (
       <div>
-        <Map coordsState={coordsState} />
+        <BusMap coordsState={coordsState} />
       </div>
     );
   } else {

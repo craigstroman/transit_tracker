@@ -5,10 +5,6 @@ export interface ICoord {
 
 export interface ICoords {
   shape: ICoord[];
-  centerCoords: {
-    lat: any;
-    lon: any;
-  };
 }
 
 export interface IGetCoords {
@@ -31,10 +27,6 @@ export const initialState: CoordsState = {
         lon: 0,
       },
     ],
-    centerCoords: {
-      lat: 0,
-      lon: 0,
-    },
   },
   status: 'idle',
 };
