@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const filePath = path.join(__dirname, './public/js/');
 const fileName = 'bundle.js';
@@ -25,9 +26,6 @@ module.exports = {
       'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
     ],
   },
-
-  // TODO: Fix hot update not working with Webpack on the client side when I run npm run live:server
-  // TODO: Remove live:client script because I don't think I need it anymore and rename live:server script to match GitHub Note Taker
 
   output: {
     publicPath: '/static/js/',
@@ -100,6 +98,9 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       process: { env: {} },
+    }),
+    new Dotenv({
+      ignoreStub: true,
     }),
   ],
 };
