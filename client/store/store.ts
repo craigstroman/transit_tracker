@@ -2,20 +2,22 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { useSelector, useDispatch, TypedUseSelectorHook } from 'react-redux';
 import agencyReducer from '../components/agency/agencySlice';
 import modesReducer from '../components/mode/modeSlice';
-import routesBusReducer from '../components/bus/routes/routesSlice';
-import directionBusReducer from '../components/bus/direction/directionsSlice';
-import stopsBusReducer from '../components/bus/stops/stopsSlice';
-import predictionsBusReducer from '../components/bus/predictions/predictionsSlice';
+import busRoutesReducer from '../components/bus/routes/routesSlice';
+import busDirectionReducer from '../components/bus/direction/directionsSlice';
+import busStopsReducer from '../components/bus/stops/stopsSlice';
+import busPredictionsReducer from '../components/bus/predictions/predictionsSlice';
 import mapBusReducer from '../components/bus/map/mapSlice';
+import busPositionsReducer from '../components/bus/map/markers/busMarkersSlice';
 
 export const reducer = {
   agencies: agencyReducer,
   modes: modesReducer,
-  routesBus: routesBusReducer,
-  directionBus: directionBusReducer,
-  stopsBus: stopsBusReducer,
-  predictionsBus: predictionsBusReducer,
-  coordsBus: mapBusReducer,
+  busRoutes: busRoutesReducer,
+  busDirection: busDirectionReducer,
+  busStops: busStopsReducer,
+  busPredictions: busPredictionsReducer,
+  busCoords: mapBusReducer,
+  busPositions: busPositionsReducer,
 };
 
 export const store = configureStore({
