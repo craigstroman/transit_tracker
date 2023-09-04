@@ -170,7 +170,7 @@ export async function getRouteCoordinates(req, res) {
       result.shape = Direction1.Shape;
     }
 
-    result.shape = result.shape.map((el) => {
+    result = result.shape.map((el) => {
       return {
         lat: el.Lat,
         lon: el.Lon,
