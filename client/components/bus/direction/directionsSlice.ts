@@ -42,6 +42,6 @@ export const directionSlice = createSlice({
 
 export const { resetState } = directionSlice.actions;
 
-export const selectDirectionState = (state: RootState): DirectionState => state.directionBus;
+export const selectDirectionState = (state: RootState): DirectionState => state.busDirection;
 
 export default directionSlice.reducer;

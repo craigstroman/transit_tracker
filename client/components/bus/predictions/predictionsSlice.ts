@@ -56,6 +56,6 @@ export const predictionsSlice = createSlice({
 
 export const { resetState } = predictionsSlice.actions;
 
-export const selectPredictionsState = (state: RootState): PredictionsState => state.predictionsBus;
+export const selectPredictionsState = (state: RootState): PredictionsState => state.busPredictions;
 
 export default predictionsSlice.reducer;

@@ -42,6 +42,6 @@ export const stopsSlice = createSlice({
 
 export const { resetState } = stopsSlice.actions;
 
-export const selectStopsState = (state: RootState): StopState => state.stopsBus;
+export const selectStopsState = (state: RootState): StopState => state.busStops;
 
 export default stopsSlice.reducer;

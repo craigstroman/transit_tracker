@@ -42,6 +42,6 @@ export const routesSlice = createSlice({
 
 export const { resetState } = routesSlice.actions;
 
-export const selectRoutesState = (state: RootState): RoutesState => state.routesBus;
+export const selectRoutesState = (state: RootState): RoutesState => state.busRoutes;
 
 export default routesSlice.reducer;
