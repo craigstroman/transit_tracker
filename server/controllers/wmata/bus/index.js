@@ -203,7 +203,20 @@ export async function getBusPositions(req, res) {
       const { BusPositions } = data;
 
       if (BusPositions && BusPositions.length >= 1) {
-        res.send(BusPositions);
+        const busPositions = BusPositions.map((el) => {
+          const res = {
+            ...el,
+            TripId: el.TripID,
+            RouteId: el.RouteID,
+            TripHeadSign: el.TripHeadsign,
+          };
+          delete res.TripID;
+          delete res.RouteID;
+          delete res.TripHeadsign;
+          return res;
+        });
+
+        res.send(busPositions);
       } else {
         res.send('');
       }
