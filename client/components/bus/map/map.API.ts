@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ICoords } from './mapTypes';
+import { ICoord } from './mapTypes';
 
 const nodeEnv = process.env.NODE_ENV;
 const apiUrl = nodeEnv === 'production' ? '/api' : 'http://localhost:3000/api';
@@ -9,7 +9,7 @@ export async function getCoords(
   agency: string,
   route: string,
   direction: string,
-): Promise<{ data: ICoords }> {
+): Promise<{ data: ICoord[] }> {
   const url = `${apiUrl}/mode/${mode}/agency/${agency}/routes/${route}/direction/${direction}/coords`;
 
   const result = await axios.get(url);

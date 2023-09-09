@@ -29,7 +29,7 @@ export const mapSlice = createSlice({
       .addCase(getCoordsAsync.fulfilled, (state, action) => {
         const newState = state;
         newState.status = 'success';
-        newState.value.shape = action.payload.shape;
+        newState.value = action.payload;
         return newState;
       })
       .addCase(getCoordsAsync.rejected, (state) => {
@@ -42,6 +42,6 @@ export const mapSlice = createSlice({
 
 export const { resetState } = mapSlice.actions;
 
-export const selectCoordsState = (state: RootState): CoordsState => state.coordsBus;
+export const selectCoordsState = (state: RootState): CoordsState => state.busCoords;
 
 export default mapSlice.reducer;

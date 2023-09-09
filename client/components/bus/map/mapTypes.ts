@@ -3,10 +3,6 @@ export interface ICoord {
   lon: any;
 }
 
-export interface ICoords {
-  shape: ICoord[];
-}
-
 export interface IGetCoords {
   agency: string;
   mode: string;
@@ -15,18 +11,16 @@ export interface IGetCoords {
 }
 
 export interface CoordsState {
-  value: ICoords;
+  value: ICoord[];
   status: 'idle' | 'loading' | 'failed' | 'success' | 'not-found';
 }
 
 export const initialState: CoordsState = {
-  value: {
-    shape: [
-      {
-        lat: 0,
-        lon: 0,
-      },
-    ],
-  },
+  value: [
+    {
+      lat: 0,
+      lon: 0,
+    },
+  ],
   status: 'idle',
 };
