@@ -25,8 +25,6 @@ export const BusMarkers: React.FC = () => {
     lng: 0,
   });
 
-  console.log('busPositionsState: ', busPositionsState);
-
   const getBusPositions = useCallback(async () => {
     if (agency && mode && route && map) {
       await dispatch(getBusPositionsAsync({ agency, mode, route }));
@@ -49,8 +47,6 @@ export const BusMarkers: React.FC = () => {
     });
   };
 
-  console.log('bus markers: ');
-
   useEffect(() => {
     if (agency && mode && route && map) {
       getBusPositions();
@@ -70,8 +66,6 @@ export const BusMarkers: React.FC = () => {
             lng: el.Lon,
           };
 
-          console.log('el: ', el);
-
           return (
             <Marker
               key={el.VehicleID}
@@ -81,7 +75,7 @@ export const BusMarkers: React.FC = () => {
               {selected.VehicleID === el.VehicleID && (
                 <InfoWindow position={selectedLocation} onCloseClick={() => handleInfoWindow}>
                   <div className="info-window">
-                    {el.RouteID} - {el.DirectionText} - {el.TripHeadsign}
+                    {el.RouteId} - {el.DirectionText} - {el.TripHeadSign}
                   </div>
                 </InfoWindow>
               )}

@@ -5,10 +5,10 @@ export interface BusPosition {
   Deviation: number;
   DateTime: string;
   TripId: string;
-  RouteID: string;
+  RouteId: string;
   DirectionNum: number;
   DirectionText: string;
-  TripHeadsign: string;
+  TripHeadSign: string;
   TripStartTime: string;
   TripEndTime: string;
   BlockNumber: string;
@@ -34,10 +34,10 @@ export const initialState: BusPositionState = {
       Deviation: 0,
       DateTime: '',
       TripId: '',
-      RouteID: '',
+      RouteId: '',
       DirectionNum: 0,
       DirectionText: '',
-      TripHeadsign: '',
+      TripHeadSign: '',
       TripStartTime: '',
       TripEndTime: '',
       BlockNumber: '',
