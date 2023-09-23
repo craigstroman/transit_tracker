@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-import { useParams } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../../store/store';
 import { getCoordsAsync, selectCoordsState } from './mapSlice';
 import { BusMarkers } from './markers/BusMarkers';
@@ -8,8 +8,15 @@ import './Map.scss';
 
 export const BusMap: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { agency, mode, route, stop, direction, predictions, map } = useParams();
+  const navigate = useNavigate();
+  const { agency, mode, route, stop, direction, map } = useParams();
   const coordsState = useAppSelector(selectCoordsState);
+
+  const showPredictions = () => {
+    navigate(
+      `/mode/${mode}/agency/${agency}/routes/${route}/direction/${direction}/stops/${stop}/predictions/predictions`,
+    );
+  };
 
   const getCoords = useCallback(async () => {
     if (agency && mode && route && direction && map) {
@@ -25,16 +32,7 @@ export const BusMap: React.FC = () => {
   });
   const onMapLoad = useCallback(
     (map: any) => {
-      if (
-        coordsState.value.length >= 1 &&
-        agency &&
-        mode &&
-        route &&
-        stop &&
-        direction &&
-        predictions &&
-        map
-      ) {
+      if (coordsState.value.length >= 1 && agency && mode && route && stop && direction && map) {
         const bounds = new google.maps.LatLngBounds();
 
         coordsState.value.forEach(({ lat, lon }) => {
@@ -47,7 +45,7 @@ export const BusMap: React.FC = () => {
         map.fitBounds(bounds);
       }
     },
-    [coordsState.value, agency, mode, route, stop, direction, predictions, map],
+    [coordsState.value, agency, mode, route, stop, direction, map],
   );
 
   useEffect(() => {
@@ -59,6 +57,14 @@ export const BusMap: React.FC = () => {
   if (isLoaded) {
     return (
       <div className="map">
+        <header>
+          <h1 className="map-title">Map</h1>
+          <hr />
+          <button type="button" className="show-predictions-button" onClick={() => showPredictions()}>
+            Show Predictions
+          </button>
+          <hr />
+        </header>
         <GoogleMap mapContainerClassName="map-container" zoom={zoom} onLoad={onMapLoad}>
           <BusMarkers />
         </GoogleMap>

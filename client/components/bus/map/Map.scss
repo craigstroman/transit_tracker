@@ -5,6 +5,27 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1.5rem;
+  header {
+    text-align: center;
+    .map-title {
+      text-align: center;
+    }
+    .show-predictions-button {
+      color: #0d6efd;
+      background-color: transparent;
+      border-color: transparent;
+      margin: 0 auto;
+      text-decoration: none;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+      &:active,
+      &:focus {
+        border-color: transparent;
+      }
+    }
+  }
   .map-container {
     height: 600px;
     width: 800px;
