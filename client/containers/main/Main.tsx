@@ -25,7 +25,7 @@ export const Main: React.FC = () => {
             <PredictionsContainer />
           </div>
         )}
-        {agency && mode && route && direction && stop && predictions && map && (
+        {agency && mode && route && direction && stop && map && (
           <div className="map-row">
             <MapContainer />
           </div>
