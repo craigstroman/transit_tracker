@@ -1,9 +1,8 @@
-import React, { useEffect, useCallback, useState, Fragment } from 'react';
+import React, { useEffect, useLayoutEffect, useCallback, useState, Fragment, memo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Marker, InfoWindow } from '@react-google-maps/api';
+import { Marker, InfoWindowF } from '@react-google-maps/api';
 import { useAppSelector, useAppDispatch } from '../../../../store/store';
 import { selectBusPositionState, getBusPositionsAsync } from './busMarkersSlice';
-import './BusMarkers.scss';
 
 export const BusMarkers: React.FC = () => {
   interface ISelected {
@@ -17,6 +16,7 @@ export const BusMarkers: React.FC = () => {
   const dispatch = useAppDispatch();
   const { mode, agency, route, map } = useParams();
   const busPositionsState = useAppSelector(selectBusPositionState);
+  const [repeater, setRepeater] = useState(0);
   const [selected, setSelected] = useState<ISelected>({
     VehicleID: '',
   });
@@ -24,12 +24,6 @@ export const BusMarkers: React.FC = () => {
     lat: 0,
     lng: 0,
   });
-
-  const getBusPositions = useCallback(async () => {
-    if (agency && mode && route && map) {
-      await dispatch(getBusPositionsAsync({ agency, mode, route }));
-    }
-  }, [agency, mode, route, map]);
 
   const handleMarker = (VehicleID: string, lat: any, lng: any) => {
     setSelected({ VehicleID });
@@ -47,11 +41,22 @@ export const BusMarkers: React.FC = () => {
     });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (agency && mode && route && map) {
+      console.log('inside here: ');
+      const getBusPositions = async () => {
+        console.log('getBusPositions: ');
+        await dispatch(getBusPositionsAsync({ agency, mode, route }));
+      };
+
       getBusPositions();
+
+      setTimeout(() => {
+        console.log('bus markers timeout: ');
+        setRepeater((prevState) => prevState + 1);
+      }, 20000);
     }
-  }, [agency, mode, route, map]);
+  }, [agency, mode, route, map, repeater]);
 
   if (
     busPositionsState.status === 'success' &&
@@ -73,11 +78,11 @@ export const BusMarkers: React.FC = () => {
               onClick={() => handleMarker(el.VehicleID, el.Lat, el.Lon)}
             >
               {selected.VehicleID === el.VehicleID && (
-                <InfoWindow position={selectedLocation} onCloseClick={() => handleInfoWindow}>
+                <InfoWindowF position={selectedLocation} onCloseClick={() => handleInfoWindow}>
                   <div className="info-window">
                     {el.RouteId} - {el.DirectionText} - {el.TripHeadSign}
                   </div>
-                </InfoWindow>
+                </InfoWindowF>
               )}
             </Marker>
           );
