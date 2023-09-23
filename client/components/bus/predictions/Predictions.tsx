@@ -7,13 +7,13 @@ import './Predictions.scss';
 export const BusPredictions: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { agency, mode, route, stop, direction, predictions } = useParams();
+  const { agency, mode, route, stop, direction } = useParams();
   const predictionsState = useAppSelector(selectPredictionsState);
   const [repeater, setRepeater] = useState(0);
 
   const showMap = () => {
     navigate(
-      `/mode/${mode}/agency/${agency}/routes/${route}/direction/${direction}/stops/${stop}/predictions/${predictions}/map/showMap`,
+      `/mode/${mode}/agency/${agency}/routes/${route}/direction/${direction}/stops/${stop}/map/showMap`,
     );
   };
 
