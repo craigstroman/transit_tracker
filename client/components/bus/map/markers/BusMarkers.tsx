@@ -43,16 +43,13 @@ export const BusMarkers: React.FC = () => {
 
   useLayoutEffect(() => {
     if (agency && mode && route && map) {
-      console.log('inside here: ');
       const getBusPositions = async () => {
-        console.log('getBusPositions: ');
         await dispatch(getBusPositionsAsync({ agency, mode, route }));
       };
 
       getBusPositions();
 
       setTimeout(() => {
-        console.log('bus markers timeout: ');
         setRepeater((prevState) => prevState + 1);
       }, 20000);
     }
