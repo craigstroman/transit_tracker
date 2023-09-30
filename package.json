@@ -11,9 +11,9 @@
     "js": "NODE_ENV=development webpack --config webpack.config.dev.js --progress --watch",
     "scss": "node-sass server/views/scss/styles.scss public/css/styles.css -w -o",
     "copy-files:server": "copyfiles -f ./server/views/*.pug ./build/views",
-    "live:client": "NODE_ENV=development webpack --config webpack.config.dev.js --progress --watch",
+    "live:client": "NODE_ENV=development webpack --config webpack.config.dev.ts --progress --watch",
     "live:server": "NODE_ENV=development nodemon ./server/index.js --exec babel-node './server/index.js'",
-    "prod:client": "NODE_ENV=production webpack --config webpack.config.prod.js",
+    "prod:client": "NODE_ENV=production webpack --config webpack.config.prod.ts",
     "prod:server": "babel -d ./build ./server -s & npm run copy-files:server"
   },
   "author": "Craig Stroman",
@@ -77,6 +77,7 @@
     "webpack-hot-middleware": "^2.25.3"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@react-google-maps/api": "^2.19.2",
     "@reduxjs/toolkit": "^1.6.1",
     "app-module-path": "^2.2.0",
