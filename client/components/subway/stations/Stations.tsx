@@ -32,7 +32,7 @@ export const SubwayStations: React.FC = () => {
 
   useEffect(() => {
     if (selectedOption) {
-      navigate(`/mode/${mode}/agency/${agency}/routes/${route}/station/$${selectedOption.value}`);
+      navigate(`/mode/${mode}/agency/${agency}/routes/${route}/station/${selectedOption.value}/direction`);
     }
   }, [selectedOption]);
 
