@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import busRouter from './bus/index';
+import subwayRouter from './subway/index';
 
 const router = new Router();
 
@@ -19,5 +20,7 @@ router.route('/mode').get((req, res) => {
 });
 
 router.use(busRouter);
+
+router.use(subwayRouter);
 
 export default router;
