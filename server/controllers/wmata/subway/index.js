@@ -47,29 +47,34 @@ export async function getRoutes(req, res) {
 
 export async function getStations(req, res) {
   const route = req.params.route;
-  const url = `https://api.wmata.com/Rail.svc/json/jPath?api_key=${apiKey}&LineCode=${route}&FromStationCode=${stations[route][0]}&ToStationCode=${stations[route][1]}`;
+  const url = `https://api.wmata.com/Rail.svc/json/jStations?api_key=${apiKey}&LineCode=${route}`;
 
-  axios
-    .get(url)
-    .then((resp) => {
-      let result = resp.data.Path;
-      let resArr = [];
+  try {
+    const { data } = await axios.get(url);
 
-      resArr = result.map((obj) => {
-        return {
-          label: obj.StationName,
-          value: obj.StationCode,
+    if (data) {
+      const { Stations } = data;
+
+      let result = [];
+
+      result = Stations.map((el) => {
+        const resultObj = {
+          value: el.Code,
+          label: el.Name,
         };
+
+        return resultObj;
       });
 
-      directions[0] = resArr[0];
-      directions[1] = resArr[resArr.length - 1];
-
-      res.send(resArr);
-    })
-    .catch((error) => {
-      res.send(error);
-    });
+      if (result.length >= 1) {
+        res.send(result);
+      } else {
+        res.send('');
+      }
+    }
+  } catch (error) {
+    res.send(error);
+  }
 }
 
 export function getDirections(req, res) {
