@@ -7,9 +7,10 @@ import { SubwayRoutes } from '../../components/subway/routes/Routes';
 import { BusDirections } from '../../components/bus/direction/Directions';
 import { BusStops } from '../../components/bus/stops/Stops';
 import { SubwayStations } from '../../components/subway/stations/Stations';
+import { SubwayDirections } from '../../components/subway/direction/Directions';
 
 export const Options: React.FC = () => {
-  const { agency, mode, route, direction } = useParams();
+  const { agency, mode, route, direction, station } = useParams();
   return (
     <React.Fragment>
       <div className="row_large">
@@ -46,6 +47,11 @@ export const Options: React.FC = () => {
         {mode === 'subway' && agency && route && (
           <div>
             <SubwayStations />
+          </div>
+        )}
+        {mode === 'subway' && agency && route && station && (
+          <div>
+            <SubwayDirections />
           </div>
         )}
       </div>
