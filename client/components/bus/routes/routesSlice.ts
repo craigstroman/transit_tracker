@@ -10,7 +10,7 @@ export const getRoutesAsync = createAsyncThunk('routes/get', async (routes: IGet
 });
 
 export const routesSlice = createSlice({
-  name: 'routes',
+  name: 'bus-routes',
   initialState,
   reducers: {
     resetState: () => {
