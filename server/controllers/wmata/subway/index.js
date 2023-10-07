@@ -4,15 +4,6 @@ import { removeDuplicates } from '../../../utils/general/index';
 require('dotenv').config();
 
 const apiKey = process.env.WMATA_KEY;
-const stations = {
-  RD: ['A15', 'B11'],
-  OR: ['K08', 'D13'],
-  BL: ['J03', 'G05'],
-  SV: ['N06', 'G05'],
-  YL: ['E06', 'C15'],
-  GR: ['E10', 'F11'],
-};
-let directions = [];
 
 export async function getRoutes(req, res) {
   const url = `https://api.wmata.com/Rail.svc/json/jLines?api_key=${apiKey}`;
@@ -77,11 +68,43 @@ export async function getStations(req, res) {
   }
 }
 
-export function getDirections(req, res) {
-  const direction = req.params.direction;
+export async function getDirections(req, res) {
+  const route = req.params.route;
   const station = req.params.station;
 
-  res.send(directions);
+  if (route && station) {
+    const url = `https://api.wmata.com/Rail.svc/json/jStations?api_key=${apiKey}&LineCode=${route}`;
+    let directions = [];
+    try {
+      const { data } = await axios.get(url);
+
+      if (data) {
+        const { Stations } = data;
+
+        let result = [];
+
+        result = Stations.map((el) => {
+          const resultObj = {
+            value: el.Code,
+            label: el.Name,
+          };
+
+          return resultObj;
+        });
+
+        directions.push(result[0]);
+        directions.push(result[result.length - 1]);
+
+        if (directions.length >= 1) {
+          res.send(directions);
+        } else {
+          res.send('');
+        }
+      }
+    } catch (error) {
+      res.send(error);
+    }
+  }
 }
 
 export function getPredictions(req, res) {
