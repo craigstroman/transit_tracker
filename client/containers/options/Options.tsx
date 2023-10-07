@@ -6,6 +6,7 @@ import { BusRoutes } from '../../components/bus/routes/Routes';
 import { SubwayRoutes } from '../../components/subway/routes/Routes';
 import { BusDirections } from '../../components/bus/direction/Directions';
 import { BusStops } from '../../components/bus/stops/Stops';
+import { SubwayStations } from '../../components/subway/stations/Stations';
 
 export const Options: React.FC = () => {
   const { agency, mode, route, direction } = useParams();
@@ -40,6 +41,11 @@ export const Options: React.FC = () => {
         {mode === 'subway' && agency && (
           <div>
             <SubwayRoutes />
+          </div>
+        )}
+        {mode === 'subway' && agency && route && (
+          <div>
+            <SubwayStations />
           </div>
         )}
       </div>

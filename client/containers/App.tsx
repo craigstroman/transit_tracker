@@ -10,6 +10,7 @@ import { Mode } from '../components/mode/Mode';
 import { BusStops } from '../components/bus/stops/Stops';
 import { BusDirections } from '../components/bus/direction/Directions';
 import { SubwayRoutes } from '../components/subway/routes/Routes';
+import { SubwayStations } from '../components/subway/stations/Stations';
 import { PredictionsContainer } from './predictions/Predictions';
 import { MapContainer } from './map/Map';
 import './App.scss';
@@ -28,6 +29,7 @@ root.render(
             <Route path="/mode/:mode/agency/:agency/routes" element={<BusRoutes />} />
             <Route path="/mode/:mode/agency/:agency/routes" element={<SubwayRoutes />} />
             <Route path="/mode/:mode/agency/:agency/routes/:route" element={<BusDirections />} />
+            <Route path="/mode/:mode/agency/:agency/routes/:route" element={<SubwayStations />} />
             <Route
               path="/mode/:mode/agency/:agency/routes/:route/direction/:direction"
               element={<BusStops />}
