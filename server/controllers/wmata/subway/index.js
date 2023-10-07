@@ -14,30 +14,38 @@ const stations = {
 };
 let directions = [];
 
-export function getRoutes(req, res) {
+export async function getRoutes(req, res) {
   const url = `https://api.wmata.com/Rail.svc/json/jLines?api_key=${apiKey}`;
 
-  axios
-    .get(url)
-    .then((resp) => {
-      let result = resp.data.Lines;
-      let resArr = [];
+  try {
+    const { data } = await axios.get(url);
 
-      resArr = result.map((obj) => {
-        return {
-          label: obj.DisplayName,
-          value: obj.LineCode,
+    if (data) {
+      const { Lines } = data;
+
+      let result = [];
+
+      result = Lines.map((el) => {
+        const resultObj = {
+          value: el.LineCode,
+          label: el.DisplayName,
         };
+
+        return resultObj;
       });
 
-      res.send(resArr);
-    })
-    .catch((error) => {
-      res.send(error);
-    });
+      if (result.length >= 1) {
+        res.send(result);
+      } else {
+        res.send('');
+      }
+    }
+  } catch (error) {
+    res.send(error);
+  }
 }
 
-export function getStations(req, res) {
+export async function getStations(req, res) {
   const route = req.params.route;
   const url = `https://api.wmata.com/Rail.svc/json/jPath?api_key=${apiKey}&LineCode=${route}&FromStationCode=${stations[route][0]}&ToStationCode=${stations[route][1]}`;
 
