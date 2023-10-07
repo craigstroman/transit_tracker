@@ -8,6 +8,7 @@ import busStopsReducer from '../components/bus/stops/stopsSlice';
 import busPredictionsReducer from '../components/bus/predictions/predictionsSlice';
 import mapBusReducer from '../components/bus/map/mapSlice';
 import busPositionsReducer from '../components/bus/map/markers/busMarkersSlice';
+import subwayRoutesReducer from '../components/subway/routes/routesSlice';
 
 export const reducer = {
   agencies: agencyReducer,
@@ -18,6 +19,7 @@ export const reducer = {
   busPredictions: busPredictionsReducer,
   busCoords: mapBusReducer,
   busPositions: busPositionsReducer,
+  subwayRoutes: subwayRoutesReducer,
 };
 
 export const store = configureStore({

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Agency } from '../../components/agency/Agency';
 import { Mode } from '../../components/mode/Mode';
 import { BusRoutes } from '../../components/bus/routes/Routes';
+import { SubwayRoutes } from '../../components/subway/routes/Routes';
 import { BusDirections } from '../../components/bus/direction/Directions';
 import { BusStops } from '../../components/bus/stops/Stops';
 
@@ -34,6 +35,11 @@ export const Options: React.FC = () => {
         {mode === 'bus' && agency && route && direction && (
           <div>
             <BusStops />
+          </div>
+        )}
+        {mode === 'subway' && agency && (
+          <div>
+            <SubwayRoutes />
           </div>
         )}
       </div>
