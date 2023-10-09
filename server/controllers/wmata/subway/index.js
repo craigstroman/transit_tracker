@@ -107,53 +107,39 @@ export async function getDirections(req, res) {
   }
 }
 
-export function getPredictions(req, res) {
+export async function getPredictions(req, res) {
   const route = req.params.route;
   const station = req.params.station;
   const direction = req.params.direction;
 
-  const predictionsUrl = `https://api.wmata.com/StationPrediction.svc/json/GetPrediction/${station}?api_key=${apiKey}`;
-  const alertsUrl = `https://api.wmata.com/Incidents.svc/json/Incidents?api_key=${apiKey}`;
+  if (route && station && direction) {
+    const url = `https://api.wmata.com/StationPrediction.svc/json/GetPrediction/${station}`;
 
-  axios
-    .all([axios.get(predictionsUrl), axios.get(alertsUrl)])
-    .then(
-      axios.spread((predictions, alerts) => {
-        let alertsArr = alerts.data.Incidents;
-        let predictionsArr = predictions.data.Trains;
-        let predictionsResArr = [];
-        let alertsResArr = [];
-        let resObj = {};
+    try {
+      const { data } = await axios.get(url, {
+        headers: {
+          api_key: apiKey,
+        },
+      });
 
-        predictionsResArr = predictionsArr.filter((obj) => {
-          if (obj.DestinationCode.charAt(0) === direction.charAt(0)) {
-            let id = Math.floor(100000 + Math.random() * 900000);
+      if (data) {
+        const { Trains } = data;
+        let result = [];
 
-            obj.VehicleID = id;
+        if (Trains.length >= 1) {
+          Trains.map((el) => {
+            if (el.Destination.toLowerCase() === direction) {
+              result.push(el);
+            }
+          });
 
-            obj.Minutes = obj.Min;
-
-            delete obj.Min;
-
-            return obj;
+          if (result.length >= 1) {
+            res.send(result);
           }
-        });
-
-        alertsArr.forEach((obj) => {
-          if (obj.LinesAffected.indexOf(route) > -1) {
-            alertsResArr.push(obj);
-          }
-        });
-
-        resObj = {
-          predictions: predictionsResArr,
-          alerts: alertsResArr,
-        };
-
-        res.send(resObj);
-      }),
-    )
-    .catch((error) => {
+        }
+      }
+    } catch (error) {
       res.send(error);
-    });
+    }
+  }
 }
