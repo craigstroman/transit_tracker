@@ -44,6 +44,10 @@ root.render(
               element={<PredictionsContainer />}
             />
             <Route
+              path="/mode/:mode/agency/:agency/routes/:route/station/:station/direction/:direction/predictions/:predictions"
+              element={<PredictionsContainer />}
+            />
+            <Route
               path="/mode/:mode/agency/:agency/routes/:route/direction/:direction/stops/:stop/map/:map"
               element={<MapContainer />}
             />
