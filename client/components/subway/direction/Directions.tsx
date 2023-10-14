@@ -33,7 +33,7 @@ export const SubwayDirections: React.FC = () => {
   useEffect(() => {
     if (selectedOption) {
       navigate(
-        `/mode/${mode}/agency/${agency}/routes/${route}/station/${station}/direction/${selectedOption.label.toLowerCase()}`,
+        `/mode/${mode}/agency/${agency}/routes/${route}/station/${station}/direction/${selectedOption.label.toLowerCase()}/predictions/showPredictions`,
       );
     }
   }, [selectedOption]);
