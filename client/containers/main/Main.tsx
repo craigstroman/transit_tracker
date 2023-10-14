@@ -6,7 +6,7 @@ import { MapContainer } from '../map/Map';
 import './Main.scss';
 
 export const Main: React.FC = () => {
-  const { agency, mode, route, stop, direction, predictions, map } = useParams();
+  const { agency, mode, route, stop, station, direction, predictions, map } = useParams();
 
   return (
     <div className="content">
@@ -20,7 +20,7 @@ export const Main: React.FC = () => {
         <div className="options-row">
           <Options />
         </div>
-        {agency && mode && route && direction && stop && predictions && (
+        {agency && mode && route && direction && (stop || station) && predictions && (
           <div className="predictions-row">
             <PredictionsContainer />
           </div>
