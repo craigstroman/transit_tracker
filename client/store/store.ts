@@ -11,6 +11,7 @@ import busPositionsReducer from '../components/bus/map/markers/busMarkersSlice';
 import subwayRoutesReducer from '../components/subway/routes/routesSlice';
 import subwayStationsReducer from '../components/subway/stations/stationsSlice';
 import subwayDirectionsReducer from '../components/subway/direction/directionsSlice';
+import subwayPredictionsReducer from '../components/subway/predictions/predictionsSlice';
 
 export const reducer = {
   agencies: agencyReducer,
@@ -24,6 +25,7 @@ export const reducer = {
   subwayRoutes: subwayRoutesReducer,
   subwayStations: subwayStationsReducer,
   subwayDirections: subwayDirectionsReducer,
+  subwayPredictions: subwayPredictionsReducer,
 };
 
 export const store = configureStore({
