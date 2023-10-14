@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { removeDuplicates } from '../../../utils/general/index';
 
 require('dotenv').config();
 
@@ -73,27 +72,26 @@ export async function getDirections(req, res) {
   const station = req.params.station;
 
   if (route && station) {
-    const url = `https://api.wmata.com/Rail.svc/json/jStations?api_key=${apiKey}&LineCode=${route}`;
+    const url = `https://api.wmata.com/StationPrediction.svc/json/GetPrediction/${station}`;
     let directions = [];
     try {
-      const { data } = await axios.get(url);
+      const { data } = await axios.get(url, {
+        headers: {
+          api_key: apiKey,
+        },
+      });
 
       if (data) {
-        const { Stations } = data;
+        const { Trains } = data;
 
-        let result = [];
+        directions = [...new Set(Trains.map((item) => item.Destination))];
 
-        result = Stations.map((el) => {
-          const resultObj = {
-            value: el.Code,
-            label: el.Name,
+        directions = directions.map((el) => {
+          return {
+            label: el,
+            value: el.toLowerCase(),
           };
-
-          return resultObj;
         });
-
-        directions.push(result[0]);
-        directions.push(result[result.length - 1]);
 
         if (directions.length >= 1) {
           res.send(directions);
@@ -110,11 +108,10 @@ export async function getDirections(req, res) {
 export async function getPredictions(req, res) {
   const route = req.params.route;
   const station = req.params.station;
-  const direction = req.params.direction;
+  const direction = encodeURIComponent(req.params.direction);
 
   if (route && station && direction) {
     const url = `https://api.wmata.com/StationPrediction.svc/json/GetPrediction/${station}`;
-
     try {
       const { data } = await axios.get(url, {
         headers: {
