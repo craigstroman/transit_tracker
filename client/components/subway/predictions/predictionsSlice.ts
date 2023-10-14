@@ -10,7 +10,8 @@ export const getPredictionsAsync = createAsyncThunk(
       predictions.agency,
       predictions.mode,
       predictions.route,
-      predictions.stop,
+      predictions.station,
+      predictions.direction,
     );
 
     return response.data;
@@ -18,7 +19,7 @@ export const getPredictionsAsync = createAsyncThunk(
 );
 
 export const predictionsSlice = createSlice({
-  name: 'predictions',
+  name: 'subway-predictions',
   initialState,
   reducers: {
     resetState: () => {
@@ -50,6 +51,6 @@ export const predictionsSlice = createSlice({
 
 export const { resetState } = predictionsSlice.actions;
 
-export const selectPredictionsState = (state: RootState): PredictionsState => state.busPredictions;
+export const selectPredictionsState = (state: RootState): PredictionsState => state.subwayPredictions;
 
 export default predictionsSlice.reducer;
