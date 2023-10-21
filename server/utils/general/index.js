@@ -6,14 +6,11 @@
  * @return     {Array}   The array with duplicate values removed.
  */
 export function removeDuplicates(dupArr, key) {
-  console.log('removeDuplicates: ');
   let result = [];
 
   result = dupArr.filter((obj, pos, arr) => {
-    return arr.map(mapObj => mapObj[key]).indexOf(obj[key]) === pos;
+    return arr.map((mapObj) => mapObj[key]).indexOf(obj[key]) === pos;
   });
-
-  console.log('result: ', result);
 
   return result;
 }
