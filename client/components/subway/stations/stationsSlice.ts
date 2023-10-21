@@ -3,7 +3,7 @@ import { RootState } from '../../../store/store';
 import { StationsState, initialState, IGetStations } from './stationsTypes';
 import { getStations } from './stations.API';
 
-export const getStationsAsync = createAsyncThunk('routes/get', async (stations: IGetStations) => {
+export const getStationsAsync = createAsyncThunk('stations/get', async (stations: IGetStations) => {
   const response = await getStations(stations.agency, stations.mode, stations.route);
 
   return response.data;
