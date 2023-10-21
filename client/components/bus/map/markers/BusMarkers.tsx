@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useCallback, useState, Fragment, memo } from 'react';
+import React, { useLayoutEffect, useState, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { Marker, InfoWindowF } from '@react-google-maps/api';
 import { useAppSelector, useAppDispatch } from '../../../../store/store';
