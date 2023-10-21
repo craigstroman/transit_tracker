@@ -24,8 +24,6 @@ export const BusMap: React.FC = () => {
     }
   }, [agency, mode, route, direction, map]);
 
-  console.log('coordsState: ', coordsState);
-
   const zoom = 10;
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: `${process.env.GOOGLE_MAPS_KEY}`,
