@@ -35,6 +35,14 @@ https://transit-tracker.craigstroman.com/
 
 ## Version History
 
+###### Version 3.0.0
+
+- Started using TypeScript
+- Upgraded React and switched to using React Hooks
+- Switched to using Redux Toolkit
+- Switched to using @react-google-maps/api
+- Updated server methods
+
 ###### Version 2.0.0
 
 - Upgraded WebPack, Babel, and Eslint.
