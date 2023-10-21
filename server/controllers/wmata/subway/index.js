@@ -98,9 +98,6 @@ export async function getDirections(req, res) {
           return unique;
         }, []);
 
-        console.log('directions: ');
-        console.log(directions);
-
         if (directions.length >= 1) {
           res.send(directions);
         } else {
