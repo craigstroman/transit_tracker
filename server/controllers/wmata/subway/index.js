@@ -84,14 +84,22 @@ export async function getDirections(req, res) {
       if (data) {
         const { Trains } = data;
 
-        directions = [...new Set(Trains.map((item) => item.Destination))];
-
-        directions = directions.map((el) => {
+        directions = Trains.map((el) => {
           return {
-            label: el,
-            value: el.toLowerCase(),
+            label: el.DestinationName,
+            value: el.Destination.toLowerCase(),
           };
         });
+
+        directions = directions.reduce((unique, o) => {
+          if (!unique.some((obj) => obj.label === o.label)) {
+            unique.push(o);
+          }
+          return unique;
+        }, []);
+
+        console.log('directions: ');
+        console.log(directions);
 
         if (directions.length >= 1) {
           res.send(directions);
