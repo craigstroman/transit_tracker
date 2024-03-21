@@ -8,3 +8,4 @@
 todo.todo
 package-lock.json
 .DS_Store
+*.zip
