@@ -1,21 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const nodeEnv = process.env.NODE_ENV;
 const filePath = path.join(__dirname, './public/js/');
 const fileName = 'main.min.js';
 
-const PATHS = {
-  src: path.join(__dirname, './client'),
-  dist: path.join(__dirname, './public'),
-};
-
 module.exports = {
-  mode: 'development',
+  mode: 'production',
 
   entry: {
-    app: path.join(__dirname, 'client/containers/App.jsx'),
+    app: [path.join(__dirname, 'client/containers/App.tsx')],
   },
 
   output: {
@@ -30,66 +23,46 @@ module.exports = {
   },
 
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        sourceMap: false,
-      }),
-    ],
+    minimize: true,
+  },
+
+  performance: {
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
   },
 
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', 'jsx'],
   },
 
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: [['@babel/plugin-proposal-object-rest-spread']],
-          },
-        },
-      },
-      {
-        test: /\.(js|jsx)$/,
-        exclude: [
-          /node_modules/,
-          path.resolve(__dirname, 'public/js/main.min.js'),
-          path.resolve(__dirname, 'public/js/bundle.js'),
-        ],
-        use: {
-          loader: 'eslint-loader',
-          options: './client/.eslintrc.js',
-        },
+        use: ['ts-loader'],
       },
       {
         test: /\.scss$/,
         use: [
           {
-            loader: 'style-loader', // creates style nodes from JS strings
+            loader: 'style-loader',
           },
           {
-            loader: 'css-loader', // translates CSS into CommonJS
+            loader: 'css-loader',
           },
           {
-            loader: 'sass-loader', // compiles Sass to CSS
-          },
-          {
-            loader: 'sass-resources-loader',
-            options: {
-              resources: require(path.join(process.cwd(), 'client/scss/utils.js')),
-            },
+            loader: 'sass-loader',
           },
         ],
       },
       {
-        test: /\.(svg|woff|woff2|ttf|eot|otf)([\?]?.*)$/,
-        loader: 'file-loader?name=node_modules/@fortawesome/fontawesome-free/webfonts[name].[ext]',
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'css-loader',
+          },
+        ],
       },
     ],
   },
